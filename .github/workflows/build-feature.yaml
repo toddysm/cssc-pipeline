@@ -43,6 +43,13 @@ jobs:
       container_repos: ${{ steps.container_info.outputs.container_repos }}
       
     steps:
+      - name: Login to the Container Registry  
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_CLIENT_ID }}
+          password: ${{ secrets.ACR_CLIENT_SECRET }}
+
       - name: get_container_info
         id: container_info
         if: startsWith(github.ref, 'refs/tags/')
