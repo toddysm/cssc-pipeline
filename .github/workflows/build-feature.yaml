@@ -53,7 +53,6 @@ jobs:
 
       - name: get_container_info
         id: container_info
-        if: startsWith(github.ref, 'refs/tags/')
         run: |
           export CONTAINER_DIGEST=$(make container-digest GITHUB_REF=${{ github.ref_name }})
           echo "::set-output name=container_digest::$CONTAINER_DIGEST"
