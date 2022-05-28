@@ -11,9 +11,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: development
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Print the Secret
+        run: echo ${{ secrets.ACR_LOGIN_SERVER }}
 
       - name: Build Docker image
         run: docker build . --file Dockerfile --tag flask-sample:$(date +'%Y-%m-%d')
@@ -24,3 +28,14 @@ jobs:
           command: generate
           subcommand: container
           arguments: --repository flask-sample --tag-name $(date +'%Y-%m-%d') --output-path 'provenance.json'
+        run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
+
+      - name: Login to the Container Registry  
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_CLIENT_ID }}
+          password: ${{ secrets.ACR_CLIENT_SECRET }}
+      
+      - name: Push Image to ACR
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
