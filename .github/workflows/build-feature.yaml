@@ -39,8 +39,6 @@ jobs:
     needs: [build]
     outputs:
       container_digest: ${{ steps.container_info.outputs.container_digest }}
-      container_tags: ${{ steps.container_info.outputs.container_tags }}
-      container_repos: ${{ steps.container_info.outputs.container_repos }}
     environment: development
       
     steps:
@@ -54,7 +52,6 @@ jobs:
       - name: get_container_info
         id: container_info
         run: |
-          export CONTAINER_DIGEST=$(make container-digest GITHUB_REF=${{ github.ref_name }})
+          export CONTAINER_DIGEST=$(docker manifest inspect ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .config.digest)
+          echo $CONTAINER_DIGEST
           echo "::set-output name=container_digest::$CONTAINER_DIGEST"
-          echo "::set-output name=container_tags::$(make container-tags CONTAINER_DIGEST="${CONTAINER_DIGEST}" | paste -s -d ',' -)"
-          echo "::set-output name=container_repos::$(make container-repos CONTAINER_DIGEST="${CONTAINER_DIGEST}" | jq --raw-input . | jq --slurp -c)"
