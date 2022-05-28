@@ -20,15 +20,14 @@ jobs:
         run: echo ${{ secrets.ACR_LOGIN_SERVER }}
 
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag flask-sample:$(date +'%Y-%m-%d')
+        run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
 
       - name: Generate Provenance
         uses: slsa-framework/github-action-demo@v0.1
         with:
           command: generate
           subcommand: container
-          arguments: --repository flask-sample --tag-name $(date +'%Y-%m-%d') --output-path 'provenance.json'
-        run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --tag-name $(date +'%Y-%m-%d') --output-path 'provenance.json'
 
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
