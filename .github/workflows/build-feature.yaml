@@ -17,3 +17,10 @@ jobs:
 
       - name: Build Docker image
         run: docker build . --file Dockerfile --tag flask-sample:$(date +'%Y-%m-%d')
+
+      - name: Generate Provenance
+        uses: slsa-framework/github-action-demo@v0.1
+        with:
+          command: generate
+          subcommand: container
+          arguments: --repository flask-sample --tag-name $(date +'%Y-%m-%d') --output-path 'provenance.json'
