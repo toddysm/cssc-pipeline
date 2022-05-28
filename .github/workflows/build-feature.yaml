@@ -41,6 +41,7 @@ jobs:
       container_digest: ${{ steps.container_info.outputs.container_digest }}
       container_tags: ${{ steps.container_info.outputs.container_tags }}
       container_repos: ${{ steps.container_info.outputs.container_repos }}
+    environment: development
       
     steps:
       - name: Login to the Container Registry  
