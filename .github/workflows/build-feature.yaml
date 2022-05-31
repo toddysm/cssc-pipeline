@@ -56,6 +56,13 @@ jobs:
           username: ${{ secrets.ACR_CLIENT_ID }}
           password: ${{ secrets.ACR_CLIENT_SECRET }}
 
+      - name: Install Skopeo
+        run: sudo apt-get update && sudo apt-get -y install skopeo
+      
+      - name: Get Image Digest
+        export CONTAINER_DIGEST=$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
+        echo $CONTAINER_DIGEST
+
       - name: Generate Provenance for Container
         uses: philips-labs/slsa-provenance-action@v0.7.2
         with:
