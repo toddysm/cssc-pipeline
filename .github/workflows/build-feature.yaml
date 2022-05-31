@@ -52,6 +52,6 @@ jobs:
       - name: get_container_info
         id: container_info
         run: |
-          export CONTAINER_DIGEST=$(docker manifest inspect ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .config.digest)
+          export CONTAINER_DIGEST=$(docker image inspect ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .[0].Id)
           echo $CONTAINER_DIGEST
           echo "::set-output name=container_digest::$CONTAINER_DIGEST"
