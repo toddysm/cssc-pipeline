@@ -42,16 +42,17 @@ jobs:
           echo $CONTAINER_DIGEST
           echo "::set-output name=container_digest::$CONTAINER_DIGEST"
 
-  release:
+  provenance:
     name: provenance
     runs-on: ubuntu-latest
     needs: [build]
     environment: development
 
-    - name: Generate Provenance for Container
-      uses: philips-labs/slsa-provenance-action@v0.7.2
-      with:
-        command: generate
-        subcommand: container
-        arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ needs.build.outputs.container_digest }} --tags $(date +'%Y-%m-%d')
+    steps:
+      - name: Generate Provenance for Container
+        uses: philips-labs/slsa-provenance-action@v0.7.2
+        with:
+          command: generate
+          subcommand: container
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ needs.build.outputs.container_digest }} --tags $(date +'%Y-%m-%d')
 
