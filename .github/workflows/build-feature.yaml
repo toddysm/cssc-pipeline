@@ -49,6 +49,13 @@ jobs:
     environment: development
 
     steps:
+      - name: Login to the Container Registry  
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_CLIENT_ID }}
+          password: ${{ secrets.ACR_CLIENT_SECRET }}
+
       - name: Generate Provenance for Container
         uses: philips-labs/slsa-provenance-action@v0.7.2
         with:
