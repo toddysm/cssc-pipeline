@@ -64,7 +64,7 @@ jobs:
       - name: Get Image Digest
         run: |
           #export CONTAINER_DIGEST=$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
-          export CONTAINER_DIGEST=$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest | jq .Digest)
+          echo ::set-output name=docker_digest::$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest | jq .Digest)
           echo $CONTAINER_DIGEST
 
       - name: Generate Provenance for Container
@@ -74,5 +74,5 @@ jobs:
           subcommand: container
           #arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ needs.build.outputs.container_digest }} --tags $(date +'%Y-%m-%d')
           #arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest $CONTAINER_DIGEST --tags $(date +'%Y-%m-%d')
-          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest $CONTAINER_DIGEST
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ steps.vars.outputs.docker_digest }}
 
