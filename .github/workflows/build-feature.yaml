@@ -70,5 +70,5 @@ jobs:
           command: generate
           subcommand: container
           #arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ needs.build.outputs.container_digest }} --tags $(date +'%Y-%m-%d')
-          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest $CONTAINER_DIGEST --tags $(date +'%Y-%m-%d')
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest $CONTAINER_DIGEST --tags {"$(date +'%Y-%m-%d')"}
 
