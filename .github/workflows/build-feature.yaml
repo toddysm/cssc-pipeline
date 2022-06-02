@@ -80,3 +80,4 @@ jobs:
             tar -zxf oras_0.12.0_*.tar.gz -C oras-install/ 
             mv oras-install/oras /usr/local/bin/ 
             rm -rf oras_0.12.0_*.tar.gz oras-install/
+            oras --help
