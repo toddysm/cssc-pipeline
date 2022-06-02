@@ -42,6 +42,9 @@ jobs:
     environment: development
 
     steps:
+      - name: Install Skopeo
+        run: sudo apt-get update && sudo apt-get -y install skopeo
+      
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
         with:
@@ -49,9 +52,6 @@ jobs:
           username: ${{ secrets.ACR_CLIENT_ID }}
           password: ${{ secrets.ACR_CLIENT_SECRET }}
 
-      - name: Install Skopeo
-        run: sudo apt-get update && sudo apt-get -y install skopeo
-      
       - name: Get Image Digest
         id: get_image_digest
         run: |
