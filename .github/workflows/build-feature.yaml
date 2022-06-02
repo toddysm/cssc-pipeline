@@ -23,7 +23,8 @@ jobs:
         run: echo ${{ secrets.ACR_LOGIN_SERVER }}
 
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
+        #run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
+        run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest
 
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
@@ -33,7 +34,8 @@ jobs:
           password: ${{ secrets.ACR_CLIENT_SECRET }}
       
       - name: Push Image to ACR
-        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
+        #run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest
 
   provenance:
     name: provenance
@@ -55,7 +57,8 @@ jobs:
       - name: Get Image Digest
         id: get_image_digest
         run: |
-          echo ::set-output name=docker_digest::$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
+          #echo ::set-output name=docker_digest::$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
+          echo ::set-output name=docker_digest::$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest | jq .Digest)
 
       - name: Generate Provenance for Container
         uses: philips-labs/slsa-provenance-action@v0.7.2
