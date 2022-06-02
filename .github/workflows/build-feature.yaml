@@ -60,7 +60,8 @@ jobs:
         with:
           command: generate
           subcommand: container
-          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ steps.get_image_digest.outputs.docker_digest }}
+          #arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ steps.get_image_digest.outputs.docker_digest }}
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') --output-path provenance.att
 
       - name: Show Provenance for Container
         run: cat provenance.att
