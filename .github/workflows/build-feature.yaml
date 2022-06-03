@@ -73,7 +73,7 @@ jobs:
           oras push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample \
           --artifact-type 'application/slsa+json' \
           --subject ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') \
-          ./provenance.json:application:json
+          ./provenance.json:application/json
 
   upload:
     name: upload
