@@ -70,7 +70,7 @@ jobs:
 
       - name: Generate Annotation File
         run: |
-          echo '{"$manifest":{"io.azurecr.image.author": "${{ github.actor }}", {"io.azurecr.image.commit-sha": "${{ github.sha }}", {"io.azurecr.image.repository": "${{ github.repository }}" }}' > $HOME/annotations.json
+          echo '{"$manifest":{"io.azurecr.image.author": "${{ github.actor }}", "io.azurecr.image.commit-sha": "${{ github.sha }}", "io.azurecr.image.repository": "${{ github.repository }}" }}' > $HOME/annotations.json
 
       - name: Push Provenance to the Registry
         run: |
