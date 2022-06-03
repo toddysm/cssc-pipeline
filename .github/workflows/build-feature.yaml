@@ -44,9 +44,9 @@ jobs:
         run: |
             curl -LO https://github.com/oras-project/oras/releases/download/v0.2.1-alpha.1/oras_0.2.1-alpha.1_linux_amd64.tar.gz
             mkdir -p oras-install/ 
-            tar -zxf oras_0.2.0_*.tar.gz -C oras-install/ 
+            tar -zxf oras_0.2.*.tar.gz -C oras-install/ 
             mv oras-install/oras /usr/local/bin/ 
-            rm -rf oras_0.2.0_*.tar.gz oras-install/
+            rm -rf oras_0.2.*.tar.gz oras-install/
             oras --help
 
       - name: Login to the Container Registry  
