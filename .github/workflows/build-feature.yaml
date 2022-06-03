@@ -70,14 +70,14 @@ jobs:
 
       - name: Generate Annotation File
         run: |
-          echo '{"$manifest":{"io.azurecr.image.author": "${{ github.actor }}", {"io.azurecr.image.commit-sha": "${{ github.sha }}", {"io.azurecr.image.repository": "${{ github.repository }}" }}'
+          echo '{"$manifest":{"io.azurecr.image.author": "${{ github.actor }}", {"io.azurecr.image.commit-sha": "${{ github.sha }}", {"io.azurecr.image.repository": "${{ github.repository }}" }}' > $HOME/annotations.json
 
       - name: Push Provenance to the Registry
         run: |
           oras push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample \
           --artifact-type 'application/slsa+json' \
           --subject ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') \
-          --manifest-annotations annotations.json
+          --manifest-annotations $HOME/annotations.json
           ./provenance.json:application/json
 
   upload:
