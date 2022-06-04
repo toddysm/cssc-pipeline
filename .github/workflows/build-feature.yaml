@@ -76,7 +76,7 @@ jobs:
                 "io.azurecr.image.commit-sha": "${{ github.sha }}", 
                 "io.azurecr.image.repository": "${{ github.repository }}" 
               }
-            }''' > ./annotations.json
+            }''' > ./annotations.json 2>&1
 
       - name: Push Provenance to the Registry
         run: |
