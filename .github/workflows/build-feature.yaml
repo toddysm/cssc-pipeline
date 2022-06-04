@@ -65,7 +65,7 @@ jobs:
         with:
           command: generate
           subcommand: container
-          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path $HOME/provenance.json --digest ${{ steps.get_image_digest.outputs.docker_digest }} --tags "$(date +'%Y-%m-%d')"
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path ./provenance.json --digest ${{ steps.get_image_digest.outputs.docker_digest }} --tags "$(date +'%Y-%m-%d')"
 
       - name: Generate Annotation File
         run: |
@@ -76,15 +76,15 @@ jobs:
                 "io.azurecr.image.commit-sha": "${{ github.sha }}", 
                 "io.azurecr.image.repository": "${{ github.repository }}" 
               }
-            }''' > $HOME/annotations.json
+            }''' > ./annotations.json
 
       - name: Push Provenance to the Registry
         run: |
           oras push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample \
           --artifact-type 'application/slsa+json' \
           --subject ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') \
-          --manifest-annotations $HOME/annotations.json
-          $HOME/provenance.json:application/json
+          --manifest-annotations ./annotations.json
+          ./provenance.json:application/json
 
   upload:
     name: upload
