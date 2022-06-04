@@ -67,6 +67,10 @@ jobs:
           subcommand: container
           arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path ./provenance.json --digest ${{ steps.get_image_digest.outputs.docker_digest }} --tags "$(date +'%Y-%m-%d')"
 
+      - name: Print Provenance Details
+        run: |
+          cat ./provenance.json
+
       - name: Generate Annotation File
         run: |
           echo \
