@@ -47,7 +47,6 @@ jobs:
             tar -zxf oras_0.2.*.tar.gz -C oras-install/ 
             mv oras-install/oras /usr/local/bin/ 
             rm -rf oras_0.2.*.tar.gz oras-install/
-            oras --help
 
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
@@ -66,11 +65,18 @@ jobs:
         with:
           command: generate
           subcommand: container
-          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.json --digest ${{ steps.get_image_digest.outputs.docker_digest }} --tags "$(date +'%Y-%m-%d')"
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path $HOME/provenance.json --digest ${{ steps.get_image_digest.outputs.docker_digest }} --tags "$(date +'%Y-%m-%d')"
 
       - name: Generate Annotation File
         run: |
-          echo '{"$manifest":{"io.azurecr.image.author": "${{ github.actor }}", "io.azurecr.image.commit-sha": "${{ github.sha }}", "io.azurecr.image.repository": "${{ github.repository }}" }}' > $HOME/annotations.json
+          echo 
+          '''{
+              "$manifest": {
+                "io.azurecr.image.author": "${{ github.actor }}",
+                "io.azurecr.image.commit-sha": "${{ github.sha }}", 
+                "io.azurecr.image.repository": "${{ github.repository }}" 
+              }
+            }''' > $HOME/annotations.json
 
       - name: Push Provenance to the Registry
         run: |
@@ -78,7 +84,7 @@ jobs:
           --artifact-type 'application/slsa+json' \
           --subject ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') \
           --manifest-annotations $HOME/annotations.json
-          ./provenance.json:application/json
+          $HOME/provenance.json:application/json
 
   upload:
     name: upload
