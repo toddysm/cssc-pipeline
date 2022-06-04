@@ -69,7 +69,7 @@ jobs:
 
       - name: Generate Annotation File
         run: |
-          echo 
+          echo \
           '''{
               "$manifest": {
                 "io.azurecr.image.author": "${{ github.actor }}",
