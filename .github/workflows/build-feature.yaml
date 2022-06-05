@@ -38,7 +38,7 @@ jobs:
 
       - name: Print layer annotations
         run: cat ./ownership.json
-        
+
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
         with:
@@ -109,12 +109,10 @@ jobs:
           --manifest-annotations ./annotations.json \
           ./provenance.json:application/json
 
-  upload:
-    name: upload
-    runs-on: ubuntu-latest
-    needs: [provenance]
-    environment: development
-
-    steps:
-      - name: Install ORAS
-        run: oras --help
+      - name: Push ownership to the Registry
+        run: |
+          oras push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample \
+          --artifact-type 'application/ownership+json' \
+          --subject ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') \
+          --manifest-annotations ./annotations.json \
+          ./ownership.json:application/json
