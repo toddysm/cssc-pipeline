@@ -62,7 +62,6 @@ jobs:
           oras push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample \
           --artifact-type 'application/ownership+json' \
           --subject ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') \
-          --manifest-annotations ./annotations.json \
           ./ownership.json:application/json
 
   provenance:
