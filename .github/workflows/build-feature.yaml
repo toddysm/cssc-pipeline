@@ -20,6 +20,12 @@ jobs:
       - name: Build Docker image
         run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
 
+      - name: Get Docker content maniefest
+        run: docker inspect ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') > inspect.json
+      
+      - name: Prepare Python environment
+        run: pip install -r ./utils/requirements.txt
+
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
         with:
