@@ -36,6 +36,9 @@ jobs:
           -r ${{ github.repository }} \
           -f ./ownership.json
 
+      - name: Print layer annotations
+        run: cat ./ownership.json
+        
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
         with:
