@@ -17,6 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install ORAS
+        run: |
+            curl -LO https://github.com/oras-project/oras/releases/download/v0.2.1-alpha.1/oras_0.2.1-alpha.1_linux_amd64.tar.gz
+            mkdir -p oras-install/ 
+            tar -zxf oras_0.2.*.tar.gz -C oras-install/ 
+            mv oras-install/oras /usr/local/bin/ 
+            rm -rf oras_0.2.*.tar.gz oras-install/
+
       - name: Build Docker image
         run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
 
@@ -59,14 +67,6 @@ jobs:
       - name: Install Skopeo
         run: sudo apt-get update && sudo apt-get -y install skopeo
       
-      - name: Install ORAS
-        run: |
-            curl -LO https://github.com/oras-project/oras/releases/download/v0.2.1-alpha.1/oras_0.2.1-alpha.1_linux_amd64.tar.gz
-            mkdir -p oras-install/ 
-            tar -zxf oras_0.2.*.tar.gz -C oras-install/ 
-            mv oras-install/oras /usr/local/bin/ 
-            rm -rf oras_0.2.*.tar.gz oras-install/
-
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
         with:
@@ -115,4 +115,4 @@ jobs:
           --artifact-type 'application/ownership+json' \
           --subject ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') \
           --manifest-annotations ./annotations.json \
-          $HOME/ownership.json:application/json
+          ./ownership.json:application/json
