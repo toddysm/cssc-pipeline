@@ -13,18 +13,12 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     environment: development
-    outputs:
-      container_digest: ${{ steps.container_info.outputs.container_digest }}
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Print the Secret
-        run: echo ${{ secrets.ACR_LOGIN_SERVER }}
-
       - name: Build Docker image
-        #run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
-        run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest
+        run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
 
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
@@ -34,15 +28,7 @@ jobs:
           password: ${{ secrets.ACR_CLIENT_SECRET }}
       
       - name: Push Image to ACR
-        #run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
-        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest
-
-      # - name: Get Container Digest
-      #   id: container_info
-      #   run: |
-      #     export CONTAINER_DIGEST=$(docker image inspect ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .[0].Id)
-      #     echo $CONTAINER_DIGEST
-      #     echo "::set-output name=container_digest::$CONTAINER_DIGEST"
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
 
   provenance:
     name: provenance
@@ -51,6 +37,17 @@ jobs:
     environment: development
 
     steps:
+      - name: Install Skopeo
+        run: sudo apt-get update && sudo apt-get -y install skopeo
+      
+      - name: Install ORAS
+        run: |
+            curl -LO https://github.com/oras-project/oras/releases/download/v0.2.1-alpha.1/oras_0.2.1-alpha.1_linux_amd64.tar.gz
+            mkdir -p oras-install/ 
+            tar -zxf oras_0.2.*.tar.gz -C oras-install/ 
+            mv oras-install/oras /usr/local/bin/ 
+            rm -rf oras_0.2.*.tar.gz oras-install/
+
       - name: Login to the Container Registry  
         uses: azure/docker-login@v1
         with:
@@ -58,24 +55,43 @@ jobs:
           username: ${{ secrets.ACR_CLIENT_ID }}
           password: ${{ secrets.ACR_CLIENT_SECRET }}
 
-      - name: Install Skopeo
-        run: sudo apt-get update && sudo apt-get -y install skopeo
-      
       - name: Get Image Digest
         id: get_image_digest
         run: |
-          #export CONTAINER_DIGEST=$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
-          echo ::set-output name=docker_digest::$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest | jq .Digest)
-          echo $CONTAINER_DIGEST
+          echo ::set-output name=docker_digest::$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
 
       - name: Generate Provenance for Container
         uses: philips-labs/slsa-provenance-action@v0.7.2
         with:
           command: generate
           subcommand: container
-          #arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ needs.build.outputs.container_digest }} --tags $(date +'%Y-%m-%d')
-          #arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest $CONTAINER_DIGEST --tags $(date +'%Y-%m-%d')
-          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ steps.get_image_digest.outputs.docker_digest }}
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path ./provenance.json --digest ${{ steps.get_image_digest.outputs.docker_digest }} --tags "$(date +'%Y-%m-%d')"
 
-      - name: Show Provenance for Container
-        run: cat provenance.att
+      - name: Generate Annotation File
+        run: |
+          echo \
+          '''{
+              "$manifest": {
+                "io.azurecr.image.author": "${{ github.actor }}",
+                "io.azurecr.image.commit-sha": "${{ github.sha }}", 
+                "io.azurecr.image.repository": "${{ github.repository }}" 
+              }
+            }''' > ./annotations.json
+
+      - name: Push Provenance to the Registry
+        run: |
+          oras push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample \
+          --artifact-type 'application/slsa+json' \
+          --subject ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') \
+          --manifest-annotations ./annotations.json \
+          ./provenance.json:application/json
+
+  upload:
+    name: upload
+    runs-on: ubuntu-latest
+    needs: [provenance]
+    environment: development
+
+    steps:
+      - name: Install ORAS
+        run: oras --help
