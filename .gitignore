@@ -135,3 +135,7 @@ dmypy.json
 /temp
 *.tmp
 *.temp
+
+# Key and cert files
+*.key
+*.pub
