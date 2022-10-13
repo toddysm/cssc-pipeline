@@ -1,0 +1,32 @@
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "subject": [
+      {
+        "name": "flasksample:v1", 
+        "digest": {
+            "sha256": "5678..."
+          }
+      }
+    ],
+  "predicateType": "https://slsa.dev/provenance/v0.2",
+  "predicate": {
+    "buildType": "docker build",
+    "builder": { "id": "mailto:toddysm@example.com" },
+    "invocation": {
+      "configSource": {
+        "uri": "https://github.com/toddysm/cssc-pipeline",
+        "digest": {
+            "sha256": "d58b54dcccd6b1f513104ac979a245637b211fd6"
+          },
+        "entryPoint": "view.py"
+      },
+      "parameters": {"CFLAGS": "-O3"}           // extra args to `make`
+    },
+    "materials": [{
+      "uri": "flasksample:v1",
+      "digest": {
+        "sha256": "1234..."
+      }
+    }]
+  }
+}
