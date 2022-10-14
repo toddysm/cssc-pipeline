@@ -1,0 +1,11 @@
+[
+    {
+        "Config": "sha256:00ce5fed483997c24aa0834081ab1960283ee9b2c9d46912bbccc3f9d18e335d",
+        "RepoTags": [
+            "562077019569.dkr.ecr.us-west-2.amazonaws.com/flasksample:sha256-9bd049b6b470118cc6a02d58595b86107407c9e288c0d556ce342ea8acbafdf4.sig"
+        ],
+        "Layers": [
+            "09b3e371137191b52fdd07bdf115824b2b297a2003882e68d68d66d0d35fe1fc.tar.gz"
+        ]
+    }
+]
