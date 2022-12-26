@@ -1,0 +1,68 @@
+[
+  {
+    "changeableAttributes": {
+      "deleteEnabled": true,
+      "listEnabled": true,
+      "quarantineDetails": "{\"state\":\"Scan Failed\",\"link\":\"https://aka.ms/test\",\"scanner\":\"Azure Security Monitoring-Qualys Scanner\",\"result\":{\"version\":\"12/23/2022 6:32:16 AM\",\"summary\":[{\"severity\":\"High\",\"count\":0},{\"severity\":\"Medium\",\"count\":0},{\"severity\":\"Low\",\"count\":0}]}}",
+      "quarantineState": "Passed",
+      "readEnabled": true,
+      "writeEnabled": true
+    },
+    "createdTime": "2022-12-22T19:00:09.2477856Z",
+    "digest": "sha256:0fbd0e611ec9fe620b72ebe130da680de9402e1e241b30c2aa4515610ed2d766",
+    "imageSize": 1096057,
+    "lastUpdateTime": "2022-12-22T19:00:09.2477856Z",
+    "mediaType": "application/vnd.oci.artifact.manifest.v1+json"
+  },
+  {
+    "changeableAttributes": {
+      "deleteEnabled": true,
+      "listEnabled": true,
+      "quarantineDetails": "{\"state\":\"Scan InProgress\",\"link\":\"https://aka.ms/test\",\"scanner\":\"Azure Security Monitoring-Qualys Scanner\",\"result\":{\"version\":\"12/23/2022 6:32:14 AM\",\"summary\":[{\"severity\":\"High\",\"count\":0},{\"severity\":\"Medium\",\"count\":0},{\"severity\":\"Low\",\"count\":0}]}}",
+      "quarantineState": "Passed",
+      "readEnabled": true,
+      "writeEnabled": true
+    },
+    "createdTime": "2022-12-22T19:00:29.4194184Z",
+    "digest": "sha256:198e405344b5fafd6127821970eb4a84129ae729402e8c2c71fc1bb80abf0954",
+    "imageSize": 292538,
+    "lastUpdateTime": "2022-12-22T19:00:29.4194184Z",
+    "mediaType": "application/vnd.oci.artifact.manifest.v1+json"
+  },
+  {
+    "changeableAttributes": {
+      "deleteEnabled": true,
+      "listEnabled": true,
+      "quarantineDetails": "{\"state\":\"Scan Failed\",\"link\":\"https://aka.ms/test\",\"scanner\":\"Azure Security Monitoring-Qualys Scanner\",\"result\":{\"version\":\"12/23/2022 6:32:12 AM\",\"summary\":[{\"severity\":\"High\",\"count\":0},{\"severity\":\"Medium\",\"count\":0},{\"severity\":\"Low\",\"count\":0}]}}",
+      "quarantineState": "Passed",
+      "readEnabled": true,
+      "writeEnabled": true
+    },
+    "createdTime": "2022-12-22T18:59:44.9991051Z",
+    "digest": "sha256:71e90130cb912fbcff6556c0395878a8e7a0c7244eb8e8ee9001e84f9cba804a",
+    "imageSize": 1642887,
+    "lastUpdateTime": "2022-12-22T18:59:44.9991051Z",
+    "mediaType": "application/vnd.oci.artifact.manifest.v1+json"
+  },
+  {
+    "architecture": "arm64",
+    "changeableAttributes": {
+      "deleteEnabled": true,
+      "listEnabled": true,
+      "quarantineDetails": "{\"state\":\"Scan Passed\",\"link\":\"https://aka.ms/test\",\"scanner\":\"Azure Security Monitoring-Qualys Scanner\",\"result\":{\"version\":\"2022-12-20T18:17:16.8234750Z\",\"summary\":[{\"severity\":\"High\",\"count\":0},{\"severity\":\"Medium\",\"count\":0},{\"severity\":\"Low\",\"count\":0}]}}",
+      "quarantineState": "Passed",
+      "readEnabled": true,
+      "writeEnabled": true
+    },
+    "configMediaType": "application/vnd.docker.container.image.v1+json",
+    "createdTime": "2022-12-22T18:59:21.4434731Z",
+    "digest": "sha256:b89e2098603bead4f07e318e1a4e11b4a4ef1f3614725c88b3fcdd469d55c0e0",
+    "imageSize": 51186238,
+    "lastUpdateTime": "2022-12-22T18:59:21.4434731Z",
+    "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+    "os": "linux",
+    "tags": [
+      "oci1.1-tests"
+    ]
+  }
+]
