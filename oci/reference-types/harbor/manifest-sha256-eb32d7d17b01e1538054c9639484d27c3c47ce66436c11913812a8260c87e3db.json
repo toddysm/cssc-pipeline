@@ -1,0 +1,28 @@
+{
+    "schemaVersion": 2,
+    "mediaType": "application/vnd.oci.image.manifest.v1+json",
+    "config": {
+        "mediaType": "text/spdx",
+        "digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "size": 2
+    },
+    "layers": [
+        {
+            "mediaType": "application/vnd.oci.image.layer.v1.tar",
+            "digest": "sha256:d9c2135fe4b962f29e55b7ba9069cd335f81011a022e3360dfa9e6e5046914dc",
+            "size": 1096057,
+            "annotations": {
+                "org.opencontainers.image.title": "oci1.1-tests.spdx"
+            }
+        }
+    ],
+    "subject": {
+        "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+        "digest": "sha256:b89e2098603bead4f07e318e1a4e11b4a4ef1f3614725c88b3fcdd469d55c0e0",
+        "size": 2201
+    },
+    "annotations": {
+        "org.opencontainers.image.created": "2023-01-04T21:42:17Z",
+        "producer": "syft 0.63.0"
+    }
+}

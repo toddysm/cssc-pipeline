@@ -1,0 +1,23 @@
+{
+    "mediaType": "application/vnd.oci.artifact.manifest.v1+json",
+    "artifactType": "application/spdx+json",
+    "blobs": [
+        {
+            "mediaType": "application/vnd.oci.image.layer.v1.tar",
+            "digest": "sha256:e6011f4dd3fa9e903436ad8ab2ff07384cba3fe7ac7fdc36fe0e383e233a9263",
+            "size": 1642887,
+            "annotations": {
+                "org.opencontainers.image.title": "oci1.1-tests.spdx.json"
+            }
+        }
+    ],
+    "subject": {
+        "mediaType": "application/vnd.oci.image.manifest.v1+json",
+        "digest": "sha256:ac5d0131b03869db6834b4892bbaaeed9696029407d894ee5e320194b68ed7d1",
+        "size": 1655
+    },
+    "annotations": {
+        "org.opencontainers.artifact.created": "2023-01-04T22:19:26Z",
+        "producer": "syft 0.63.0"
+    }
+}
