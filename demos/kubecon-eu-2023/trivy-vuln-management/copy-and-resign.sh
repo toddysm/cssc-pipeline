@@ -131,7 +131,7 @@ cosign verify --key $COSIGN_KEY $DEST_IMAGE
 
 # Resign the image with Notation
 slow 'notation sign --signature-format cose --key $REMOTE_KEY_NAME $DEST_IMAGE'
-notation sign --signature-format cose --key $REMOTE_KEY_NAME $DEST_IMAGE
+notation sign --signature-format cose --key $NOTATION_KEY_NAME $DEST_IMAGE
 
 slow
 clear
@@ -147,18 +147,18 @@ DEST_SARIF=`regctl artifact tree --filter-artifact-type application/sarif+json $
 # Verify each of the artifacts with Cosign and resign with Notation
 slow 'cosign verify --key $COSIGN_KEY ${DEST_REPO}@${DEST_CYCLONE_DX}'
 cosign verify --key $COSIGN_KEY ${DEST_REPO}@${DEST_CYCLONE_DX}
-slow 'notation sign --signature-format cose --key $REMOTE_KEY_NAME ${DEST_REPO}@${DEST_CYCLONE_DX}'
-notation sign --signature-format cose --key $REMOTE_KEY_NAME ${DEST_REPO}@${DEST_CYCLONE_DX}
+slow 'notation sign --signature-format cose --key $NOTATION_KEY_NAME ${DEST_REPO}@${DEST_CYCLONE_DX}'
+notation sign --signature-format cose --key $NOTATION_KEY_NAME ${DEST_REPO}@${DEST_CYCLONE_DX}
 
 slow 'cosign verify --key $COSIGN_KEY ${DEST_REPO}@${DEST_SPDX}'
 cosign verify --key $COSIGN_KEY ${DEST_REPO}@${DEST_SPDX}
-slow 'notation sign --signature-format cose --key $REMOTE_KEY_NAME ${DEST_REPO}@${DEST_SPDX}'
-notation sign --signature-format cose --key $REMOTE_KEY_NAME ${DEST_REPO}@${DEST_SPDX}
+slow 'notation sign --signature-format cose --key $NOTATION_KEY_NAME ${DEST_REPO}@${DEST_SPDX}'
+notation sign --signature-format cose --key $NOTATION_KEY_NAME ${DEST_REPO}@${DEST_SPDX}
 
 slow 'cosign verify --key $COSIGN_KEY ${DEST_REPO}@${DEST_SARIF}'
 cosign verify --key $COSIGN_KEY ${DEST_REPO}@${DEST_SARIF}
-slow 'notation sign --signature-format cose --key $REMOTE_KEY_NAME ${DEST_REPO}@${DEST_SARIF}'
-notation sign --signature-format cose --key $REMOTE_KEY_NAME ${DEST_REPO}@${DEST_SARIF}
+slow 'notation sign --signature-format cose --key $NOTATION_KEY_NAME ${DEST_REPO}@${DEST_SARIF}'
+notation sign --signature-format cose --key $NOTATION_KEY_NAME ${DEST_REPO}@${DEST_SARIF}
 
 slow
 clear
