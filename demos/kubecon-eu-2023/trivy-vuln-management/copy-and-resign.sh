@@ -53,7 +53,7 @@ export COSIGN_EXPERIMENTAL=1
 # skopeo copy --format=oci docker://toddysm/flasksample:kubeconeu-demo-v1 docker://${SOURCE_IMAGE}
 
 # Attach the artifacts
-# oras attach --artifact-type application/cyclonedx $SOURCE_IMAGE ./kubecon-eu-2023-talks/sboms/flasksample-cyclonedx.json
+# oras attach --artifact-type application/vnd.cyclonedx $SOURCE_IMAGE ./kubecon-eu-2023-talks/sboms/flasksample-cyclonedx.json
 # oras attach --artifact-type application/spdx+json $SOURCE_IMAGE ./kubecon-eu-2023-talks/sboms/flasksample-spdx.json
 # oras attach --artifact-type application/sarif+json $SOURCE_IMAGE ./kubecon-eu-2023-talks/vulnerability-reports/flasksample-20230405.sarif
 
@@ -76,9 +76,9 @@ slow
 clear
 
 # Get ths CycloneDX SBOM and sign it
-slow 'SOURCE_CYCLONE_DX=`regctl artifact tree --filter-artifact-type application/cyclonedx $SOURCE_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
+slow 'SOURCE_CYCLONE_DX=`regctl artifact tree --filter-artifact-type application/vnd.cyclonedx $SOURCE_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
 $ cosign sign -y --key $COSIGN_KEY --registry-referrers-mode oci-1-1 ${SOURCE_REPO}@${SOURCE_CYCLONE_DX}'
-SOURCE_CYCLONE_DX=`regctl artifact tree --filter-artifact-type application/cyclonedx $SOURCE_IMAGE --format "{{json .}}" | jq -r '.referrer | .[0].reference.Digest'`
+SOURCE_CYCLONE_DX=`regctl artifact tree --filter-artifact-type application/vnd.cyclonedx $SOURCE_IMAGE --format "{{json .}}" | jq -r '.referrer | .[0].reference.Digest'`
 cosign sign -y --key $COSIGN_KEY --registry-referrers-mode oci-1-1 ${SOURCE_REPO}@${SOURCE_CYCLONE_DX} | echo
 
 slow
@@ -137,10 +137,10 @@ slow
 clear
 
 # Get the digests of each artifact attached to the image
-slow 'DEST_CYCLONE_DX=`regctl artifact tree --filter-artifact-type application/cyclonedx $DEST_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
+slow 'DEST_CYCLONE_DX=`regctl artifact tree --filter-artifact-type application/vnd.cyclonedx $DEST_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
 $ DEST_SPDX=`regctl artifact tree --filter-artifact-type application/spdx+json $DEST_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
 $ DEST_SARIF=`regctl artifact tree --filter-artifact-type application/sarif+json $DEST_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`'
-DEST_CYCLONE_DX=`regctl artifact tree --filter-artifact-type application/cyclonedx $DEST_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
+DEST_CYCLONE_DX=`regctl artifact tree --filter-artifact-type application/vnd.cyclonedx $DEST_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
 DEST_SPDX=`regctl artifact tree --filter-artifact-type application/spdx+json $DEST_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
 DEST_SARIF=`regctl artifact tree --filter-artifact-type application/sarif+json $DEST_IMAGE --format "{{json .}}" | jq -r ".referrer | .[0].reference.Digest"`
 
