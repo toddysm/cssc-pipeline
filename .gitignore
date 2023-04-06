@@ -142,3 +142,5 @@ dmypy.json
 
 # MacOS files
 .DS_Store
+*.tar
+.vscode/*
