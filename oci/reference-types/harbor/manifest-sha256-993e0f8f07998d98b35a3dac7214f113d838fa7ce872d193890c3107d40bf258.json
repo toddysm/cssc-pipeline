@@ -1,0 +1,36 @@
+{
+    "schemaVersion": 2,
+    "mediaType": "application/vnd.oci.image.index.v1+json",
+    "manifests": [
+        {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:d59f15b7078b1b11ed7bf40989f5b1298f7e42c9c52baacd112923569bb2a3dd",
+            "size": 739,
+            "annotations": {
+                "org.opencontainers.image.created": "2023-01-04T21:40:34Z",
+                "producer": "syft 0.63.0"
+            },
+            "artifactType": "application/vnd.cyclonedx+json"
+        },
+        {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:eb32d7d17b01e1538054c9639484d27c3c47ce66436c11913812a8260c87e3db",
+            "size": 709,
+            "annotations": {
+                "org.opencontainers.image.created": "2023-01-04T21:42:17Z",
+                "producer": "syft 0.63.0"
+            },
+            "artifactType": "text/spdx"
+        },
+        {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:c66f19b02589cb8835e5230831c9369b6e45e1c5ffdf7d06ac215eef3b3f4fb8",
+            "size": 726,
+            "annotations": {
+                "org.opencontainers.image.created": "2023-01-04T21:42:50Z",
+                "producer": "syft 0.63.0"
+            },
+            "artifactType": "application/spdx+json"
+        }
+    ]
+}

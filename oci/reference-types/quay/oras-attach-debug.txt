@@ -1,0 +1,53 @@
+time=2023-01-04T13:23:07-08:00 level=debug msg= Request URL: "https://quay.io/v2/tsmregistry/flasksample/manifests/oci1.1-tests"
+time=2023-01-04T13:23:07-08:00 level=debug msg= Request method: "HEAD"
+time=2023-01-04T13:23:07-08:00 level=debug msg= Request headers:
+time=2023-01-04T13:23:07-08:00 level=debug msg=   "Accept": "application/vnd.docker.distribution.manifest.v2+json, application/vnd.docker.distribution.manifest.list.v2+json, application/vnd.oci.image.manifest.v1+json, application/vnd.oci.image.index.v1+json, application/vnd.oci.artifact.manifest.v1+json"
+time=2023-01-04T13:23:07-08:00 level=debug msg=   "User-Agent": "oras/0.16.0+Homebrew"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Response Status: "200 OK"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Response headers:
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Date": "Wed, 04 Jan 2023 21:23:08 GMT"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Type": "application/vnd.docker.distribution.manifest.v2+json"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Length": "2201"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Server": "nginx/1.20.1"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Docker-Content-Digest": "sha256:b89e2098603bead4f07e318e1a4e11b4a4ef1f3614725c88b3fcdd469d55c0e0"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "X-Frame-Options": "DENY"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Strict-Transport-Security": "max-age=63072000; preload"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request URL: "https://quay.io/v2/tsmregistry/flasksample/manifests/sha256:146d2eee4a5a8f76e54429c3dd8e5b37028468fc22c07c5f46b08fe8fca14346"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request method: "HEAD"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request headers:
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Accept": "application/vnd.docker.distribution.manifest.v2+json, application/vnd.docker.distribution.manifest.list.v2+json, application/vnd.oci.image.manifest.v1+json, application/vnd.oci.image.index.v1+json, application/vnd.oci.artifact.manifest.v1+json"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "User-Agent": "oras/0.16.0+Homebrew"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Response Status: "404 Not Found"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Response headers:
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Type": "application/json"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Length": "82"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Server": "nginx/1.20.1"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Date": "Wed, 04 Jan 2023 21:23:08 GMT"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request URL: "https://quay.io/v2/tsmregistry/flasksample/blobs/sha256:c0ddc2a5ea786eccffdac259c26278ff98af1b6ea4460f49455d0841ffba7921"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request method: "HEAD"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request headers:
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "User-Agent": "oras/0.16.0+Homebrew"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Response Status: "200 OK"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Response headers:
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Length": "292538"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Server": "nginx/1.20.1"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Cache-Control": "max-age=31436000"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "X-Frame-Options": "DENY"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Date": "Wed, 04 Jan 2023 21:23:08 GMT"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Docker-Content-Digest": "sha256:c0ddc2a5ea786eccffdac259c26278ff98af1b6ea4460f49455d0841ffba7921"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Accept-Ranges": "bytes"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Strict-Transport-Security": "max-age=63072000; preload"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Type": "application/octet-stream"
+Exists    c0ddc2a5ea78 oci1.1-tests.cyclonedx.json
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request URL: "https://quay.io/v2/tsmregistry/flasksample/manifests/sha256:146d2eee4a5a8f76e54429c3dd8e5b37028468fc22c07c5f46b08fe8fca14346"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request method: "PUT"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Request headers:
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Type": "application/vnd.oci.artifact.manifest.v1+json"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "User-Agent": "oras/0.16.0+Homebrew"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Response Status: "415 Unsupported Media Type"
+time=2023-01-04T13:23:08-08:00 level=debug msg= Response headers:
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Date": "Wed, 04 Jan 2023 21:23:08 GMT"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Type": "application/json"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Content-Length": "131"
+time=2023-01-04T13:23:08-08:00 level=debug msg=   "Server": "nginx/1.20.1"
+Error: PUT "https://quay.io/v2/tsmregistry/flasksample/manifests/sha256:146d2eee4a5a8f76e54429c3dd8e5b37028468fc22c07c5f46b08fe8fca14346": response status code 415: manifest invalid: manifest invalid: map[message:manifest schema version not supported]
