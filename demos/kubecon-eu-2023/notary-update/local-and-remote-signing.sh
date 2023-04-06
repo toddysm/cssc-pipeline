@@ -26,7 +26,7 @@ skopeo copy --format=oci docker://toddysm/flasksample:kubeconeu-demo-v1 docker:/
 skopeo copy --format=oci docker://toddysm/net-monitor:kubeconeu-demo-v1 docker://ghcr.io/toddysm/net-monitor:kubeconeu-demo-v1
 
 opt_a=0
-opt_s=10
+opt_s=25
 
 while getopts 'ahs:' option; do
   case $option in
