@@ -109,8 +109,7 @@ echo '| | Trust policy configuration... | |'
 echo '| |_______________________________| |'
 echo '|___________________________________|'
 
-slow 'export TRUST_POLICY_LOCATION=~/Library/Application\ Support/notation/
-$ ls ${TRUST_POLICY_LOCATION}/*policy*'
+slow 'export TRUST_POLICY_LOCATION=~/Library/Application\ Support/notation/'
 export TRUST_POLICY_LOCATION=~/Library/Application\ Support/notation
 
 slow
