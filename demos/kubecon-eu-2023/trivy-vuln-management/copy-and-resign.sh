@@ -53,9 +53,15 @@ export COSIGN_EXPERIMENTAL=1
 # skopeo copy --format=oci docker://toddysm/flasksample:kubeconeu-demo-v1 docker://${SOURCE_IMAGE}
 
 # Attach the artifacts
-# oras attach --artifact-type application/vnd.cyclonedx $SOURCE_IMAGE ./kubecon-eu-2023-talks/sboms/flasksample-cyclonedx.json
-# oras attach --artifact-type application/spdx+json $SOURCE_IMAGE ./kubecon-eu-2023-talks/sboms/flasksample-spdx.json
-# oras attach --artifact-type application/sarif+json $SOURCE_IMAGE ./kubecon-eu-2023-talks/vulnerability-reports/flasksample-20230405.sarif
+# trivy image -f cyclonedx $SOURCE_IMAGE > ./kubecon-eu-2023-talks/sboms/flasksample-cyclonedx.json
+# trivy image -f spdx-json $SOURCE_IMAGE > ./kubecon-eu-2023-talks/sboms/flasksample-spdx.json
+# trivy image -f sarif $SOURCE_IMAGE > ./kubecon-eu-2023-talks/vulnerability-reports/flasksample-20230405.sarif
+# oras attach --artifact-type application/vnd.cyclonedx --annotation "createdby=trivy" $SOURCE_IMAGE ./kubecon-eu-2023-talks/sboms/flasksample-cyclonedx.json
+# oras attach --artifact-type application/spdx+json --annotation "createdby=trivy" $SOURCE_IMAGE ./kubecon-eu-2023-talks/sboms/flasksample-spdx.json
+# oras attach --artifact-type application/sarif+json --annotation "createdby=trivy" $SOURCE_IMAGE ./kubecon-eu-2023-talks/vulnerability-reports/flasksample-20230405.sarif
+
+# Set the path
+# export PATH=/Users/toddysm/Documents/Development/kubecon-eu-2023-talks/bin:$PATH
 
 clear
 slow
