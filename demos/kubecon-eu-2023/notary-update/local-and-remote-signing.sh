@@ -10,7 +10,7 @@
 # - Images are uploaded to GHCR
 # - Notation keys are removed
 # - Notation certs are removed
-export REMOTE_KEY_NAME=tsmacrusw3kubeconeu23-azurecr-io
+export TRUST_STORE_NAME=ghcr.io
 export TEST_KEY_NAME=wabbit-networks.io
 az login
 notation key delete $TEST_KEY_NAME
@@ -19,7 +19,7 @@ notation key ls
 rm /Users/toddysm/Library/Application\ Support/notation/localkeys/wabbit-networks.io.key
 rm /Users/toddysm/Library/Application\ Support/notation/localkeys/wabbit-networks.io.crt
 notation cert delete --type ca --store $TEST_KEY_NAME --all
-notation cert delete --type ca --store $REMOTE_KEY_NAME --all
+notation cert delete --type ca --store $TRUST_STORE_NAME --all
 notation cert ls
 
 skopeo copy --format=oci docker://toddysm/flasksample:kubeconeu-demo-v1 docker://ghcr.io/toddysm/flasksample:kubeconeu-demo-v1
