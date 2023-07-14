@@ -6,6 +6,8 @@
 
 # Prep steps
 export PATH=$PATH:${HOME}/Library/Application\ Support/notation/bin
+export NOTATION_PATH="${HOME}/Library/Application Support/notation"
+rm -r ${NOTATION_PATH}/plugins
 
 opt_a=0
 opt_s=25
@@ -46,7 +48,7 @@ echo '| |___________________________| |'
 echo '|_______________________________|'
 
 slow 'export TEMP_DIR=${HOME}/Temp
-$ export VERSION=1.0.0-rc.2
+$ export PLUGIN_VERSION=1.0.0-rc.2
 $ export ARCH=arm64
 $ export NOTATION_PATH="${HOME}/Library/Application Support/notation"
 $ export INSTALL_PATH="${HOME}/Library/Application Support/notation/plugins/azure-kv"
@@ -54,7 +56,7 @@ $ mkdir -p $TEMP_DIR
 $ cd $TEMP_DIR'
 
 export TEMP_DIR=${HOME}/Temp
-export VERSION=1.0.0-rc.2
+export PLUGIN_VERSION=1.0.0-rc.2
 export ARCH=arm64
 export NOTATION_PATH="${HOME}/Library/Application Support/notation"
 export INSTALL_PATH="${HOME}/Library/Application Support/notation/plugins/azure-kv"
@@ -67,17 +69,17 @@ echo '| | Download tarball and checksum... | |'
 echo '| |__________________________________| |'
 echo '|______________________________________|'
 
-slow 'export CHECKSUM_FILE="notation-azure-kv_${VERSION}_checksums.txt"
-$ export TAR_FILE="notation-azure-kv_${VERSION}_darwin_${ARCH}.tar.gz"
-$ curl -Lo ${CHECKSUM_FILE} "https://github.com/Azure/notation-azure-kv/releases/download/v${VERSION}/${CHECKSUM_FILE}"'
+slow 'export CHECKSUM_FILE="notation-azure-kv_${PLUGIN_VERSION}_checksums.txt"
+$ export TAR_FILE="notation-azure-kv_${PLUGIN_VERSION}_darwin_${ARCH}.tar.gz"
+$ curl -Lo ${CHECKSUM_FILE} "https://github.com/Azure/notation-azure-kv/releases/download/v${PLUGIN_VERSION}/${CHECKSUM_FILE}"'
 
-export CHECKSUM_FILE="notation-azure-kv_${VERSION}_checksums.txt"
-export TAR_FILE="notation-azure-kv_${VERSION}_darwin_${ARCH}.tar.gz"
-curl -Lo ${CHECKSUM_FILE} "https://github.com/Azure/notation-azure-kv/releases/download/v${VERSION}/${CHECKSUM_FILE}"
+export CHECKSUM_FILE="notation-azure-kv_${PLUGIN_VERSION}_checksums.txt"
+export TAR_FILE="notation-azure-kv_${PLUGIN_VERSION}_darwin_${ARCH}.tar.gz"
+curl -Lo ${CHECKSUM_FILE} "https://github.com/Azure/notation-azure-kv/releases/download/v${PLUGIN_VERSION}/${CHECKSUM_FILE}"
 
-slow 'curl -Lo ${TAR_FILE} "https://github.com/Azure/notation-azure-kv/releases/download/v${VERSION}/${TAR_FILE}"'
+slow 'curl -Lo ${TAR_FILE} "https://github.com/Azure/notation-azure-kv/releases/download/v${PLUGIN_VERSION}/${TAR_FILE}"'
 
-curl -Lo ${TAR_FILE} "https://github.com/Azure/notation-azure-kv/releases/download/v${VERSION}/${TAR_FILE}"
+curl -Lo ${TAR_FILE} "https://github.com/Azure/notation-azure-kv/releases/download/v${PLUGIN_VERSION}/${TAR_FILE}"
 
 echo ' _________________________________________________________ '
 echo '|  _____________________________________________________  |'
@@ -105,3 +107,6 @@ tree $NOTATION_PATH
 
 slow 'notation plugin ls'
 notation plugin ls
+
+slow
+slow
