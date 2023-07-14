@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "mediaType": "application/vnd.oci.image.manifest.v1+json",
+  "config": {
+    "mediaType": "application/vnd.oci.image.config.v1+json",
+    "size": 357,
+    "digest": "sha256:728e26b36817753d90d7de8420dacf4fa1bcf746da2b54bb8c59cd047a682198"
+  },
+  "layers": [
+    {
+      "mediaType": "application/vnd.dsse.envelope.v1+json",
+      "size": 2225736,
+      "digest": "sha256:c9880779c90158a29f7a69f29c492551261e7a3936247fc75f225171064d6d32",
+      "annotations": {
+        "dev.cosignproject.cosign/signature": ""
+      }
+    },
+    {
+      "mediaType": "application/vnd.dsse.envelope.v1+json",
+      "size": 2392,
+      "digest": "sha256:ff626be9ff3158e9d2118072cd24481d990a5145d10109affec6064423d74cc4",
+      "annotations": {
+        "dev.cosignproject.cosign/signature": ""
+      }
+    }
+  ]
+}

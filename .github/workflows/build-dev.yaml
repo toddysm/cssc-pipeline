@@ -1,0 +1,81 @@
+name: Build Feature Branch
+
+on:
+  # Triggers only for the feature/ branches
+  push:
+    branches: [ 'development' ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    environment: development
+    outputs:
+      container_digest: ${{ steps.container_info.outputs.container_digest }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Print the Secret
+        run: echo ${{ secrets.ACR_LOGIN_SERVER }}
+
+      - name: Build Docker image
+        #run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
+        run: docker build . --file Dockerfile --tag ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest
+
+      - name: Login to the Container Registry  
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_CLIENT_ID }}
+          password: ${{ secrets.ACR_CLIENT_SECRET }}
+      
+      - name: Push Image to ACR
+        #run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d')
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest
+
+      # - name: Get Container Digest
+      #   id: container_info
+      #   run: |
+      #     export CONTAINER_DIGEST=$(docker image inspect ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .[0].Id)
+      #     echo $CONTAINER_DIGEST
+      #     echo "::set-output name=container_digest::$CONTAINER_DIGEST"
+
+  provenance:
+    name: provenance
+    runs-on: ubuntu-latest
+    needs: [build]
+    environment: development
+
+    steps:
+      - name: Login to the Container Registry  
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_CLIENT_ID }}
+          password: ${{ secrets.ACR_CLIENT_SECRET }}
+
+      - name: Install Skopeo
+        run: sudo apt-get update && sudo apt-get -y install skopeo
+      
+      - name: Get Image Digest
+        id: get_image_digest
+        run: |
+          #export CONTAINER_DIGEST=$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
+          echo ::set-output name=docker_digest::$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest | jq .Digest)
+          echo $CONTAINER_DIGEST
+
+      - name: Generate Provenance for Container
+        uses: philips-labs/slsa-provenance-action@v0.7.2
+        with:
+          command: generate
+          subcommand: container
+          #arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ needs.build.outputs.container_digest }} --tags $(date +'%Y-%m-%d')
+          #arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest $CONTAINER_DIGEST --tags $(date +'%Y-%m-%d')
+          arguments: --repository ${{ secrets.ACR_LOGIN_SERVER }}/flask-sample --output-path provenance.att --digest ${{ steps.get_image_digest.outputs.docker_digest }}
+
+      - name: Show Provenance for Container
+        run: cat provenance.att

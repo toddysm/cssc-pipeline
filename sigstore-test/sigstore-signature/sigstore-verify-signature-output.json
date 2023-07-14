@@ -1,0 +1,14 @@
+[
+  {
+    "critical": {
+      "identity": {
+        "docker-reference": "562077019569.dkr.ecr.us-west-2.amazonaws.com/flasksample"
+      },
+      "image": {
+        "docker-manifest-digest": "sha256:9bd049b6b470118cc6a02d58595b86107407c9e288c0d556ce342ea8acbafdf4"
+      },
+      "type": "cosign container image signature"
+    },
+    "optional": null
+  }
+]

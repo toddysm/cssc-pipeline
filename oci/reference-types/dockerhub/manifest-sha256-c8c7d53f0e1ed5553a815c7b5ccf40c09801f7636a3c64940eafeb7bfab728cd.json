@@ -1,0 +1,36 @@
+{
+    "schemaVersion": 2,
+    "mediaType": "application/vnd.oci.image.index.v1+json",
+    "manifests": [
+        {
+            "mediaType": "application/vnd.oci.artifact.manifest.v1+json",
+            "digest": "sha256:0a1dd8fcdef54eb489aaa99978e19cffd7f6ae11595322ab5af694913da177d4",
+            "size": 613,
+            "annotations": {
+                "org.opencontainers.artifact.created": "2022-12-21T23:31:34Z",
+                "producer": "syft 0.63.0"
+            },
+            "artifactType": "application/spdx+json"
+        },
+        {
+            "mediaType": "application/vnd.oci.artifact.manifest.v1+json",
+            "digest": "sha256:6f6c9260247ad876626f742508550665ad20c75ac7e4469782d18e47d40cac67",
+            "size": 596,
+            "annotations": {
+                "org.opencontainers.artifact.created": "2022-12-21T23:33:00Z",
+                "producer": "syft 0.63.0"
+            },
+            "artifactType": "text/spdx"
+        },
+        {
+            "mediaType": "application/vnd.oci.artifact.manifest.v1+json",
+            "digest": "sha256:047054894cbe7c9e57532f4e01d03f631e92c3aec48b4a06485296aee1374b3b",
+            "size": 626,
+            "annotations": {
+                "org.opencontainers.artifact.created": "2022-12-21T23:33:40Z",
+                "producer": "syft 0.63.0"
+            },
+            "artifactType": "application/vnd.cyclonedx+json"
+        }
+    ]
+}

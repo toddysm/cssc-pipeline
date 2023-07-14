@@ -1,2 +1,2 @@
 # cssc-pipeline
-Sample CI/CD pipeline for creating container images with provenance details.
+Sample CI/CD pipeline for demonstrating the secure supply chain tools for containers.

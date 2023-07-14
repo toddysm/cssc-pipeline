@@ -1,0 +1,16 @@
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "predicateType": "cosign.sigstore.dev/attestation/v1",
+  "subject": [
+    {
+      "name": "562077019569.dkr.ecr.us-west-2.amazonaws.com/flasksample",
+      "digest": {
+        "sha256": "9bd049b6b470118cc6a02d58595b86107407c9e288c0d556ce342ea8acbafdf4"
+      }
+    }
+  ],
+  "predicate": {
+    "Data": "{\n  \"_type\": \"https://in-toto.io/Statement/v0.1\",\n  \"subject\": [\n      {\n        \"name\": \"flasksample:v1\", \n        \"digest\": {\n            \"sha256\": \"5678...\"\n          }\n      }\n    ],\n  \"predicateType\": \"https://slsa.dev/provenance/v0.2\",\n  \"predicate\": {\n    \"buildType\": \"docker build\",\n    \"builder\": { \"id\": \"mailto:toddysm@example.com\" },\n    \"invocation\": {\n      \"configSource\": {\n        \"uri\": \"https://github.com/toddysm/cssc-pipeline\",\n        \"digest\": {\n            \"sha256\": \"d58b54dcccd6b1f513104ac979a245637b211fd6\"\n          },\n        \"entryPoint\": \"view.py\"\n      },\n      \"parameters\": {\"CFLAGS\": \"-O3\"}           // extra args to `make`\n    },\n    \"materials\": [{\n      \"uri\": \"flasksample:v1\",\n      \"digest\": {\n        \"sha256\": \"1234...\"\n      }\n    }]\n  }\n}",
+    "Timestamp": "2022-10-13T23:11:26Z"
+  }
+}

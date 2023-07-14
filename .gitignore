@@ -127,3 +127,20 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Log files
+*.log
+
+# Temp files
+/temp
+*.tmp
+*.temp
+
+# Key and cert files
+*.key
+*.pub
+
+# MacOS files
+.DS_Store
+*.tar
+.vscode/*
