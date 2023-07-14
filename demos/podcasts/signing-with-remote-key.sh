@@ -14,11 +14,13 @@ export PATH=$PATH:${HOME}/Library/Application\ Support/notation/bin
 export NOTATION_PATH="${HOME}/Library/Application Support/notation"
 export TRUST_STORE_NAME=ghcr.io
 export REMOTE_KEY_NAME=ghcr-io-toddysm-signing-key
+export TEMP_DIR=${HOME}/Temp
 az login
 notation key delete $REMOTE_KEY_NAME
 notation key ls
 notation cert delete --type ca --store $REMOTE_KEY_NAME --all
 notation cert ls
+rm $TEMP_DIR/*
 
 skopeo copy --format=oci docker://toddysm/flasksample:kubeconeu-demo-v1 docker://ghcr.io/toddysm/flasksample:demo-v1
 
