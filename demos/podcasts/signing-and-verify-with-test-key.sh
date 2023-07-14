@@ -13,10 +13,16 @@
 export PATH=$PATH:${HOME}/Library/Application\ Support/notation/bin
 export NOTATION_PATH="${HOME}/Library/Application Support/notation"
 export TEST_KEY_NAME=wabbit-networks.io
+export REMOTE_KEY_NAME=ghcr-io-toddysm-signing-key
 notation key delete $TEST_KEY_NAME
+notation key delete $REMOTE_KEY_NAME
 notation key ls
+rm ${NOTATION_PATH}/signingkeys.json
+rm ${NOTATION_PATH}/trustpolicy.json
 rm -r ${NOTATION_PATH}/localkeys
+rm -r ${NOTATION_PATH}/truststore
 notation cert delete --type ca --store $TEST_KEY_NAME --all
+notation cert delete --type ca --store $REMOTE_KEY_NAME --all
 notation cert ls
 
 skopeo copy --format=oci docker://toddysm/net-monitor:kubeconeu-demo-v1 docker://ghcr.io/toddysm/net-monitor:demo-v1
