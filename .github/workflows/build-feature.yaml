@@ -59,9 +59,9 @@ jobs:
 
       - name: Push Ownership to the Registry
         run: |
-          oras push -d ghcr.io/toddysm/flask-sample \
-          --artifact-type 'application/ownership+json' \
-          --subject ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d') \
+          oras attach -d \
+          --artifact-type 'application/vnd.toddysm.ownership+json' \
+          ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d') \
           ./ownership.json:application/json
 
   provenance:
@@ -118,8 +118,8 @@ jobs:
 
       - name: Push SLSA Provenance to the Registry
         run: |
-          oras push -d ghcr.io/toddysm/flask-sample \
+          oras attach -d \
           --artifact-type 'application/slsa+json' \
-          --subject ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d') \
           --manifest-annotations ./annotations.json \
+          ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d') \
           ./provenance.json:application/json
