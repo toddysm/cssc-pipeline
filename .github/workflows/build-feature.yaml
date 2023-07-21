@@ -54,7 +54,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.REGISTRY_CLIENT_SECRET }}
       
-      - name: Push Image to ACR
+      - name: Push Image to Registry
         run: docker push ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d')
 
       - name: Push Ownership to the Registry
