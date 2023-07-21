@@ -120,6 +120,6 @@ jobs:
         run: |
           oras attach -d \
           --artifact-type 'application/slsa+json' \
-          --manifest-annotations ./annotations.json \
+          --annotation-file ./annotations.json \
           ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d') \
           ./provenance.json:application/json
