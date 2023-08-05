@@ -19,9 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Print the Secret
-        run: echo ${{ secrets.ACR_LOGIN_SERVER }}
-
       - name: Build Docker image
         #run: docker build . --file Dockerfile --tag ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d')
         run: docker build . --file Dockerfile --tag ghcr.io/toddysm/flask-sample:latest
@@ -33,7 +30,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.REGISTRY_CLIENT_SECRET }}
       
-      - name: Push Image to ACR
+      - name: Push Image to Registry
         #run: docker push ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d')
         run: docker push ghcr.io/toddysm/flask-sample:latest
 
@@ -64,8 +61,8 @@ jobs:
       - name: Get Image Digest
         id: get_image_digest
         run: |
-          #export CONTAINER_DIGEST=$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
-          echo ::set-output name=docker_digest::$(skopeo inspect docker://${{ secrets.ACR_LOGIN_SERVER }}/flask-sample:latest | jq .Digest)
+          #export CONTAINER_DIGEST=$(skopeo inspect docker://ghcr.io/toddysm/flask-sample:$(date +'%Y-%m-%d') | jq .Digest)
+          echo ::set-output name=docker_digest::$(skopeo inspect docker://ghcr.io/toddysm/flask-sample:latest | jq .Digest)
           echo $CONTAINER_DIGEST
 
       - name: Generate Provenance for Container
