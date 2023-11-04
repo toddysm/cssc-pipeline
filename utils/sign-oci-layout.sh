@@ -1,9 +1,15 @@
 #!/bin/bash
 
-export TEMP_LOCATION=/tmp
+export TEMP_LOCATION=tmp
 export OCI_LAYOUT_LOCATION=$TEMP_LOCATION/oci-layout
 export BUILD_METADATA_FILE=build-metadata.json
 export ARCHIVE_NAME=flasksample.tar
+
+echo "Printing the environment variables..."
+echo "TEMP_LOCATION: $TEMP_LOCATION"
+echo "OCI_LAYOUT_LOCATION: $OCI_LAYOUT_LOCATION"
+echo "BUILD_METADATA_FILE: $BUILD_METADATA_FILE"
+echo "ARCHIVE_NAME: $ARCHIVE_NAME"
 
 notation version
 
@@ -23,7 +29,7 @@ mkdir -p $OCI_LAYOUT_LOCATION
 tar -xvf ${TEMP_LOCATION}/${ARCHIVE_NAME} -C ${OCI_LAYOUT_LOCATION}
 
 # Show the tree of the OCI layout
-tree ${OCI_LAYOUT_LOCATION}
+tree ${TEMP_LOCATION}
 
 # Get the manifest digest
 export IMAGE_DIGEST=`cat ${TEMP_LOCATION}/${BUILD_METADATA_FILE} | jq -r '."containerimage.descriptor".digest'`
