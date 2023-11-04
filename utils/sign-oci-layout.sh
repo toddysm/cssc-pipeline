@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export TEMP_LOCATION=tmp
+export TEMP_LOCATION=temp
 export OCI_LAYOUT_LOCATION=$TEMP_LOCATION/oci-layout
 export BUILD_METADATA_FILE=build-metadata.json
 export ARCHIVE_NAME=flasksample.tar
@@ -17,13 +17,14 @@ notation version
 notation cert generate-test --default "wabbit-networks.io"
 notation key ls
 
+# Create the OCI layout directory
+mkdir -p $OCI_LAYOUT_LOCATION
+
 # Build the image in OCI layout and save locally
 docker buildx build . \
     -f Dockerfile \
     -o type=oci,dest=${TEMP_LOCATION}/${ARCHIVE_NAME} \
     --metadata-file ${TEMP_LOCATION}/${BUILD_METADATA_FILE}
-
-mkdir -p $OCI_LAYOUT_LOCATION
 
 # Extract the OCI layout
 tar -xvf ${TEMP_LOCATION}/${ARCHIVE_NAME} -C ${OCI_LAYOUT_LOCATION}
