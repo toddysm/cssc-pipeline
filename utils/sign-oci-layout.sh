@@ -31,3 +31,29 @@ notation sign --oci-layout ${OCI_LAYOUT_LOCATION}@${IMAGE_DIGEST}
 
 # Show the list of signatures
 notation list --oci-layout ${OCI_LAYOUT_LOCATION}@${IMAGE_DIGEST}
+
+# Verify the signature
+export CERT_STORE_NAME=wabbit-networks.io
+export REGISTRY_SCOPE=localhost:5000/${OCI_LAYOUT_LOCATION}
+export TRUST_POLICY_LOCATION=$XDG_CONFIG_HOME/notation
+
+cat <<EOF > ${TRUST_POLICY_LOCATION}/trustpolicy.json
+{
+ "version": "1.0",
+ "trustPolicies": [
+    {
+         "name": "local-images-policy",
+         "registryScopes": [ "$REGISTRY_SCOPE" ],
+         "signatureVerification": {
+             "level" : "strict"
+         },
+         "trustStores": [ "ca:${CERT_STORE_NAME}" ],
+         "trustedIdentities": [
+             "*"
+         ]
+     }
+ ]
+}
+EOF
+
+notation verify --oci-layout ${OCI_LAYOUT_LOCATION}@${IMAGE_DIGEST} --scope $REGISTRY_SCOPE
