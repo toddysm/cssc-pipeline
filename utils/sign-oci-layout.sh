@@ -68,6 +68,13 @@ notation list --oci-layout ${OCI_LAYOUT_LOCATION}@${IMAGE_DIGEST}
 echo
 echo
 
+# Show the tree of the OCI layout
+echo "Printing the tree of the OCI layout..."
+tree ${TEMP_LOCATION}
+
+echo
+echo
+
 # Verify the signature
 export CERT_STORE_NAME=wabbit-networks.io
 export REGISTRY_SCOPE=localhost:5000/${OCI_LAYOUT_LOCATION}
