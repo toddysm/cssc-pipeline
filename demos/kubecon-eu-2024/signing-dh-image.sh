@@ -49,6 +49,12 @@ slow() {
 clear
 slow
 
+echo ' ______________________________ '
+echo '|  __________________________  |'
+echo '| | Prep the environment...  | |'
+echo '| |__________________________| |'
+echo '|______________________________|'
+
 # Set the env variables for the images
 slow 'export TEST_REPO='docker.io/toddysm/python'
 $ export TEST_IMAGE="${TEST_REPO}:3.12"'
