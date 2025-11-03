@@ -1,0 +1,298 @@
+### First call to /v2/ returns 401
+
+```
+GET https://registry-1.docker.io/v2/ HTTP/1.1
+Host: registry-1.docker.io
+User-Agent: docker/24.0.5 go/go1.20.6 git-commit/a61e2b4 kernel/5.15.49-linuxkit-pr os/linux arch/arm64 UpstreamClient(Docker-Client/24.0.5 \(darwin\))
+Accept-Encoding: gzip
+Connection: close
+
+
+# RESPONSE
+HTTP/1.1 401 Unauthorized
+content-type: application/json
+docker-distribution-api-version: registry/2.0
+www-authenticate: Bearer realm="https://auth.docker.io/token",service="registry.docker.io"
+date: Sat, 16 Sep 2023 02:56:54 GMT
+content-length: 87
+strict-transport-security: max-age=31536000
+connection: close
+JSON
+  
+{
+    "errors": [
+        {
+            "code": "UNAUTHORIZED",
+            "detail": null,
+            "message": "authentication required"
+        }
+    ]
+}
+
+### Call to /token returns 200
+
+GET https://auth.docker.io/token?account=toddysm&client_id=docker&offline_token=true&service=registry.docker.io HTTP/1.1
+Host: auth.docker.io
+User-Agent: docker/24.0.5 go/go1.20.6 git-commit/a61e2b4 kernel/5.15.49-linuxkit-pr os/linux arch/arm64 UpstreamClient(Docker-Client/24.0.5 \(darwin\))
+Authorization: Basic dG9kZHlzbTppbiVtZmY3N2FtbGt3MDI4a2oq
+Accept-Encoding: gzip
+Connection: close
+
+
+Query  
+account:       toddysm
+client_id:     docker
+offline_token: true
+service:       registry.docker.io
+
+
+# RESPONSE
+HTTP/1.1 200 OK
+content-type: application/json
+x-trace-id: 249341b9fbbc3c7a8318d6344b7872bd
+date: Sat, 16 Sep 2023 02:56:55 GMT
+transfer-encoding: chunked
+strict-transport-security: max-age=31536000
+connection: close
+JSON
+  
+{
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOltdLCJhdWQiOiJyZWdpc3RyeS5kb2NrZXIuaW8iLCJleHAiOjE2OTQ4MzMzMTUsImh0dHBzOi8vYXV0aC5kb2NrZXIuaW8iOnsidXNlcm5hbWUiOiJ0b2RkeXNtIn0sImlhdCI6MTY5NDgzMzAxNSwiaXNzIjoiYXV0aC5kb2NrZXIuaW8iLCJqdGkiOiJkY2tyX2p0aV9xT1JKUDB6S3I3a3l3cHlpVFBqMGZmX2JCRms9IiwibmJmIjoxNjk0ODMyNzE1LCJzdWIiOiI3YzdlY2Q0Mi0zZGVjLTQzZWQtODFlZS00MGFmMTlmMjYzNTcifQ.mwMT-DB8D5JjUZKv7Id2dsKygUvNRdbY9h5960K6RCetqZrBxFrfcxRECZ8Z2IZBuwnN_mHanSu6pan7HxK6OKh3NOHyB5FRBZ-gIsS1P14B5a19urlbgkEk5UB08cIuAepH0cKnbiXzxh1jwyYrp3aXmGXmMOrW6BHirRxACDDWWa-9-wAO5t320-UykAsgli6hFko2EewUQXzjee-wuQMiBS3uRouniCzSHmvQ6E7bq4q4CwEBfiNaSEOYlxiPc1i-PpSp7OTRv8shLlSGyViJcDlhd7SQlMeTU5ZTdsttjArCj-y1Qb3z0gn6fI8amUCYmIfb6h8fN69LK6XUhQ",
+    "expires_in": 300,
+    "issued_at": "2023-09-16T02:56:55.123164555Z",
+    "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOltdLCJhdWQiOiJyZWdpc3RyeS5kb2NrZXIuaW8iLCJleHAiOjE2OTQ4MzMzMTUsImh0dHBzOi8vYXV0aC5kb2NrZXIuaW8iOnsidXNlcm5hbWUiOiJ0b2RkeXNtIn0sImlhdCI6MTY5NDgzMzAxNSwiaXNzIjoiYXV0aC5kb2NrZXIuaW8iLCJqdGkiOiJkY2tyX2p0aV9xT1JKUDB6S3I3a3l3cHlpVFBqMGZmX2JCRms9IiwibmJmIjoxNjk0ODMyNzE1LCJzdWIiOiI3YzdlY2Q0Mi0zZGVjLTQzZWQtODFlZS00MGFmMTlmMjYzNTcifQ.mwMT-DB8D5JjUZKv7Id2dsKygUvNRdbY9h5960K6RCetqZrBxFrfcxRECZ8Z2IZBuwnN_mHanSu6pan7HxK6OKh3NOHyB5FRBZ-gIsS1P14B5a19urlbgkEk5UB08cIuAepH0cKnbiXzxh1jwyYrp3aXmGXmMOrW6BHirRxACDDWWa-9-wAO5t320-UykAsgli6hFko2EewUQXzjee-wuQMiBS3uRouniCzSHmvQ6E7bq4q4CwEBfiNaSEOYlxiPc1i-PpSp7OTRv8shLlSGyViJcDlhd7SQlMeTU5ZTdsttjArCj-y1Qb3z0gn6fI8amUCYmIfb6h8fN69LK6XUhQ"
+}
+
+### Final call to /v2/ returns 200
+GET https://registry-1.docker.io/v2/ HTTP/1.1
+Host: registry-1.docker.io
+User-Agent: docker/24.0.5 go/go1.20.6 git-commit/a61e2b4 kernel/5.15.49-linuxkit-pr os/linux arch/arm64 UpstreamClient(Docker-Client/24.0.5 \(darwin\))
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOltdLCJhdWQiOiJyZWdpc3RyeS5kb2NrZXIuaW8iLCJleHAiOjE2OTQ4MzMzMTUsImh0dHBzOi8vYXV0aC5kb2NrZXIuaW8iOnsidXNlcm5hbWUiOiJ0b2RkeXNtIn0sImlhdCI6MTY5NDgzMzAxNSwiaXNzIjoiYXV0aC5kb2NrZXIuaW8iLCJqdGkiOiJkY2tyX2p0aV9xT1JKUDB6S3I3a3l3cHlpVFBqMGZmX2JCRms9IiwibmJmIjoxNjk0ODMyNzE1LCJzdWIiOiI3YzdlY2Q0Mi0zZGVjLTQzZWQtODFlZS00MGFmMTlmMjYzNTcifQ.mwMT-DB8D5JjUZKv7Id2dsKygUvNRdbY9h5960K6RCetqZrBxFrfcxRECZ8Z2IZBuwnN_mHanSu6pan7HxK6OKh3NOHyB5FRBZ-gIsS1P14B5a19urlbgkEk5UB08cIuAepH0cKnbiXzxh1jwyYrp3aXmGXmMOrW6BHirRxACDDWWa-9-wAO5t320-UykAsgli6hFko2EewUQXzjee-wuQMiBS3uRouniCzSHmvQ6E7bq4q4CwEBfiNaSEOYlxiPc1i-PpSp7OTRv8shLlSGyViJcDlhd7SQlMeTU5ZTdsttjArCj-y1Qb3z0gn6fI8amUCYmIfb6h8fN69LK6XUhQ
+Accept-Encoding: gzip
+Connection: close
+
+# RESPONSE
+HTTP/1.1 200 OK
+content-length: 2
+content-type: application/json
+docker-distribution-api-version: registry/2.0
+date: Sat, 16 Sep 2023 02:56:55 GMT
+strict-transport-security: max-age=31536000
+connection: close
+JSON
+  
+{}
+
+
+### PULL IMAGE
+GET https://registry-1.docker.io/v2/ HTTP/1.1
+Host: registry-1.docker.io
+User-Agent: docker/24.0.5 go/go1.20.6 git-commit/a61e2b4 kernel/5.15.49-linuxkit-pr os/linux arch/arm64 UpstreamClient(Docker-Client/24.0.5 \(darwin\))
+Accept-Encoding: gzip
+Connection: close
+
+
+# RESPONSE
+HTTP/1.1 401 Unauthorized
+content-type: application/json
+docker-distribution-api-version: registry/2.0
+www-authenticate: Bearer realm="https://auth.docker.io/token",service="registry.docker.io"
+date: Sat, 16 Sep 2023 03:22:17 GMT
+content-length: 87
+strict-transport-security: max-age=31536000
+connection: close
+JSON
+  
+{
+    "errors": [
+        {
+            "code": "UNAUTHORIZED",
+            "detail": null,
+            "message": "authentication required"
+        }
+    ]
+}
+
+### Call to /token returns 200
+GET https://auth.docker.io/token?account=toddysm&scope=repository%3Alibrary%2Fpython%3Apull&service=registry.docker.io HTTP/1.1
+Host: auth.docker.io
+User-Agent: docker/24.0.5 go/go1.20.6 git-commit/a61e2b4 kernel/5.15.49-linuxkit-pr os/linux arch/arm64 UpstreamClient(Docker-Client/24.0.5 \(darwin\))
+Authorization: Basic dG9kZHlzbTpkY2tyX3BhdF94NUFGREJQb1ZLMUdwM1NHeGN6VEhSbmFZZDg=
+Accept-Encoding: gzip
+Connection: close
+
+
+Query
+  
+account: toddysm
+scope:   repository:library/python:pull
+service: registry.docker.io
+
+
+# RESPONSE
+HTTP/1.1 200 OK
+content-type: application/json
+x-trace-id: 6841a131376d926f1b69385e43cba844
+date: Sat, 16 Sep 2023 03:22:17 GMT
+transfer-encoding: chunked
+strict-transport-security: max-age=31536000
+connection: close
+JSON
+  
+{
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvcHl0aG9uIiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjIwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY5NDgzNDgzNywiaHR0cHM6Ly9hdXRoLmRvY2tlci5pbyI6eyJwYXRfaWQiOiI3MmIwN2Y3ZS1kZDQwLTRjMmItOWM1OC0zNzZiNWI3M2FiNjIiLCJ1c2VybmFtZSI6InRvZGR5c20ifSwiaWF0IjoxNjk0ODM0NTM3LCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpX0FLYTJFX3ZjVV93R1duLUJrTENsVnYzUkEzaz0iLCJuYmYiOjE2OTQ4MzQyMzcsInN1YiI6IjdjN2VjZDQyLTNkZWMtNDNlZC04MWVlLTQwYWYxOWYyNjM1NyJ9.GyVbMzNXAtIhiZ1adVX_QUL5_A1IdcbJTAqH_hmnJ0sjG_IBrcRKKyUkVG-Docqev0xZ0ilRkBWPOZDxPHrNVZVHp91FHKYp8BOZCqfN9FmbjcWNfcQo7pvLljB2VpUDEbXXxbfvfy_JM6acLEirScn72o6h9jKvbfQd9QmIq1a7Le4mGxgcNk2ZbA95_Hn9XSvV4PKNmk2L6L5vZp9nAVKVllk6AOJS3Xcx5ULBw43vrqE-Rx8dY56M9ehNs1C_95ab5b6FX1QviiDQsUrqF-mG5OncDTgBrq773vVFWYRAtTLNFKCHcK9enSPLy4JVGvAIASh7wSaVDDeIrTlgUA",
+    "expires_in": 300,
+    "issued_at": "2023-09-16T03:22:17.894632752Z",
+    "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvcHl0aG9uIiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjIwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY5NDgzNDgzNywiaHR0cHM6Ly9hdXRoLmRvY2tlci5pbyI6eyJwYXRfaWQiOiI3MmIwN2Y3ZS1kZDQwLTRjMmItOWM1OC0zNzZiNWI3M2FiNjIiLCJ1c2VybmFtZSI6InRvZGR5c20ifSwiaWF0IjoxNjk0ODM0NTM3LCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpX0FLYTJFX3ZjVV93R1duLUJrTENsVnYzUkEzaz0iLCJuYmYiOjE2OTQ4MzQyMzcsInN1YiI6IjdjN2VjZDQyLTNkZWMtNDNlZC04MWVlLTQwYWYxOWYyNjM1NyJ9.GyVbMzNXAtIhiZ1adVX_QUL5_A1IdcbJTAqH_hmnJ0sjG_IBrcRKKyUkVG-Docqev0xZ0ilRkBWPOZDxPHrNVZVHp91FHKYp8BOZCqfN9FmbjcWNfcQo7pvLljB2VpUDEbXXxbfvfy_JM6acLEirScn72o6h9jKvbfQd9QmIq1a7Le4mGxgcNk2ZbA95_Hn9XSvV4PKNmk2L6L5vZp9nAVKVllk6AOJS3Xcx5ULBw43vrqE-Rx8dY56M9ehNs1C_95ab5b6FX1QviiDQsUrqF-mG5OncDTgBrq773vVFWYRAtTLNFKCHcK9enSPLy4JVGvAIASh7wSaVDDeIrTlgUA"
+}
+
+###
+HEAD https://registry-1.docker.io/v2/library/python/manifests/latest HTTP/1.1
+Host: registry-1.docker.io
+User-Agent: docker/24.0.5 go/go1.20.6 git-commit/a61e2b4 kernel/5.15.49-linuxkit-pr os/linux arch/arm64 UpstreamClient(Docker-Client/24.0.5 \(darwin\))
+Accept: application/json
+Accept: application/vnd.oci.image.manifest.v1+json
+Accept: application/vnd.docker.distribution.manifest.v2+json
+Accept: application/vnd.docker.distribution.manifest.list.v2+json
+Accept: application/vnd.oci.image.index.v1+json
+Accept: application/vnd.docker.distribution.manifest.v1+prettyjws
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvcHl0aG9uIiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjIwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY5NDgzNDgzNywiaHR0cHM6Ly9hdXRoLmRvY2tlci5pbyI6eyJwYXRfaWQiOiI3MmIwN2Y3ZS1kZDQwLTRjMmItOWM1OC0zNzZiNWI3M2FiNjIiLCJ1c2VybmFtZSI6InRvZGR5c20ifSwiaWF0IjoxNjk0ODM0NTM3LCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpX0FLYTJFX3ZjVV93R1duLUJrTENsVnYzUkEzaz0iLCJuYmYiOjE2OTQ4MzQyMzcsInN1YiI6IjdjN2VjZDQyLTNkZWMtNDNlZC04MWVlLTQwYWYxOWYyNjM1NyJ9.GyVbMzNXAtIhiZ1adVX_QUL5_A1IdcbJTAqH_hmnJ0sjG_IBrcRKKyUkVG-Docqev0xZ0ilRkBWPOZDxPHrNVZVHp91FHKYp8BOZCqfN9FmbjcWNfcQo7pvLljB2VpUDEbXXxbfvfy_JM6acLEirScn72o6h9jKvbfQd9QmIq1a7Le4mGxgcNk2ZbA95_Hn9XSvV4PKNmk2L6L5vZp9nAVKVllk6AOJS3Xcx5ULBw43vrqE-Rx8dY56M9ehNs1C_95ab5b6FX1QviiDQsUrqF-mG5OncDTgBrq773vVFWYRAtTLNFKCHcK9enSPLy4JVGvAIASh7wSaVDDeIrTlgUA
+Connection: close
+
+
+# RESPONSE
+HTTP/1.1 200 OK
+content-length: 2139
+content-type: application/vnd.docker.distribution.manifest.list.v2+json
+docker-content-digest: sha256:cc7372fe4746ca323f18c6bd0d45dadf22d192756abc5f73e39f9c7f10cba5aa
+docker-distribution-api-version: registry/2.0
+etag: "sha256:cc7372fe4746ca323f18c6bd0d45dadf22d192756abc5f73e39f9c7f10cba5aa"
+date: Sat, 16 Sep 2023 03:22:19 GMT
+strict-transport-security: max-age=31536000
+ratelimit-limit: 200;w=21600
+ratelimit-remaining: 200;w=21600
+docker-ratelimit-source: 7c7ecd42-3dec-43ed-81ee-40af19f26357
+connection: close
+
+###
+GET https://registry-1.docker.io/v2/library/python/manifests/sha256:cc7372fe4746ca323f18c6bd0d45dadf22d192756abc5f73e39f9c7f10cba5aa HTTP/1.1
+Host: registry-1.docker.io
+User-Agent: docker/24.0.5 go/go1.20.6 git-commit/a61e2b4 kernel/5.15.49-linuxkit-pr os/linux arch/arm64 UpstreamClient(Docker-Client/24.0.5 \(darwin\))
+Accept: application/vnd.docker.distribution.manifest.v1+prettyjws
+Accept: application/json
+Accept: application/vnd.oci.image.manifest.v1+json
+Accept: application/vnd.docker.distribution.manifest.v2+json
+Accept: application/vnd.docker.distribution.manifest.list.v2+json
+Accept: application/vnd.oci.image.index.v1+json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6WyJNSUlDK1RDQ0FwK2dBd0lCQWdJQkFEQUtCZ2dxaGtqT1BRUURBakJHTVVRd1FnWURWUVFERXp0U1RVbEdPbEZNUmpRNlEwZFFNenBSTWtWYU9sRklSRUk2VkVkRlZUcFZTRlZNT2taTVZqUTZSMGRXV2pwQk5WUkhPbFJMTkZNNlVVeElTVEFlRncweU16QXhNRFl3TkRJM05EUmFGdzB5TkRBeE1qWXdOREkzTkRSYU1FWXhSREJDQmdOVkJBTVRPME5EVlVZNlNqVkhOanBGUTFORU9rTldSRWM2VkRkTU1qcEtXa1pST2xOTk0wUTZXRmxQTkRwV04wTkhPa2RHVjBJNldsbzFOam8wVlVSRE1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBek4wYjBqN1V5L2FzallYV2gyZzNxbzZKaE9rQWpYV0FVQmNzSHU2aFlaUkZMOXZlODEzVEI0Y2w4UWt4Q0k0Y1VnR0duR1dYVnhIMnU1dkV0eFNPcVdCcnhTTnJoU01qL1ZPKzYvaVkrOG1GRmEwR2J5czF3VDVjNlY5cWROaERiVGNwQXVYSjFSNGJLdSt1VGpVS0VIYXlqSFI5TFBEeUdnUC9ubUFadk5PWEdtclNTSkZJNnhFNmY3QS8rOVptcWgyVlRaQlc0cXduSnF0cnNJM2NveDNQczMwS2MrYUh3V3VZdk5RdFNBdytqVXhDVVFoRWZGa0lKSzh6OVdsL1FjdE9EcEdUeXNtVHBjNzZaVEdKWWtnaGhGTFJEMmJQTlFEOEU1ZWdKa2RQOXhpaW5sVGx3MjBxWlhVRmlqdWFBcndOR0xJbUJEWE0wWlI1YzVtU3Z3SURBUUFCbzRHeU1JR3ZNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVBCZ05WSFNVRUNEQUdCZ1JWSFNVQU1FUUdBMVVkRGdROUJEdERRMVZHT2tvMVJ6WTZSVU5UUkRwRFZrUkhPbFEzVERJNlNscEdVVHBUVFRORU9saFpUelE2VmpkRFJ6cEhSbGRDT2xwYU5UWTZORlZFUXpCR0JnTlZIU01FUHpBOWdEdFNUVWxHT2xGTVJqUTZRMGRRTXpwUk1rVmFPbEZJUkVJNlZFZEZWVHBWU0ZWTU9rWk1WalE2UjBkV1dqcEJOVlJIT2xSTE5GTTZVVXhJU1RBS0JnZ3Foa2pPUFFRREFnTklBREJGQWlFQW1RNHhsQXZXVlArTy9hNlhDU05pYUFYRU1Bb1RQVFRYRWJYMks2RVU4ZTBDSUg0QTAwSVhtUndjdGtEOHlYNzdkTVoyK0pEY1FGdDFxRktMZFR5SnVzT1UiXX0.eyJhY2Nlc3MiOlt7InR5cGUiOiJyZXBvc2l0b3J5IiwibmFtZSI6ImxpYnJhcnkvcHl0aG9uIiwiYWN0aW9ucyI6WyJwdWxsIl0sInBhcmFtZXRlcnMiOnsicHVsbF9saW1pdCI6IjIwMCIsInB1bGxfbGltaXRfaW50ZXJ2YWwiOiIyMTYwMCJ9fV0sImF1ZCI6InJlZ2lzdHJ5LmRvY2tlci5pbyIsImV4cCI6MTY5NDgzNDgzNywiaHR0cHM6Ly9hdXRoLmRvY2tlci5pbyI6eyJwYXRfaWQiOiI3MmIwN2Y3ZS1kZDQwLTRjMmItOWM1OC0zNzZiNWI3M2FiNjIiLCJ1c2VybmFtZSI6InRvZGR5c20ifSwiaWF0IjoxNjk0ODM0NTM3LCJpc3MiOiJhdXRoLmRvY2tlci5pbyIsImp0aSI6ImRja3JfanRpX0FLYTJFX3ZjVV93R1duLUJrTENsVnYzUkEzaz0iLCJuYmYiOjE2OTQ4MzQyMzcsInN1YiI6IjdjN2VjZDQyLTNkZWMtNDNlZC04MWVlLTQwYWYxOWYyNjM1NyJ9.GyVbMzNXAtIhiZ1adVX_QUL5_A1IdcbJTAqH_hmnJ0sjG_IBrcRKKyUkVG-Docqev0xZ0ilRkBWPOZDxPHrNVZVHp91FHKYp8BOZCqfN9FmbjcWNfcQo7pvLljB2VpUDEbXXxbfvfy_JM6acLEirScn72o6h9jKvbfQd9QmIq1a7Le4mGxgcNk2ZbA95_Hn9XSvV4PKNmk2L6L5vZp9nAVKVllk6AOJS3Xcx5ULBw43vrqE-Rx8dY56M9ehNs1C_95ab5b6FX1QviiDQsUrqF-mG5OncDTgBrq773vVFWYRAtTLNFKCHcK9enSPLy4JVGvAIASh7wSaVDDeIrTlgUA
+Accept-Encoding: gzip
+Connection: close
+
+
+# RESPONSE
+HTTP/1.1 200 OK
+content-length: 2139
+content-type: application/vnd.docker.distribution.manifest.list.v2+json
+docker-content-digest: sha256:cc7372fe4746ca323f18c6bd0d45dadf22d192756abc5f73e39f9c7f10cba5aa
+docker-distribution-api-version: registry/2.0
+etag: "sha256:cc7372fe4746ca323f18c6bd0d45dadf22d192756abc5f73e39f9c7f10cba5aa"
+date: Sat, 16 Sep 2023 03:22:19 GMT
+strict-transport-security: max-age=31536000
+ratelimit-limit: 200;w=21600
+ratelimit-remaining: 200;w=21600
+docker-ratelimit-source: 7c7ecd42-3dec-43ed-81ee-40af19f26357
+connection: close
+JSON
+  
+{
+    "manifests": [
+        {
+            "digest": "sha256:8a164692c20c8f51986d25c16caa6bf03bde14e4b6e6a4c06b5437d5620cc96c",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            },
+            "size": 2007
+        },
+        {
+            "digest": "sha256:ceac4b5b55ccba7b742e0a2d2765711c44cd228d1a990018a07b94b48c59577e",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "arm",
+                "os": "linux",
+                "variant": "v5"
+            },
+            "size": 2007
+        },
+        {
+            "digest": "sha256:ea4f4ff16827bdc8e019284f964a397968c3769cc6534502009ff9516bd8c4f4",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "arm",
+                "os": "linux",
+                "variant": "v7"
+            },
+            "size": 2007
+        },
+        {
+            "digest": "sha256:20d0d27bf4b7998f6deaa523de3f5dd5298d7b53e7e02adccb9b7df183b638c2",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "arm64",
+                "os": "linux",
+                "variant": "v8"
+            },
+            "size": 2007
+        },
+        {
+            "digest": "sha256:717a9c1bdff7cd9e9ca31de78d7ffbdb3fb6f2b5d43f9cb3e75b21d48fd638c0",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "386",
+                "os": "linux"
+            },
+            "size": 2007
+        },
+        {
+            "digest": "sha256:732c0cf2c0a6cf206bb7ea71232bfec5075a8af25f1da05628959c8cdc6205f6",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "ppc64le",
+                "os": "linux"
+            },
+            "size": 2007
+        },
+        {
+            "digest": "sha256:f265d2f398ffce7252d6162ead0bc802afad2de309cf662ec16645d1e0e85564",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "s390x",
+                "os": "linux"
+            },
+            "size": 2007
+        },
+        {
+            "digest": "sha256:53c5f0dd905eef3899284d845431ccaa1045f97fc205edd87dfc2151c4331980",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "amd64",
+                "os": "windows",
+                "os.version": "10.0.20348.1970"
+            },
+            "size": 2831
+        },
+        {
+            "digest": "sha256:5981df14a07aaa7fe0c7d80a4c61f33f4ad4d8d29a346fd1b2cacf090b3de8c2",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+            "platform": {
+                "architecture": "amd64",
+                "os": "windows",
+                "os.version": "10.0.17763.4851"
+            },
+            "size": 2831
+        }
+    ],
+    "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
+    "schemaVersion": 2
+}
