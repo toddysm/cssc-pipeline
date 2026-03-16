@@ -138,6 +138,9 @@ dmypy.json
 
 # Key and cert files
 *.key
+
+# Local test scripts (contain real subscription/registry values)
+demos/kubecon-eu-2026/acr-to-acr-mi/test/
 *.pub
 
 # MacOS files
