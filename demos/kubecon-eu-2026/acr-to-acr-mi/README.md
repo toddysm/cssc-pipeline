@@ -107,9 +107,9 @@ export UAMI_PRINCIPAL_ID=$(az identity show \
 
 ---
 
-## Step 5 — Grant the Identity Pull Access on the Source Registry
+## Step 5 — Grant the Identity Read Access on the Source Registry
 
-To pull images from the source registry, the managed identity needs the `AcrPull` role on that registry.
+The managed identity needs two roles on the source registry to read images and list the repository catalog:
 
 ```bash
 SOURCE_REGISTRY_ID=$(az acr show \
@@ -121,7 +121,13 @@ SOURCE_REGISTRY_ID=$(az acr show \
 
 az role assignment create \
     --assignee $UAMI_PRINCIPAL_ID \
-    --role AcrPull \
+    --role "Container Registry Repository Reader" \
+    --scope $SOURCE_REGISTRY_ID \
+    --subscription $SUBSCRIPTION
+
+az role assignment create \
+    --assignee $UAMI_PRINCIPAL_ID \
+    --role "Container Registry Repository Catalog Lister" \
     --scope $SOURCE_REGISTRY_ID \
     --subscription $SUBSCRIPTION
 ```
@@ -235,7 +241,7 @@ az acr repository show-tags \
 |---|---|---|
 | Deployment fails with `FeatureNotEnabled` | Feature flag not yet `Registered` | Re-check Step 3; wait for `Registered` state |
 | `AuthorizationFailed` on cache rule create | Identity not assigned to the target registry | Complete Step 7 before deploying |
-| Pull through cache returns `unauthorized` | Identity missing `AcrPull` on source registry | Verify the role assignment from Step 5 |
+| Pull through cache returns `unauthorized` | Identity missing required roles on source registry | Verify the role assignments from Step 5 |
 | Feature registration stuck in `Registering` | Normal for preview features | Wait up to 15 minutes; re-run the `az feature show` check |
 
 ---

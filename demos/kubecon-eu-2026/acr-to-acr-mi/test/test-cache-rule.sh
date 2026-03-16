@@ -95,8 +95,8 @@ else
   fail "UAMI '$UAMI_NAME' not found in resource group '$RESOURCE_GROUP'"
 fi
 
-# ── Test 3: AcrPull role on source registry ───────────────────────────────────
-info "Test 3: UAMI has AcrPull role on source registry '$SOURCE_REGISTRY_NAME'"
+# ── Test 3: Fine-grained read roles on source registry ───────────────────────
+info "Test 3: UAMI has required roles on source registry '$SOURCE_REGISTRY_NAME'"
 SOURCE_REGISTRY_SCOPE=$(az acr show \
   --name "$SOURCE_REGISTRY_NAME" \
   --resource-group "$RESOURCE_GROUP" \
@@ -107,17 +107,30 @@ SOURCE_REGISTRY_SCOPE=$(az acr show \
 if [[ -z "$SOURCE_REGISTRY_SCOPE" ]]; then
   fail "Source registry '$SOURCE_REGISTRY_NAME' not found"
 else
-  ROLE_COUNT=$(az role assignment list \
+  READER_COUNT=$(az role assignment list \
     --assignee "$UAMI_PRINCIPAL_ID" \
-    --role AcrPull \
+    --role "Container Registry Repository Reader" \
     --scope "$SOURCE_REGISTRY_SCOPE" \
     --subscription "$SUBSCRIPTION" \
     --query "length(@)" \
     --output tsv 2>/dev/null || echo "0")
-  if [[ "$ROLE_COUNT" -ge 1 ]]; then
-    pass "AcrPull role assignment found on source registry"
+  if [[ "$READER_COUNT" -ge 1 ]]; then
+    pass "'Container Registry Repository Reader' role assignment found on source registry"
   else
-    fail "AcrPull role assignment NOT found on source registry"
+    fail "'Container Registry Repository Reader' role assignment NOT found on source registry"
+  fi
+
+  LISTER_COUNT=$(az role assignment list \
+    --assignee "$UAMI_PRINCIPAL_ID" \
+    --role "Container Registry Repository Catalog Lister" \
+    --scope "$SOURCE_REGISTRY_SCOPE" \
+    --subscription "$SUBSCRIPTION" \
+    --query "length(@)" \
+    --output tsv 2>/dev/null || echo "0")
+  if [[ "$LISTER_COUNT" -ge 1 ]]; then
+    pass "'Container Registry Repository Catalog Lister' role assignment found on source registry"
+  else
+    fail "'Container Registry Repository Catalog Lister' role assignment NOT found on source registry"
   fi
 fi
 
