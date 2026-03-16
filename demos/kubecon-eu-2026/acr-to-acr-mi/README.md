@@ -246,6 +246,52 @@ az acr repository show-tags \
 
 ---
 
+## Automated Setup Script
+
+[test/test-cache-rule.sh](test/test-cache-rule.sh) automates all provisioning steps and verifies the setup end-to-end. It is idempotent — safe to re-run at any time.
+
+**What the script does:**
+
+| Phase | Step | Action |
+|---|---|---|
+| Auth | — | `az login` (if not already authenticated), `az account set`, `az acr login` |
+| Provision | Step 1 | Verifies the feature flag is `Registered` |
+| Provision | Step 2 | Creates the UAMI if it does not exist |
+| Provision | Step 3 | Assigns `Container Registry Repository Reader` and `Container Registry Repository Catalog Lister` roles on the source registry if missing |
+| Provision | Step 4 | Assigns the UAMI to the source registry if missing |
+| Provision | Step 5 | Assigns the UAMI to the target registry if missing |
+| Provision | Step 6 | Deploys the Bicep module to create the cache rule if it does not exist |
+| Verify | Test 1 | Pulls an image through the target registry cache |
+| Verify | Test 2 | Confirms the pulled tag is visible in the target registry |
+
+**Usage:**
+
+```bash
+export SUBSCRIPTION="<your-subscription-id>"
+export RESOURCE_GROUP="<your-resource-group>"
+export SOURCE_REGISTRY="<source-registry-name>.azurecr.io"
+export TARGET_REGISTRY="<target-registry-name>"
+export SOURCE_REPO="<source-registry-name>.azurecr.io/hello-world"
+export TARGET_REPO="hello-world"
+export UAMI_NAME="<managed-identity-name>"
+export CACHE_RULE_NAME="cacherule-acr-to-acr-mi"
+
+bash test/test-cache-rule.sh
+```
+
+> **Prerequisite:** The feature flag (Step 3 of this guide) must be in `Registered` state before running the script, as it cannot register features on your behalf.
+
+---
+
+| Symptom | Likely Cause | Resolution |
+|---|---|---|
+| Deployment fails with `FeatureNotEnabled` | Feature flag not yet `Registered` | Re-check Step 3; wait for `Registered` state |
+| `AuthorizationFailed` on cache rule create | Identity not assigned to the target registry | Complete Step 7 before deploying |
+| Pull through cache returns `unauthorized` | Identity missing required roles on source registry | Verify the role assignments from Step 5 |
+| Feature registration stuck in `Registering` | Normal for preview features | Wait up to 15 minutes; re-run the `az feature show` check |
+
+---
+
 ## References
 
 - [ACR Artifact Cache overview](https://learn.microsoft.com/en-us/azure/container-registry/artifact-cache-overview)

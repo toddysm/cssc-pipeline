@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# test-cache-rule.sh
-# End-to-end test for the ACR-to-ACR cache rule with managed identity authentication.
-# Run this script AFTER completing all steps in the README.
+# setup-cache-rule.sh
+# Provisions the ACR-to-ACR cache rule infrastructure with managed identity
+# authentication, then verifies the setup end-to-end.
+# Resources are created idempotently: the script is safe to re-run.
 #
 # Usage:
 #   export SUBSCRIPTION="..."
@@ -37,7 +38,7 @@ done
 SOURCE_REGISTRY_NAME="${SOURCE_REGISTRY%%.*}"
 
 echo ""
-info "=== ACR Cache Rule — End-to-End Test ==="
+info "=== ACR Cache Rule — Infrastructure Setup & Verification ==="
 echo ""
 
 # ── Azure authentication ──────────────────────────────────────────────────────
@@ -58,8 +59,8 @@ pass "Logged in to target registry"
 
 echo ""
 
-# ── Test 1: Feature flag is registered ───────────────────────────────────────
-info "Test 1: Feature flag ArtifactCacheManagedIdentityAuthentication is Registered"
+# ── Step 1: Feature flag is registered ──────────────────────────────────────
+info "Step 1: Feature flag ArtifactCacheManagedIdentityAuthentication is Registered"
 FEATURE_STATE=$(az feature show \
   --namespace Microsoft.ContainerRegistry \
   --name ArtifactCacheManagedIdentityAuthentication \
@@ -73,8 +74,8 @@ else
   fail "Feature flag state: $FEATURE_STATE (expected Registered)"
 fi
 
-# ── Test 2: UAMI exists (create if missing) ───────────────────────────────────
-info "Test 2: User-Assigned Managed Identity '$UAMI_NAME' exists"
+# ── Step 2: UAMI (create if missing) ────────────────────────────────────────
+info "Step 2: User-Assigned Managed Identity '$UAMI_NAME'"
 UAMI_ID=$(az identity show \
   --name "$UAMI_NAME" \
   --resource-group "$RESOURCE_GROUP" \
@@ -107,8 +108,8 @@ UAMI_PRINCIPAL_ID=$(az identity show \
   --query "principalId" \
   --output tsv 2>/dev/null || echo "")
 
-# ── Test 3: Fine-grained read roles on source registry ───────────────────────
-info "Test 3: UAMI has required roles on source registry '$SOURCE_REGISTRY_NAME'"
+# ── Step 3: Fine-grained read roles on source registry (assign if missing) ───
+info "Step 3: UAMI role assignments on source registry '$SOURCE_REGISTRY_NAME'"
 SOURCE_REGISTRY_SCOPE=$(az acr show \
   --name "$SOURCE_REGISTRY_NAME" \
   --resource-group "$RESOURCE_GROUP" \
@@ -117,7 +118,7 @@ SOURCE_REGISTRY_SCOPE=$(az acr show \
   --output tsv 2>/dev/null || echo "")
 
 if [[ -z "$SOURCE_REGISTRY_SCOPE" ]]; then
-  fail "Source registry '$SOURCE_REGISTRY_NAME' not found"
+  fail "Source registry '$SOURCE_REGISTRY_NAME' not found — cannot assign roles"
 else
   READER_COUNT=$(az role assignment list \
     --assignee "$UAMI_PRINCIPAL_ID" \
@@ -127,9 +128,16 @@ else
     --query "length(@)" \
     --output tsv 2>/dev/null || echo "0")
   if [[ "$READER_COUNT" -ge 1 ]]; then
-    pass "'Container Registry Repository Reader' role assignment found on source registry"
+    pass "'Container Registry Repository Reader' already assigned on source registry"
   else
-    fail "'Container Registry Repository Reader' role assignment NOT found on source registry"
+    info "  Assigning 'Container Registry Repository Reader' to UAMI on source registry..."
+    az role assignment create \
+      --assignee "$UAMI_PRINCIPAL_ID" \
+      --role "Container Registry Repository Reader" \
+      --scope "$SOURCE_REGISTRY_SCOPE" \
+      --subscription "$SUBSCRIPTION" \
+      --output none
+    pass "'Container Registry Repository Reader' assigned on source registry"
   fi
 
   LISTER_COUNT=$(az role assignment list \
@@ -140,14 +148,21 @@ else
     --query "length(@)" \
     --output tsv 2>/dev/null || echo "0")
   if [[ "$LISTER_COUNT" -ge 1 ]]; then
-    pass "'Container Registry Repository Catalog Lister' role assignment found on source registry"
+    pass "'Container Registry Repository Catalog Lister' already assigned on source registry"
   else
-    fail "'Container Registry Repository Catalog Lister' role assignment NOT found on source registry"
+    info "  Assigning 'Container Registry Repository Catalog Lister' to UAMI on source registry..."
+    az role assignment create \
+      --assignee "$UAMI_PRINCIPAL_ID" \
+      --role "Container Registry Repository Catalog Lister" \
+      --scope "$SOURCE_REGISTRY_SCOPE" \
+      --subscription "$SUBSCRIPTION" \
+      --output none
+    pass "'Container Registry Repository Catalog Lister' assigned on source registry"
   fi
 fi
 
-# ── Test 4: UAMI assigned to source registry ─────────────────────────────────
-info "Test 4: UAMI is assigned to source registry '$SOURCE_REGISTRY_NAME'"
+# ── Step 4: UAMI assigned to source registry (assign if missing) ─────────────
+info "Step 4: UAMI assigned to source registry '$SOURCE_REGISTRY_NAME'"
 SOURCE_IDENTITIES=$(az acr identity show \
   --name "$SOURCE_REGISTRY_NAME" \
   --resource-group "$RESOURCE_GROUP" \
@@ -155,19 +170,21 @@ SOURCE_IDENTITIES=$(az acr identity show \
   --query "userAssignedIdentities" \
   --output json 2>/dev/null || echo "{}")
 
-if echo "$SOURCE_IDENTITIES" | grep -qi "${UAMI_NAME}"; then
-  pass "UAMI is assigned to source registry"
+if [[ -n "$UAMI_ID" ]] && echo "$SOURCE_IDENTITIES" | grep -qi "$(basename "$UAMI_ID")"; then
+  pass "UAMI already assigned to source registry"
 else
-  # Fall back to matching by resource ID substring
-  if [[ -n "$UAMI_ID" ]] && echo "$SOURCE_IDENTITIES" | grep -qi "$(basename "$UAMI_ID")"; then
-    pass "UAMI is assigned to source registry (matched by resource ID)"
-  else
-    fail "UAMI does NOT appear to be assigned to source registry"
-  fi
+  info "  Assigning UAMI to source registry..."
+  az acr identity assign \
+    --name "$SOURCE_REGISTRY_NAME" \
+    --identities "$UAMI_ID" \
+    --resource-group "$RESOURCE_GROUP" \
+    --subscription "$SUBSCRIPTION" \
+    --output none
+  pass "UAMI assigned to source registry"
 fi
 
-# ── Test 5: UAMI assigned to target registry ─────────────────────────────────
-info "Test 5: UAMI is assigned to target registry '$TARGET_REGISTRY'"
+# ── Step 5: UAMI assigned to target registry (assign if missing) ─────────────
+info "Step 5: UAMI assigned to target registry '$TARGET_REGISTRY'"
 TARGET_IDENTITIES=$(az acr identity show \
   --name "$TARGET_REGISTRY" \
   --resource-group "$RESOURCE_GROUP" \
@@ -176,13 +193,20 @@ TARGET_IDENTITIES=$(az acr identity show \
   --output json 2>/dev/null || echo "{}")
 
 if [[ -n "$UAMI_ID" ]] && echo "$TARGET_IDENTITIES" | grep -qi "$(basename "$UAMI_ID")"; then
-  pass "UAMI is assigned to target registry"
+  pass "UAMI already assigned to target registry"
 else
-  fail "UAMI does NOT appear to be assigned to target registry"
+  info "  Assigning UAMI to target registry..."
+  az acr identity assign \
+    --name "$TARGET_REGISTRY" \
+    --identities "$UAMI_ID" \
+    --resource-group "$RESOURCE_GROUP" \
+    --subscription "$SUBSCRIPTION" \
+    --output none
+  pass "UAMI assigned to target registry"
 fi
 
-# ── Test 6: Cache rule exists ─────────────────────────────────────────────────
-info "Test 6: Cache rule '$CACHE_RULE_NAME' exists on target registry"
+# ── Step 6: Cache rule (deploy via Bicep if missing) ─────────────────────────
+info "Step 6: Cache rule '$CACHE_RULE_NAME' on target registry '$TARGET_REGISTRY'"
 CACHE_RULE_JSON=$(az acr cache show \
   --name "$CACHE_RULE_NAME" \
   --registry "$TARGET_REGISTRY" \
@@ -191,15 +215,32 @@ CACHE_RULE_JSON=$(az acr cache show \
   --output json 2>/dev/null || echo "")
 
 if [[ -n "$CACHE_RULE_JSON" ]]; then
-  pass "Cache rule found"
+  pass "Cache rule already exists"
   PROVISIONING=$(echo "$CACHE_RULE_JSON" | grep -o '"provisioningState":"[^"]*"' | cut -d'"' -f4 || echo "unknown")
   info "  Provisioning state: $PROVISIONING"
 else
-  fail "Cache rule '$CACHE_RULE_NAME' not found"
+  BICEP_FILE="$(dirname "$0")/../cache-rule.bicep"
+  if [[ ! -f "$BICEP_FILE" ]]; then
+    fail "Bicep template not found at '$BICEP_FILE' — cannot deploy cache rule"
+  else
+    info "  Deploying cache rule via Bicep..."
+    az deployment group create \
+      --resource-group "$RESOURCE_GROUP" \
+      --subscription "$SUBSCRIPTION" \
+      --template-file "$BICEP_FILE" \
+      --parameters \
+          registryName="$TARGET_REGISTRY" \
+          cacheRuleName="$CACHE_RULE_NAME" \
+          sourceRepo="$SOURCE_REPO" \
+          targetRepo="$TARGET_REPO" \
+          managedIdentityResourceId="$UAMI_ID" \
+      --output none
+    pass "Cache rule deployed"
+  fi
 fi
 
-# ── Test 7: Pull image through cache ─────────────────────────────────────────
-info "Test 7: Pull image through the target registry cache"
+# ── Test 1: Pull image through cache ─────────────────────────────────────────
+info "Test 1: Pull image through the target registry cache"
 IMAGE="${TARGET_REGISTRY}.azurecr.io/${TARGET_REPO}:latest"
 
 info "  Pulling $IMAGE ..."
@@ -209,8 +250,8 @@ else
   fail "Failed to pull image: $IMAGE"
 fi
 
-# ── Test 8: Image visible in target registry ──────────────────────────────────
-info "Test 8: Image tag visible in target registry repository"
+# ── Test 2: Image visible in target registry ─────────────────────────────────
+info "Test 2: Image tag visible in target registry repository"
 TAG_COUNT=$(az acr repository show-tags \
   --name "$TARGET_REGISTRY" \
   --repository "$TARGET_REPO" \
@@ -226,7 +267,7 @@ fi
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
-info "=== Test Summary ==="
+info "=== Summary ==="
 if [[ "$FAILURES" -eq 0 ]]; then
   echo -e "${GREEN}All tests passed.${NC}"
 else
