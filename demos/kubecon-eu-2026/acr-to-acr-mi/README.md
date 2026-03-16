@@ -109,7 +109,7 @@ export UAMI_PRINCIPAL_ID=$(az identity show \
 
 ## Step 5 — Enable ABAC on the Source Registry
 
-The `Container Registry Repository Reader` role is an ABAC (Attribute-Based Access Control) role. ABAC must be enabled on the source registry before this role assignment takes effect.
+The `Container Registry Repository Reader` and `Container Registry Repository Catalog Lister` roles are ABAC (Attribute-Based Access Control) roles. ABAC must be enabled on the source registry before these role assignments take effect.
 
 ```bash
 az acr update \
@@ -151,6 +151,16 @@ SOURCE_REGISTRY_ID=$(az acr show \
 az role assignment create \
     --assignee $UAMI_PRINCIPAL_ID \
     --role "Container Registry Repository Reader" \
+    --scope $SOURCE_REGISTRY_ID \
+    --subscription $SUBSCRIPTION
+```
+
+Optionally, if clients also need to list all available tags on the source registry (not required for image pulls), assign the catalog lister role as well:
+
+```bash
+az role assignment create \
+    --assignee $UAMI_PRINCIPAL_ID \
+    --role "Container Registry Repository Catalog Lister" \
     --scope $SOURCE_REGISTRY_ID \
     --subscription $SUBSCRIPTION
 ```
@@ -281,7 +291,7 @@ az acr repository show-tags \
 | Provision | Step 1 | Verifies the feature flag is `Registered` |
 | Provision | Step 2 | Creates the UAMI if it does not exist |
 | Provision | Step 3 | Enables ABAC (`AbacRepositoryPermissions`) on the source registry if not already set |
-| Provision | Step 4 | Assigns `Container Registry Repository Reader` role on the source registry if missing |
+| Provision | Step 4 | Assigns `Container Registry Repository Reader` role (and optionally `Container Registry Repository Catalog Lister`) to the UAMI on the source registry |
 | Provision | Step 5 | Assigns the UAMI to the source registry if missing |
 | Provision | Step 6 | Assigns the UAMI to the target registry if missing |
 | Provision | Step 7 | Deploys the Bicep module to create the cache rule if it does not exist |

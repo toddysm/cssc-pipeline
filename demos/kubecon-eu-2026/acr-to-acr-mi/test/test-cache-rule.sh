@@ -23,8 +23,19 @@ RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC
 pass()  { echo -e "${GREEN}[PASS]${NC} $*"; }
 fail()  { echo -e "${RED}[FAIL]${NC} $*"; FAILURES=$((FAILURES + 1)); }
 info()  { echo -e "${YELLOW}[INFO]${NC} $*"; }
-# run  — print + execute a provisioning command (stdout goes to terminal)
-run()   { echo -e "${CYAN}[CMD]${NC} $*" > /dev/tty; "$@"; }
+# run  — print + execute a provisioning command; prints [ERROR] + stderr on failure
+run() {
+  echo -e "${CYAN}[CMD]${NC} $*" > /dev/tty
+  local _err_file
+  _err_file=$(mktemp)
+  if ! "$@" 2>"$_err_file"; then
+    local _rc=$?
+    [[ -s "$_err_file" ]] && echo -e "${RED}[ERROR]${NC} $(cat "$_err_file")" > /dev/tty
+    rm -f "$_err_file"
+    return $_rc
+  fi
+  rm -f "$_err_file"
+}
 # query — print + execute a query command whose stdout is captured via $(...)
 #          writes to /dev/tty so the [CMD] line is never suppressed by 2>/dev/null
 query() { echo -e "${CYAN}[CMD]${NC} $*" > /dev/tty; "$@"; }
@@ -174,6 +185,27 @@ else
     pass "'Container Registry Repository Reader' assigned on source registry"
   fi
 
+  # Optional: needed only if clients want to list available tags on the source registry
+  LISTER_COUNT=$(query az role assignment list \
+    --assignee "$UAMI_PRINCIPAL_ID" \
+    --role "Container Registry Repository Catalog Lister" \
+    --scope "$SOURCE_REGISTRY_SCOPE" \
+    --subscription "$SUBSCRIPTION" \
+    --query "length(@)" \
+    --output tsv 2>/dev/null || echo "0")
+  if [[ "$LISTER_COUNT" -ge 1 ]]; then
+    pass "'Container Registry Repository Catalog Lister' already assigned on source registry"
+  else
+    info "  Assigning 'Container Registry Repository Catalog Lister' to UAMI on source registry..."
+    run az role assignment create \
+      --assignee "$UAMI_PRINCIPAL_ID" \
+      --role "Container Registry Repository Catalog Lister" \
+      --scope "$SOURCE_REGISTRY_SCOPE" \
+      --subscription "$SUBSCRIPTION" \
+      --output none
+    pass "'Container Registry Repository Catalog Lister' assigned on source registry"
+  fi
+
 fi
 
 # ── Step 5: UAMI assigned to source registry (assign if missing) ─────────────
@@ -259,7 +291,7 @@ info "Test 1: Pull image through the target registry cache"
 IMAGE="${TARGET_REGISTRY}.azurecr.io/${TARGET_REPO}:${IMAGE_TAG}"
 
 info "  Pulling $IMAGE ..."
-if run docker pull "$IMAGE" > /dev/null 2>&1; then
+if run docker pull "$IMAGE"; then
   pass "Image pulled successfully: $IMAGE"
 else
   fail "Failed to pull image: $IMAGE"
@@ -288,7 +320,7 @@ run az acr cache show \
   --registry "$TARGET_REGISTRY" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
-  --output json 2>/dev/null || true
+  --output json || true
 
 # ── Show UAMI role assignments on source registry ─────────────────────────────
 echo ""
@@ -304,7 +336,7 @@ run az role assignment list \
   --scope "$SOURCE_REGISTRY_SCOPE" \
   --subscription "$SUBSCRIPTION" \
   --query "[].{Role:roleDefinitionName, PrincipalType:principalType, Scope:scope}" \
-  --output table 2>/dev/null || true
+  --output table || true
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
