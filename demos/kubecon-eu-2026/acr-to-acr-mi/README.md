@@ -27,7 +27,24 @@ export CACHE_RULE_NAME="cacherule-acr-to-acr-mi"
 
 ---
 
-## Step 2 — Register the Feature Flag
+## Step 2 — Log in to Azure
+
+Authenticate with Azure CLI and set the active subscription context.
+
+```bash
+az login
+az account set --subscription $SUBSCRIPTION
+```
+
+Verify the correct subscription is active:
+
+```bash
+az account show --query "{name:name, id:id}" --output table
+```
+
+---
+
+## Step 3 — Register the Feature Flag
 
 The cache rule managed identity authentication capability is in preview and must be explicitly registered on the subscription before use.
 
@@ -61,7 +78,7 @@ az provider register \
 
 ---
 
-## Step 3 — Create a User-Assigned Managed Identity
+## Step 4 — Create a User-Assigned Managed Identity
 
 ```bash
 az identity create \
@@ -90,7 +107,7 @@ export UAMI_PRINCIPAL_ID=$(az identity show \
 
 ---
 
-## Step 4 — Grant the Identity Pull Access on the Source Registry
+## Step 5 — Grant the Identity Pull Access on the Source Registry
 
 To pull images from the source registry, the managed identity needs the `AcrPull` role on that registry.
 
@@ -113,7 +130,7 @@ az role assignment create \
 
 ---
 
-## Step 5 — Assign the Identity to the Source Registry
+## Step 6 — Assign the Identity to the Source Registry
 
 The managed identity must be associated with the upstream (source) registry so that the registry trusts and recognises it as a valid authentication principal.
 
@@ -129,7 +146,7 @@ az acr identity assign \
 
 ---
 
-## Step 6 — Assign the Identity to the Target Registry
+## Step 7 — Assign the Identity to the Target Registry
 
 The managed identity must also be associated with the target (downstream) registry so ACR can use it when executing cache pulls.
 
@@ -150,7 +167,7 @@ az acr identity assign \
 
 ---
 
-## Step 7 — Deploy the Bicep Module
+## Step 8 — Deploy the Bicep Module
 
 Deploy [cache-rule.bicep](cache-rule.bicep) to create the cache rule on the target registry.
 
@@ -179,7 +196,7 @@ az deployment group create \
 
 ---
 
-## Step 8 — Verify the Cache Rule
+## Step 9 — Verify the Cache Rule
 
 Confirm the cache rule was created successfully:
 
@@ -193,7 +210,7 @@ az acr cache show \
 
 ---
 
-## Step 9 — Test the Cache
+## Step 10 — Test the Cache
 
 Pull an image through the target registry. ACR will transparently fetch it from the source registry using the managed identity.
 
@@ -216,9 +233,9 @@ az acr repository show-tags \
 
 | Symptom | Likely Cause | Resolution |
 |---|---|---|
-| Deployment fails with `FeatureNotEnabled` | Feature flag not yet `Registered` | Re-check Step 2; wait for `Registered` state |
-| `AuthorizationFailed` on cache rule create | Identity not assigned to the target registry | Complete Step 5 before deploying |
-| Pull through cache returns `unauthorized` | Identity missing `AcrPull` on source registry | Verify the role assignment from Step 4 |
+| Deployment fails with `FeatureNotEnabled` | Feature flag not yet `Registered` | Re-check Step 3; wait for `Registered` state |
+| `AuthorizationFailed` on cache rule create | Identity not assigned to the target registry | Complete Step 7 before deploying |
+| Pull through cache returns `unauthorized` | Identity missing `AcrPull` on source registry | Verify the role assignment from Step 5 |
 | Feature registration stuck in `Registering` | Normal for preview features | Wait up to 15 minutes; re-run the `az feature show` check |
 
 ---

@@ -40,6 +40,24 @@ echo ""
 info "=== ACR Cache Rule — End-to-End Test ==="
 echo ""
 
+# ── Azure authentication ──────────────────────────────────────────────────────
+info "Checking Azure CLI authentication..."
+if ! az account show &>/dev/null; then
+  info "Not logged in. Running 'az login'..."
+  az login
+fi
+
+info "Setting subscription context to '$SUBSCRIPTION'..."
+az account set --subscription "$SUBSCRIPTION"
+ACTIVE_SUB=$(az account show --query "name" --output tsv 2>/dev/null || echo "unknown")
+pass "Authenticated — active subscription: $ACTIVE_SUB"
+
+info "Logging in to target ACR registry '$TARGET_REGISTRY'..."
+az acr login --name "$TARGET_REGISTRY" --subscription "$SUBSCRIPTION"
+pass "Logged in to target registry"
+
+echo ""
+
 # ── Test 1: Feature flag is registered ───────────────────────────────────────
 info "Test 1: Feature flag ArtifactCacheManagedIdentityAuthentication is Registered"
 FEATURE_STATE=$(az feature show \
@@ -158,9 +176,6 @@ fi
 # ── Test 7: Pull image through cache ─────────────────────────────────────────
 info "Test 7: Pull image through the target registry cache"
 IMAGE="${TARGET_REGISTRY}.azurecr.io/${TARGET_REPO}:latest"
-
-info "  Logging in to target registry..."
-az acr login --name "$TARGET_REGISTRY" --subscription "$SUBSCRIPTION" 2>/dev/null
 
 info "  Pulling $IMAGE ..."
 if docker pull "$IMAGE" > /dev/null 2>&1; then
