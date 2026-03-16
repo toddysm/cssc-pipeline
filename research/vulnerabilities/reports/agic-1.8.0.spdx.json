@@ -1,0 +1,4462 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "mcr.microsoft.com/azure-application-gateway/kubernetes-ingress:1.8.0",
+  "documentNamespace": "http://trivy.dev/container_image/mcr.microsoft.com/azure-application-gateway/kubernetes-ingress:1.8.0-6c38386a-f6a3-4ea0-a0ab-2194597e0320",
+  "creationInfo": {
+    "creators": [
+      "Organization: aquasecurity",
+      "Tool: trivy-0.60.0"
+    ],
+    "created": "2025-03-14T21:53:46Z"
+  },
+  "packages": [
+    {
+      "name": "appgw-ingress",
+      "SPDXID": "SPDXRef-Application-70a9d0d9907bc664",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "primaryPackagePurpose": "APPLICATION",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "Class: lang-pkgs"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "Type: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "mcr.microsoft.com/azure-application-gateway/kubernetes-ingress:1.8.0",
+      "SPDXID": "SPDXRef-ContainerImage-789f6eb14c65c400",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:oci/kubernetes-ingress@sha256%3A0d7db3532b8e8fb345ec4d62b4c02aa93a10c1e61b6e51e9704b152dd500c3d0?arch=arm64\u0026repository_url=mcr.microsoft.com%2Fazure-application-gateway%2Fkubernetes-ingress"
+        }
+      ],
+      "primaryPackagePurpose": "CONTAINER",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "DiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "DiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "DiffID: sha256:fe2e010f4aec78f19746e76c9a0a8c5503a31b2ca411da44df03a825491ea9c5"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "ImageID: sha256:0d7db3532b8e8fb345ec4d62b4c02aa93a10c1e61b6e51e9704b152dd500c3d0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "RepoDigest: mcr.microsoft.com/azure-application-gateway/kubernetes-ingress@sha256:0d7db3532b8e8fb345ec4d62b4c02aa93a10c1e61b6e51e9704b152dd500c3d0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "RepoTag: mcr.microsoft.com/azure-application-gateway/kubernetes-ingress:1.8.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "SchemaVersion: 2"
+        }
+      ]
+    },
+    {
+      "name": "distroless-packages-base",
+      "SPDXID": "SPDXRef-Package-8678e92c065d1682",
+      "versionInfo": "0.1-4.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: distroless-packages 0.1-4.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/distroless-packages-base@0.1-4.cm2?arch=aarch64\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "distroless-packages-minimal",
+      "SPDXID": "SPDXRef-Package-17bd983ca089dc73",
+      "versionInfo": "0.1-4.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: distroless-packages 0.1-4.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/distroless-packages-minimal@0.1-4.cm2?arch=aarch64\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "filesystem",
+      "SPDXID": "SPDXRef-Package-97730bc415273f32",
+      "versionInfo": "1.1-20.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: filesystem 1.1-20.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/filesystem@1.1-20.cm2?arch=aarch64\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/application-gateway-kubernetes-ingress",
+      "SPDXID": "SPDXRef-Package-ef8d9cc7b4255105",
+      "versionInfo": "1.8.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/application-gateway-kubernetes-ingress@1.8.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/application-gateway-kubernetes-ingress@v1.8.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/azure-container-networking",
+      "SPDXID": "SPDXRef-Package-4e984b73d25f52b0",
+      "versionInfo": "v1.6.19",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/azure-container-networking@v1.6.19"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/azure-container-networking@v1.6.19"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/azure-sdk-for-go",
+      "SPDXID": "SPDXRef-Package-e6fee29705d4fd8c",
+      "versionInfo": "v66.0.0+incompatible",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/azure-sdk-for-go@v66.0.0%2Bincompatible"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/azure-sdk-for-go@v66.0.0+incompatible"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/azure-sdk-for-go/sdk/azcore",
+      "SPDXID": "SPDXRef-Package-519edc5ccbce5ebd",
+      "versionInfo": "v1.17.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/azure-sdk-for-go/sdk/azcore@v1.17.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/azure-sdk-for-go/sdk/azcore@v1.17.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/azure-sdk-for-go/sdk/azidentity",
+      "SPDXID": "SPDXRef-Package-185b81ec5647311",
+      "versionInfo": "v1.8.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/azure-sdk-for-go/sdk/azidentity@v1.8.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/azure-sdk-for-go/sdk/azidentity@v1.8.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/azure-sdk-for-go/sdk/internal",
+      "SPDXID": "SPDXRef-Package-d11c3285cd81c092",
+      "versionInfo": "v1.10.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/azure-sdk-for-go/sdk/internal@v1.10.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/azure-sdk-for-go/sdk/internal@v1.10.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/autorest",
+      "SPDXID": "SPDXRef-Package-451c88b23af0c2dc",
+      "versionInfo": "v0.11.29",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/autorest@v0.11.29"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/autorest@v0.11.29"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/autorest/adal",
+      "SPDXID": "SPDXRef-Package-900a4ff25a70014",
+      "versionInfo": "v0.9.22",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/autorest/adal@v0.9.22"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/autorest/adal@v0.9.22"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/autorest/azure/auth",
+      "SPDXID": "SPDXRef-Package-14f9e11a7c1d2f0b",
+      "versionInfo": "v0.5.13",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/autorest/azure/auth@v0.5.13"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/autorest/azure/auth@v0.5.13"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/autorest/azure/cli",
+      "SPDXID": "SPDXRef-Package-c862ce565ac3d88b",
+      "versionInfo": "v0.4.6",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/autorest/azure/cli@v0.4.6"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/autorest/azure/cli@v0.4.6"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/autorest/date",
+      "SPDXID": "SPDXRef-Package-595eda5e92e70c41",
+      "versionInfo": "v0.3.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/autorest/date@v0.3.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/autorest/date@v0.3.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/autorest/to",
+      "SPDXID": "SPDXRef-Package-bae142ea1da5fa48",
+      "versionInfo": "v0.4.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/autorest/to@v0.4.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/autorest/to@v0.4.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/autorest/validation",
+      "SPDXID": "SPDXRef-Package-cf62355ee2126d2e",
+      "versionInfo": "v0.3.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/autorest/validation@v0.3.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/autorest/validation@v0.3.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/logger",
+      "SPDXID": "SPDXRef-Package-f1ca25bfbaac6c27",
+      "versionInfo": "v0.2.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/logger@v0.2.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/logger@v0.2.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/Azure/go-autorest/tracing",
+      "SPDXID": "SPDXRef-Package-cdebf85d95b60c",
+      "versionInfo": "v0.6.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azure/go-autorest/tracing@v0.6.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/Azure/go-autorest/tracing@v0.6.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/AzureAD/microsoft-authentication-library-for-go",
+      "SPDXID": "SPDXRef-Package-368b250e2c089320",
+      "versionInfo": "v1.3.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/azuread/microsoft-authentication-library-for-go@v1.3.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/AzureAD/microsoft-authentication-library-for-go@v1.3.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/beorn7/perks",
+      "SPDXID": "SPDXRef-Package-76dbdf64b12966ce",
+      "versionInfo": "v1.0.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/beorn7/perks@v1.0.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/beorn7/perks@v1.0.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/cespare/xxhash/v2",
+      "SPDXID": "SPDXRef-Package-a69a5aa7edfb8629",
+      "versionInfo": "v2.3.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/cespare/xxhash/v2@v2.3.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/cespare/xxhash/v2@v2.3.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/davecgh/go-spew",
+      "SPDXID": "SPDXRef-Package-1296b9d8843052b1",
+      "versionInfo": "v1.1.2-0.20180830191138-d8f796af33cc",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/davecgh/go-spew@v1.1.2-0.20180830191138-d8f796af33cc"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/davecgh/go-spew@v1.1.2-0.20180830191138-d8f796af33cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/deckarep/golang-set",
+      "SPDXID": "SPDXRef-Package-52227eebee139478",
+      "versionInfo": "v1.8.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/deckarep/golang-set@v1.8.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/deckarep/golang-set@v1.8.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/dimchansky/utfbom",
+      "SPDXID": "SPDXRef-Package-275a4b744d79051d",
+      "versionInfo": "v1.1.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/dimchansky/utfbom@v1.1.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/dimchansky/utfbom@v1.1.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/emicklei/go-restful/v3",
+      "SPDXID": "SPDXRef-Package-544988eae4779680",
+      "versionInfo": "v3.11.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/emicklei/go-restful/v3@v3.11.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/emicklei/go-restful/v3@v3.11.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/evanphx/json-patch/v5",
+      "SPDXID": "SPDXRef-Package-f95358602c039a99",
+      "versionInfo": "v5.9.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/evanphx/json-patch/v5@v5.9.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/evanphx/json-patch/v5@v5.9.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/fxamacker/cbor/v2",
+      "SPDXID": "SPDXRef-Package-7f308fc97c5930fd",
+      "versionInfo": "v2.7.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/fxamacker/cbor/v2@v2.7.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/fxamacker/cbor/v2@v2.7.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/go-logr/logr",
+      "SPDXID": "SPDXRef-Package-6575a4551eeacfc4",
+      "versionInfo": "v1.4.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/go-logr/logr@v1.4.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/go-logr/logr@v1.4.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/go-openapi/jsonpointer",
+      "SPDXID": "SPDXRef-Package-4d9a87a1b54c18ab",
+      "versionInfo": "v0.21.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/go-openapi/jsonpointer@v0.21.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/go-openapi/jsonpointer@v0.21.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/go-openapi/jsonreference",
+      "SPDXID": "SPDXRef-Package-5a62ba8becc0331e",
+      "versionInfo": "v0.20.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/go-openapi/jsonreference@v0.20.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/go-openapi/jsonreference@v0.20.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/go-openapi/swag",
+      "SPDXID": "SPDXRef-Package-d0f8334b33a45e54",
+      "versionInfo": "v0.23.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/go-openapi/swag@v0.23.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/go-openapi/swag@v0.23.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/gogo/protobuf",
+      "SPDXID": "SPDXRef-Package-efc972ce0a9fd111",
+      "versionInfo": "v1.3.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/gogo/protobuf@v1.3.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/gogo/protobuf@v1.3.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/golang-jwt/jwt/v4",
+      "SPDXID": "SPDXRef-Package-3d5b2043e0df0de0",
+      "versionInfo": "v4.5.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/golang-jwt/jwt/v4@v4.5.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/golang-jwt/jwt/v4@v4.5.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/golang-jwt/jwt/v5",
+      "SPDXID": "SPDXRef-Package-9f4eddd78e044943",
+      "versionInfo": "v5.2.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/golang-jwt/jwt/v5@v5.2.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/golang-jwt/jwt/v5@v5.2.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/golang/protobuf",
+      "SPDXID": "SPDXRef-Package-b4532c0dd400274a",
+      "versionInfo": "v1.5.4",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/golang/protobuf@v1.5.4"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/golang/protobuf@v1.5.4"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/google/gnostic-models",
+      "SPDXID": "SPDXRef-Package-cce1058185202c24",
+      "versionInfo": "v0.6.8",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/google/gnostic-models@v0.6.8"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/google/gnostic-models@v0.6.8"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/google/go-cmp",
+      "SPDXID": "SPDXRef-Package-bf1267f47b8c00c9",
+      "versionInfo": "v0.6.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/google/go-cmp@v0.6.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/google/go-cmp@v0.6.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/google/gofuzz",
+      "SPDXID": "SPDXRef-Package-b1271b4158bb12c4",
+      "versionInfo": "v1.2.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/google/gofuzz@v1.2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/google/gofuzz@v1.2.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/google/uuid",
+      "SPDXID": "SPDXRef-Package-fdca48bb67754b9a",
+      "versionInfo": "v1.6.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/google/uuid@v1.6.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/google/uuid@v1.6.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/josharian/intern",
+      "SPDXID": "SPDXRef-Package-99c148b3e19ac3e2",
+      "versionInfo": "v1.0.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/josharian/intern@v1.0.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/josharian/intern@v1.0.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/json-iterator/go",
+      "SPDXID": "SPDXRef-Package-1c0e896e8537c92a",
+      "versionInfo": "v1.1.12",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/json-iterator/go@v1.1.12"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/json-iterator/go@v1.1.12"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/klauspost/compress",
+      "SPDXID": "SPDXRef-Package-44cb2d99557559df",
+      "versionInfo": "v1.17.9",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/klauspost/compress@v1.17.9"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/klauspost/compress@v1.17.9"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/knative/pkg",
+      "SPDXID": "SPDXRef-Package-a319c34005d078c9",
+      "versionInfo": "v0.0.0-20190619032946-d90a9bc97dde",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/knative/pkg@v0.0.0-20190619032946-d90a9bc97dde"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/knative/pkg@v0.0.0-20190619032946-d90a9bc97dde"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/kylelemons/godebug",
+      "SPDXID": "SPDXRef-Package-37555305a9b27006",
+      "versionInfo": "v1.1.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/kylelemons/godebug@v1.1.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/kylelemons/godebug@v1.1.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/mailru/easyjson",
+      "SPDXID": "SPDXRef-Package-f34a62976002c097",
+      "versionInfo": "v0.7.7",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/mailru/easyjson@v0.7.7"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/mailru/easyjson@v0.7.7"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/mitchellh/go-homedir",
+      "SPDXID": "SPDXRef-Package-7a58e5ff7b71804e",
+      "versionInfo": "v1.1.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/mitchellh/go-homedir@v1.1.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/mitchellh/go-homedir@v1.1.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/modern-go/concurrent",
+      "SPDXID": "SPDXRef-Package-7ee80b5b3ff13898",
+      "versionInfo": "v0.0.0-20180306012644-bacd9c7ef1dd",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/modern-go/concurrent@v0.0.0-20180306012644-bacd9c7ef1dd"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/modern-go/concurrent@v0.0.0-20180306012644-bacd9c7ef1dd"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/modern-go/reflect2",
+      "SPDXID": "SPDXRef-Package-7f87b2ba88cec37d",
+      "versionInfo": "v1.0.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/modern-go/reflect2@v1.0.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/modern-go/reflect2@v1.0.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/munnerz/goautoneg",
+      "SPDXID": "SPDXRef-Package-3efea069e4457b9c",
+      "versionInfo": "v0.0.0-20191010083416-a7dc8b61c822",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/munnerz/goautoneg@v0.0.0-20191010083416-a7dc8b61c822"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/munnerz/goautoneg@v0.0.0-20191010083416-a7dc8b61c822"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/pkg/browser",
+      "SPDXID": "SPDXRef-Package-8fba817895c3a8a1",
+      "versionInfo": "v0.0.0-20240102092130-5ac0b6a4141c",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/pkg/browser@v0.0.0-20240102092130-5ac0b6a4141c"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/pkg/browser@v0.0.0-20240102092130-5ac0b6a4141c"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/pkg/errors",
+      "SPDXID": "SPDXRef-Package-61fa813d1544bf47",
+      "versionInfo": "v0.9.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/pkg/errors@v0.9.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/pkg/errors@v0.9.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/prometheus/client_golang",
+      "SPDXID": "SPDXRef-Package-d320a6cf6b9331f8",
+      "versionInfo": "v1.20.5",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/prometheus/client_golang@v1.20.5"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/prometheus/client_golang@v1.20.5"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/prometheus/client_model",
+      "SPDXID": "SPDXRef-Package-b16d1ac763de5d2f",
+      "versionInfo": "v0.6.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/prometheus/client_model@v0.6.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/prometheus/client_model@v0.6.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/prometheus/common",
+      "SPDXID": "SPDXRef-Package-49f5dadf1685579d",
+      "versionInfo": "v0.61.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/prometheus/common@v0.61.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/prometheus/common@v0.61.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/prometheus/procfs",
+      "SPDXID": "SPDXRef-Package-d31c433fa0104dbc",
+      "versionInfo": "v0.15.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/prometheus/procfs@v0.15.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/prometheus/procfs@v0.15.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/spf13/pflag",
+      "SPDXID": "SPDXRef-Package-86418be90bfb2ab2",
+      "versionInfo": "v1.0.5",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/spf13/pflag@v1.0.5"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/spf13/pflag@v1.0.5"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "github.com/x448/float16",
+      "SPDXID": "SPDXRef-Package-2585acb2bba9100a",
+      "versionInfo": "v0.8.4",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/github.com/x448/float16@v0.8.4"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: github.com/x448/float16@v0.8.4"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "glibc",
+      "SPDXID": "SPDXRef-Package-b33dc6ef24809c28",
+      "versionInfo": "2.35-7.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: glibc 2.35-7.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/glibc@2.35-7.cm2?arch=aarch64\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "glibc-iconv",
+      "SPDXID": "SPDXRef-Package-d25450a09eaacd19",
+      "versionInfo": "2.35-7.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: glibc 2.35-7.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/glibc-iconv@2.35-7.cm2?arch=aarch64\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "golang.org/x/crypto",
+      "SPDXID": "SPDXRef-Package-1b04883668ab4c0c",
+      "versionInfo": "v0.31.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/golang.org/x/crypto@v0.31.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: golang.org/x/crypto@v0.31.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "golang.org/x/net",
+      "SPDXID": "SPDXRef-Package-5556a735c77350a9",
+      "versionInfo": "v0.33.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/golang.org/x/net@v0.33.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: golang.org/x/net@v0.33.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "golang.org/x/oauth2",
+      "SPDXID": "SPDXRef-Package-b2d5c63646301fe7",
+      "versionInfo": "v0.24.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/golang.org/x/oauth2@v0.24.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: golang.org/x/oauth2@v0.24.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "golang.org/x/sys",
+      "SPDXID": "SPDXRef-Package-bbd183e11d50686e",
+      "versionInfo": "v0.29.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/golang.org/x/sys@v0.29.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: golang.org/x/sys@v0.29.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "golang.org/x/term",
+      "SPDXID": "SPDXRef-Package-bc0ecc673dcab05",
+      "versionInfo": "v0.27.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/golang.org/x/term@v0.27.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: golang.org/x/term@v0.27.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "golang.org/x/text",
+      "SPDXID": "SPDXRef-Package-5dfc0ab6ea434ba5",
+      "versionInfo": "v0.21.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/golang.org/x/text@v0.21.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: golang.org/x/text@v0.21.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "golang.org/x/time",
+      "SPDXID": "SPDXRef-Package-1e4be5a0b57dce9a",
+      "versionInfo": "v0.8.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/golang.org/x/time@v0.8.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: golang.org/x/time@v0.8.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "google.golang.org/protobuf",
+      "SPDXID": "SPDXRef-Package-912770c1464dc345",
+      "versionInfo": "v1.36.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/google.golang.org/protobuf@v1.36.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: google.golang.org/protobuf@v1.36.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "gopkg.in/evanphx/json-patch.v4",
+      "SPDXID": "SPDXRef-Package-4e451f761b6e6fa3",
+      "versionInfo": "v4.12.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/gopkg.in/evanphx/json-patch.v4@v4.12.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: gopkg.in/evanphx/json-patch.v4@v4.12.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "gopkg.in/inf.v0",
+      "SPDXID": "SPDXRef-Package-c8d4459a009cdc45",
+      "versionInfo": "v0.9.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/gopkg.in/inf.v0@v0.9.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: gopkg.in/inf.v0@v0.9.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "gopkg.in/yaml.v3",
+      "SPDXID": "SPDXRef-Package-7037a895e43ce46e",
+      "versionInfo": "v3.0.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/gopkg.in/yaml.v3@v3.0.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: gopkg.in/yaml.v3@v3.0.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "iana-etc",
+      "SPDXID": "SPDXRef-Package-3ed21583905ea19a",
+      "versionInfo": "20211115-2.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: iana-etc 20211115-2.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/iana-etc@20211115-2.cm2?arch=noarch\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "k8s.io/api",
+      "SPDXID": "SPDXRef-Package-c8e32a707f206b92",
+      "versionInfo": "v0.32.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/k8s.io/api@v0.32.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: k8s.io/api@v0.32.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "k8s.io/apimachinery",
+      "SPDXID": "SPDXRef-Package-71b9fee8c8368b63",
+      "versionInfo": "v0.32.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/k8s.io/apimachinery@v0.32.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: k8s.io/apimachinery@v0.32.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "k8s.io/client-go",
+      "SPDXID": "SPDXRef-Package-ef6c48509266a374",
+      "versionInfo": "v0.32.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/k8s.io/client-go@v0.32.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: k8s.io/client-go@v0.32.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "k8s.io/klog/v2",
+      "SPDXID": "SPDXRef-Package-8cca547b31248d07",
+      "versionInfo": "v2.130.1",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/k8s.io/klog/v2@v2.130.1"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: k8s.io/klog/v2@v2.130.1"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "k8s.io/kube-openapi",
+      "SPDXID": "SPDXRef-Package-70e182b89dd43873",
+      "versionInfo": "v0.0.0-20241105132330-32ad38e42d3f",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/k8s.io/kube-openapi@v0.0.0-20241105132330-32ad38e42d3f"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: k8s.io/kube-openapi@v0.0.0-20241105132330-32ad38e42d3f"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "k8s.io/utils",
+      "SPDXID": "SPDXRef-Package-68616f88f906705c",
+      "versionInfo": "v0.0.0-20241104100929-3ea5e8cea738",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/k8s.io/utils@v0.0.0-20241104100929-3ea5e8cea738"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: k8s.io/utils@v0.0.0-20241104100929-3ea5e8cea738"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "libgcc",
+      "SPDXID": "SPDXRef-Package-9f88f055c304cc71",
+      "versionInfo": "11.2.0-8.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: gcc 11.2.0-8.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/libgcc@11.2.0-8.cm2?arch=aarch64\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "mariner-release",
+      "SPDXID": "SPDXRef-Package-43c46ed4a6fa6307",
+      "versionInfo": "2.0-70.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: mariner-release 2.0-70.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/mariner-release@2.0-70.cm2?arch=noarch\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "openssl",
+      "SPDXID": "SPDXRef-Package-e15040a43a35d33e",
+      "versionInfo": "1.1.1k-35.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: openssl 1.1.1k-35.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/openssl@1.1.1k-35.cm2?arch=aarch64\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "openssl-libs",
+      "SPDXID": "SPDXRef-Package-fbb89b0212f7870b",
+      "versionInfo": "1.1.1k-35.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: openssl 1.1.1k-35.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/openssl-libs@1.1.1k-35.cm2?arch=aarch64\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "prebuilt-ca-certificates",
+      "SPDXID": "SPDXRef-Package-b2cd30d5115086ca",
+      "versionInfo": "2.0.0-19.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: prebuilt-ca-certificates 2.0.0-19.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/prebuilt-ca-certificates@2.0.0-19.cm2?arch=noarch\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "sigs.k8s.io/controller-runtime",
+      "SPDXID": "SPDXRef-Package-25dabd2fc8fe7895",
+      "versionInfo": "v0.20.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/sigs.k8s.io/controller-runtime@v0.20.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: sigs.k8s.io/controller-runtime@v0.20.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "sigs.k8s.io/json",
+      "SPDXID": "SPDXRef-Package-ee131947edab8de2",
+      "versionInfo": "v0.0.0-20241010143419-9aa6b5e7a4b3",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/sigs.k8s.io/json@v0.0.0-20241010143419-9aa6b5e7a4b3"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: sigs.k8s.io/json@v0.0.0-20241010143419-9aa6b5e7a4b3"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "sigs.k8s.io/structured-merge-diff/v4",
+      "SPDXID": "SPDXRef-Package-d69c7a70060bdcd6",
+      "versionInfo": "v4.4.2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/sigs.k8s.io/structured-merge-diff/v4@v4.4.2"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: sigs.k8s.io/structured-merge-diff/v4@v4.4.2"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "sigs.k8s.io/yaml",
+      "SPDXID": "SPDXRef-Package-fedf9eb0bfa68092",
+      "versionInfo": "v1.4.0",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/sigs.k8s.io/yaml@v1.4.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: sigs.k8s.io/yaml@v1.4.0"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "stdlib",
+      "SPDXID": "SPDXRef-Package-201d3c64ae5aeb44",
+      "versionInfo": "v1.23.6",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "package found in: appgw-ingress",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:golang/stdlib@v1.23.6"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:58ebf2a1a21f8aa1054f31130e2cad953655911aaf141a169c081bf1564caf20"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:ccf898414b7ebe217325709a20e6a05ef54744389544fd9c87865f487830e8cc"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgID: stdlib@v1.23.6"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: gobinary"
+        }
+      ]
+    },
+    {
+      "name": "tzdata",
+      "SPDXID": "SPDXRef-Package-97ba8b1a4c9b7bb0",
+      "versionInfo": "2024b-1.cm2",
+      "supplier": "NOASSERTION",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "sourceInfo": "built package from: tzdata 2024b-1.cm2",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:rpm/cbl-mariner/tzdata@2024b-1.cm2?arch=noarch\u0026distro=cbl-mariner-2.0"
+        }
+      ],
+      "primaryPackagePurpose": "LIBRARY",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDiffID: sha256:de5e542009c1ca49b61e644e6b262280a33f6e96bebe1b7885aa408ad3326473"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "LayerDigest: sha256:f0453215637cbfa8b23992af177ec1f578f21f238535e3efc10916e02943ee7d"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "PkgType: cbl-mariner"
+        }
+      ]
+    },
+    {
+      "name": "cbl-mariner",
+      "SPDXID": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "versionInfo": "2.0",
+      "downloadLocation": "NONE",
+      "filesAnalyzed": false,
+      "primaryPackagePurpose": "OPERATING-SYSTEM",
+      "annotations": [
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "Class: os-pkgs"
+        },
+        {
+          "annotator": "Tool: trivy-0.60.0",
+          "annotationDate": "2025-03-14T21:53:46Z",
+          "annotationType": "OTHER",
+          "comment": "Type: cbl-mariner"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-Application-70a9d0d9907bc664",
+      "relatedSpdxElement": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-ContainerImage-789f6eb14c65c400",
+      "relatedSpdxElement": "SPDXRef-Application-70a9d0d9907bc664",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-ContainerImage-789f6eb14c65c400",
+      "relatedSpdxElement": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relatedSpdxElement": "SPDXRef-ContainerImage-789f6eb14c65c400",
+      "relationshipType": "DESCRIBES"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-17bd983ca089dc73",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-3ed21583905ea19a",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-43c46ed4a6fa6307",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-8678e92c065d1682",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-97730bc415273f32",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-97ba8b1a4c9b7bb0",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-9f88f055c304cc71",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-b2cd30d5115086ca",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-b33dc6ef24809c28",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-d25450a09eaacd19",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-e15040a43a35d33e",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-OperatingSystem-f332abeb425efff5",
+      "relatedSpdxElement": "SPDXRef-Package-fbb89b0212f7870b",
+      "relationshipType": "CONTAINS"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-1296b9d8843052b1",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-14f9e11a7c1d2f0b",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-185b81ec5647311",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-1b04883668ab4c0c",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-1c0e896e8537c92a",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-1e4be5a0b57dce9a",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-201d3c64ae5aeb44",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-2585acb2bba9100a",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-25dabd2fc8fe7895",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-275a4b744d79051d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-368b250e2c089320",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-37555305a9b27006",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-3d5b2043e0df0de0",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-3efea069e4457b9c",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-44cb2d99557559df",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-451c88b23af0c2dc",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-49f5dadf1685579d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-4d9a87a1b54c18ab",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-4e451f761b6e6fa3",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-4e984b73d25f52b0",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-519edc5ccbce5ebd",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-52227eebee139478",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-544988eae4779680",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-5556a735c77350a9",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-595eda5e92e70c41",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-5a62ba8becc0331e",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-5dfc0ab6ea434ba5",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-61fa813d1544bf47",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-6575a4551eeacfc4",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-68616f88f906705c",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-7037a895e43ce46e",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-70e182b89dd43873",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-71b9fee8c8368b63",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-76dbdf64b12966ce",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-7a58e5ff7b71804e",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-7ee80b5b3ff13898",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-7f308fc97c5930fd",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-7f87b2ba88cec37d",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-86418be90bfb2ab2",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-8cca547b31248d07",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-8fba817895c3a8a1",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-900a4ff25a70014",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-912770c1464dc345",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-99c148b3e19ac3e2",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-9f4eddd78e044943",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-a319c34005d078c9",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-a69a5aa7edfb8629",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-b1271b4158bb12c4",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-b16d1ac763de5d2f",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-b2d5c63646301fe7",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-b4532c0dd400274a",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-bae142ea1da5fa48",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-bbd183e11d50686e",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-bc0ecc673dcab05",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-bf1267f47b8c00c9",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-c862ce565ac3d88b",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-c8d4459a009cdc45",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-c8e32a707f206b92",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-cce1058185202c24",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-cdebf85d95b60c",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-cf62355ee2126d2e",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-d0f8334b33a45e54",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-d11c3285cd81c092",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-d31c433fa0104dbc",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-d320a6cf6b9331f8",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-d69c7a70060bdcd6",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-e6fee29705d4fd8c",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-ee131947edab8de2",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-ef6c48509266a374",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-efc972ce0a9fd111",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-f1ca25bfbaac6c27",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-f34a62976002c097",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-f95358602c039a99",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-fdca48bb67754b9a",
+      "relationshipType": "DEPENDS_ON"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-ef8d9cc7b4255105",
+      "relatedSpdxElement": "SPDXRef-Package-fedf9eb0bfa68092",
+      "relationshipType": "DEPENDS_ON"
+    }
+  ]
+}

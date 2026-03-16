@@ -1,0 +1,11 @@
+###
+GET mcr.microsoft.com/v2/oss/istio/proxyv2/tags/list HTTP/1.1
+
+###
+GET mcr.microsoft.com/v2/oss/istio/pilot/tags/list HTTP/1.1
+
+###
+GET mcr.microsoft.com/v2/azure-application-gateway/kubernetes-ingress/tags/list HTTP/1.1
+
+###
+GET mcr.microsoft.com/v2/azure-watson/agent/agent_mariner/tags/list HTTP/1.1

@@ -1,4 +1,4 @@
-name: Build Feature Branch
+name: build-feature-branch
 
 on:
   # Triggers only for the feature/ branches
