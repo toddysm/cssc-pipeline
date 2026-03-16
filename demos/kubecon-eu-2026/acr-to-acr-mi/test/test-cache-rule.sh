@@ -23,10 +23,10 @@ pass()  { echo -e "${GREEN}[PASS]${NC} $*"; }
 fail()  { echo -e "${RED}[FAIL]${NC} $*"; FAILURES=$((FAILURES + 1)); }
 info()  { echo -e "${YELLOW}[INFO]${NC} $*"; }
 # run  — print + execute a provisioning command (stdout goes to terminal)
-run()   { echo -e "${CYAN}[CMD]${NC} $*"; "$@"; }
+run()   { echo -e "${CYAN}[CMD]${NC} $*" > /dev/tty; "$@"; }
 # query — print + execute a query command whose stdout is captured via $(...)
-#          prints the command to stderr so it doesn't corrupt the captured value
-query() { echo -e "${CYAN}[CMD]${NC} $*" >&2; "$@"; }
+#          writes to /dev/tty so the [CMD] line is never suppressed by 2>/dev/null
+query() { echo -e "${CYAN}[CMD]${NC} $*" > /dev/tty; "$@"; }
 
 FAILURES=0
 
@@ -135,14 +135,14 @@ ABAC_MODE=$(query az acr show \
 #   pass "ABAC enabled on source registry"
 # fi
 
-# # ── Step 4: Fine-grained read roles on source registry (assign if missing) ───
-# info "Step 4: UAMI role assignments on source registry '$SOURCE_REGISTRY_NAME'"
-# SOURCE_REGISTRY_SCOPE=$(az acr show \
-#   --name "$SOURCE_REGISTRY_NAME" \
-#   --resource-group "$RESOURCE_GROUP" \
-#   --subscription "$SUBSCRIPTION" \
-#   --query "id" \
-#   --output tsv 2>/dev/null || echo "")
+# ── Step 4: Fine-grained read roles on source registry (assign if missing) ───
+info "Step 4: UAMI role assignments on source registry '$SOURCE_REGISTRY_NAME'"
+SOURCE_REGISTRY_SCOPE=$(az acr show \
+  --name "$SOURCE_REGISTRY_NAME" \
+  --resource-group "$RESOURCE_GROUP" \
+  --subscription "$SUBSCRIPTION" \
+  --query "id" \
+  --output tsv 2>/dev/null || echo "")
 
 # if [[ -z "$SOURCE_REGISTRY_SCOPE" ]]; then
 #   fail "Source registry '$SOURCE_REGISTRY_NAME' not found — cannot assign roles"
