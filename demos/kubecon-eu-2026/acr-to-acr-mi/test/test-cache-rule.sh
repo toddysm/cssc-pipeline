@@ -18,10 +18,15 @@
 set -euo pipefail
 
 # ── Colour helpers ────────────────────────────────────────────────────────────
-RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
-pass() { echo -e "${GREEN}[PASS]${NC} $*"; }
-fail() { echo -e "${RED}[FAIL]${NC} $*"; FAILURES=$((FAILURES + 1)); }
-info() { echo -e "${YELLOW}[INFO]${NC} $*"; }
+RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
+pass()  { echo -e "${GREEN}[PASS]${NC} $*"; }
+fail()  { echo -e "${RED}[FAIL]${NC} $*"; FAILURES=$((FAILURES + 1)); }
+info()  { echo -e "${YELLOW}[INFO]${NC} $*"; }
+# run  — print + execute a provisioning command (stdout goes to terminal)
+run()   { echo -e "${CYAN}[CMD]${NC} $*"; "$@"; }
+# query — print + execute a query command whose stdout is captured via $(...)
+#          prints the command to stderr so it doesn't corrupt the captured value
+query() { echo -e "${CYAN}[CMD]${NC} $*" >&2; "$@"; }
 
 FAILURES=0
 
@@ -43,25 +48,25 @@ echo ""
 
 # ── Azure authentication ──────────────────────────────────────────────────────
 info "Checking Azure CLI authentication..."
-if ! az account show &>/dev/null; then
+if ! query az account show &>/dev/null; then
   info "Not logged in. Running 'az login'..."
-  az login
+  run az login
 fi
 
 info "Setting subscription context to '$SUBSCRIPTION'..."
-az account set --subscription "$SUBSCRIPTION"
-ACTIVE_SUB=$(az account show --query "name" --output tsv 2>/dev/null || echo "unknown")
+run az account set --subscription "$SUBSCRIPTION"
+ACTIVE_SUB=$(query az account show --query "name" --output tsv 2>/dev/null || echo "unknown")
 pass "Authenticated — active subscription: $ACTIVE_SUB"
 
 info "Logging in to target ACR registry '$TARGET_REGISTRY'..."
-az acr login --name "$TARGET_REGISTRY" --subscription "$SUBSCRIPTION"
+run az acr login --name "$TARGET_REGISTRY" --subscription "$SUBSCRIPTION"
 pass "Logged in to target registry"
 
 echo ""
 
 # ── Step 1: Feature flag is registered ──────────────────────────────────────
 info "Step 1: Feature flag ArtifactCacheManagedIdentityAuthentication is Registered"
-FEATURE_STATE=$(az feature show \
+FEATURE_STATE=$(query az feature show \
   --namespace Microsoft.ContainerRegistry \
   --name ArtifactCacheManagedIdentityAuthentication \
   --subscription "$SUBSCRIPTION" \
@@ -76,7 +81,7 @@ fi
 
 # ── Step 2: UAMI (create if missing) ────────────────────────────────────────
 info "Step 2: User-Assigned Managed Identity '$UAMI_NAME'"
-UAMI_ID=$(az identity show \
+UAMI_ID=$(query az identity show \
   --name "$UAMI_NAME" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
@@ -85,12 +90,12 @@ UAMI_ID=$(az identity show \
 
 if [[ -z "$UAMI_ID" ]]; then
   info "  UAMI not found — creating '$UAMI_NAME' in '$RESOURCE_GROUP'..."
-  az identity create \
+  run az identity create \
     --name "$UAMI_NAME" \
     --resource-group "$RESOURCE_GROUP" \
     --subscription "$SUBSCRIPTION" \
     --output none
-  UAMI_ID=$(az identity show \
+  UAMI_ID=$(query az identity show \
     --name "$UAMI_NAME" \
     --resource-group "$RESOURCE_GROUP" \
     --subscription "$SUBSCRIPTION" \
@@ -101,7 +106,7 @@ else
   pass "UAMI found: $UAMI_ID"
 fi
 
-UAMI_PRINCIPAL_ID=$(az identity show \
+UAMI_PRINCIPAL_ID=$(query az identity show \
   --name "$UAMI_NAME" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
@@ -110,82 +115,82 @@ UAMI_PRINCIPAL_ID=$(az identity show \
 
 # ── Step 3: Enable ABAC on source registry (if not already set) ────────────────
 info "Step 3: ABAC enabled on source registry '$SOURCE_REGISTRY_NAME'"
-ABAC_MODE=$(az acr show \
+ABAC_MODE=$(query az acr show \
   --name "$SOURCE_REGISTRY_NAME" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
   --query "roleAssignmentMode" \
   --output tsv 2>/dev/null || echo "")
 
-if [[ "$ABAC_MODE" == "rbac-abac" ]]; then
-  pass "ABAC already enabled on source registry (roleAssignmentMode: $ABAC_MODE)"
-else
-  info "  Enabling ABAC (rbac-abac) on source registry..."
-  az acr update \
-    --name "$SOURCE_REGISTRY_NAME" \
-    --resource-group "$RESOURCE_GROUP" \
-    --subscription "$SUBSCRIPTION" \
-    --role-assignment-mode rbac-abac \
-    --output none
-  pass "ABAC enabled on source registry"
-fi
+# if [[ "$ABAC_MODE" == "rbac-abac" ]]; then
+#   pass "ABAC already enabled on source registry (roleAssignmentMode: $ABAC_MODE)"
+# else
+#   info "  Enabling ABAC (rbac-abac) on source registry..."
+#   az acr update \
+#     --name "$SOURCE_REGISTRY_NAME" \
+#     --resource-group "$RESOURCE_GROUP" \
+#     --subscription "$SUBSCRIPTION" \
+#     --role-assignment-mode rbac-abac \
+#     --output none
+#   pass "ABAC enabled on source registry"
+# fi
 
-# ── Step 4: Fine-grained read roles on source registry (assign if missing) ───
-info "Step 4: UAMI role assignments on source registry '$SOURCE_REGISTRY_NAME'"
-SOURCE_REGISTRY_SCOPE=$(az acr show \
-  --name "$SOURCE_REGISTRY_NAME" \
-  --resource-group "$RESOURCE_GROUP" \
-  --subscription "$SUBSCRIPTION" \
-  --query "id" \
-  --output tsv 2>/dev/null || echo "")
+# # ── Step 4: Fine-grained read roles on source registry (assign if missing) ───
+# info "Step 4: UAMI role assignments on source registry '$SOURCE_REGISTRY_NAME'"
+# SOURCE_REGISTRY_SCOPE=$(az acr show \
+#   --name "$SOURCE_REGISTRY_NAME" \
+#   --resource-group "$RESOURCE_GROUP" \
+#   --subscription "$SUBSCRIPTION" \
+#   --query "id" \
+#   --output tsv 2>/dev/null || echo "")
 
-if [[ -z "$SOURCE_REGISTRY_SCOPE" ]]; then
-  fail "Source registry '$SOURCE_REGISTRY_NAME' not found — cannot assign roles"
-else
-  READER_COUNT=$(az role assignment list \
-    --assignee "$UAMI_PRINCIPAL_ID" \
-    --role "Container Registry Repository Reader" \
-    --scope "$SOURCE_REGISTRY_SCOPE" \
-    --subscription "$SUBSCRIPTION" \
-    --query "length(@)" \
-    --output tsv 2>/dev/null || echo "0")
-  if [[ "$READER_COUNT" -ge 1 ]]; then
-    pass "'Container Registry Repository Reader' already assigned on source registry"
-  else
-    info "  Assigning 'Container Registry Repository Reader' to UAMI on source registry..."
-    az role assignment create \
-      --assignee "$UAMI_PRINCIPAL_ID" \
-      --role "Container Registry Repository Reader" \
-      --scope "$SOURCE_REGISTRY_SCOPE" \
-      --subscription "$SUBSCRIPTION" \
-      --output none
-    pass "'Container Registry Repository Reader' assigned on source registry"
-  fi
+# if [[ -z "$SOURCE_REGISTRY_SCOPE" ]]; then
+#   fail "Source registry '$SOURCE_REGISTRY_NAME' not found — cannot assign roles"
+# else
+#   READER_COUNT=$(az role assignment list \
+#     --assignee "$UAMI_PRINCIPAL_ID" \
+#     --role "Container Registry Repository Reader" \
+#     --scope "$SOURCE_REGISTRY_SCOPE" \
+#     --subscription "$SUBSCRIPTION" \
+#     --query "length(@)" \
+#     --output tsv 2>/dev/null || echo "0")
+#   if [[ "$READER_COUNT" -ge 1 ]]; then
+#     pass "'Container Registry Repository Reader' already assigned on source registry"
+#   else
+#     info "  Assigning 'Container Registry Repository Reader' to UAMI on source registry..."
+#     az role assignment create \
+#       --assignee "$UAMI_PRINCIPAL_ID" \
+#       --role "Container Registry Repository Reader" \
+#       --scope "$SOURCE_REGISTRY_SCOPE" \
+#       --subscription "$SUBSCRIPTION" \
+#       --output none
+#     pass "'Container Registry Repository Reader' assigned on source registry"
+#   fi
 
-  LISTER_COUNT=$(az role assignment list \
-    --assignee "$UAMI_PRINCIPAL_ID" \
-    --role "Container Registry Repository Catalog Lister" \
-    --scope "$SOURCE_REGISTRY_SCOPE" \
-    --subscription "$SUBSCRIPTION" \
-    --query "length(@)" \
-    --output tsv 2>/dev/null || echo "0")
-  if [[ "$LISTER_COUNT" -ge 1 ]]; then
-    pass "'Container Registry Repository Catalog Lister' already assigned on source registry"
-  else
-    info "  Assigning 'Container Registry Repository Catalog Lister' to UAMI on source registry..."
-    az role assignment create \
-      --assignee "$UAMI_PRINCIPAL_ID" \
-      --role "Container Registry Repository Catalog Lister" \
-      --scope "$SOURCE_REGISTRY_SCOPE" \
-      --subscription "$SUBSCRIPTION" \
-      --output none
-    pass "'Container Registry Repository Catalog Lister' assigned on source registry"
-  fi
-fi
+#   LISTER_COUNT=$(az role assignment list \
+#     --assignee "$UAMI_PRINCIPAL_ID" \
+#     --role "Container Registry Repository Catalog Lister" \
+#     --scope "$SOURCE_REGISTRY_SCOPE" \
+#     --subscription "$SUBSCRIPTION" \
+#     --query "length(@)" \
+#     --output tsv 2>/dev/null || echo "0")
+#   if [[ "$LISTER_COUNT" -ge 1 ]]; then
+#     pass "'Container Registry Repository Catalog Lister' already assigned on source registry"
+#   else
+#     info "  Assigning 'Container Registry Repository Catalog Lister' to UAMI on source registry..."
+#     az role assignment create \
+#       --assignee "$UAMI_PRINCIPAL_ID" \
+#       --role "Container Registry Repository Catalog Lister" \
+#       --scope "$SOURCE_REGISTRY_SCOPE" \
+#       --subscription "$SUBSCRIPTION" \
+#       --output none
+#     pass "'Container Registry Repository Catalog Lister' assigned on source registry"
+#   fi
+# fi
 
 # ── Step 5: UAMI assigned to source registry (assign if missing) ─────────────
 info "Step 5: UAMI assigned to source registry '$SOURCE_REGISTRY_NAME'"
-SOURCE_IDENTITIES=$(az acr identity show \
+SOURCE_IDENTITIES=$(query az acr identity show \
   --name "$SOURCE_REGISTRY_NAME" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
@@ -196,7 +201,7 @@ if [[ -n "$UAMI_ID" ]] && echo "$SOURCE_IDENTITIES" | grep -qi "$(basename "$UAM
   pass "UAMI already assigned to source registry"
 else
   info "  Assigning UAMI to source registry..."
-  az acr identity assign \
+  run az acr identity assign \
     --name "$SOURCE_REGISTRY_NAME" \
     --identities "$UAMI_ID" \
     --resource-group "$RESOURCE_GROUP" \
@@ -207,7 +212,7 @@ fi
 
 # ── Step 6: UAMI assigned to target registry (assign if missing) ─────────────
 info "Step 6: UAMI assigned to target registry '$TARGET_REGISTRY'"
-TARGET_IDENTITIES=$(az acr identity show \
+TARGET_IDENTITIES=$(query az acr identity show \
   --name "$TARGET_REGISTRY" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
@@ -218,7 +223,7 @@ if [[ -n "$UAMI_ID" ]] && echo "$TARGET_IDENTITIES" | grep -qi "$(basename "$UAM
   pass "UAMI already assigned to target registry"
 else
   info "  Assigning UAMI to target registry..."
-  az acr identity assign \
+  run az acr identity assign \
     --name "$TARGET_REGISTRY" \
     --identities "$UAMI_ID" \
     --resource-group "$RESOURCE_GROUP" \
@@ -229,7 +234,7 @@ fi
 
 # ── Step 7: Cache rule (deploy via Bicep if missing) ─────────────────────────
 info "Step 7: Cache rule '$CACHE_RULE_NAME' on target registry '$TARGET_REGISTRY'"
-CACHE_RULE_JSON=$(az acr cache show \
+CACHE_RULE_JSON=$(query az acr cache show \
   --name "$CACHE_RULE_NAME" \
   --registry "$TARGET_REGISTRY" \
   --resource-group "$RESOURCE_GROUP" \
@@ -246,7 +251,7 @@ else
     fail "Bicep template not found at '$BICEP_FILE' — cannot deploy cache rule"
   else
     info "  Deploying cache rule via Bicep..."
-    az deployment group create \
+    run az deployment group create \
       --resource-group "$RESOURCE_GROUP" \
       --subscription "$SUBSCRIPTION" \
       --template-file "$BICEP_FILE" \
@@ -266,7 +271,7 @@ info "Test 1: Pull image through the target registry cache"
 IMAGE="${TARGET_REGISTRY}.azurecr.io/${TARGET_REPO}:latest"
 
 info "  Pulling $IMAGE ..."
-if docker pull "$IMAGE" > /dev/null 2>&1; then
+if run docker pull "$IMAGE" > /dev/null 2>&1; then
   pass "Image pulled successfully: $IMAGE"
 else
   fail "Failed to pull image: $IMAGE"
@@ -274,7 +279,7 @@ fi
 
 # ── Test 2: Image visible in target registry ─────────────────────────────────
 info "Test 2: Image tag visible in target registry repository"
-TAG_COUNT=$(az acr repository show-tags \
+TAG_COUNT=$(query az acr repository show-tags \
   --name "$TARGET_REGISTRY" \
   --repository "$TARGET_REPO" \
   --subscription "$SUBSCRIPTION" \
@@ -290,7 +295,7 @@ fi
 # ── Show cache rule ───────────────────────────────────────────────────────────
 echo ""
 info "=== Cache Rule Details ==="
-az acr cache show \
+run az acr cache show \
   --name "$CACHE_RULE_NAME" \
   --registry "$TARGET_REGISTRY" \
   --resource-group "$RESOURCE_GROUP" \
@@ -300,7 +305,13 @@ az acr cache show \
 # ── Show UAMI role assignments on source registry ─────────────────────────────
 echo ""
 info "=== UAMI Role Assignments on Source Registry '$SOURCE_REGISTRY_NAME' ==="
-az role assignment list \
+SOURCE_REGISTRY_SCOPE=$(query az acr show \
+  --name "$SOURCE_REGISTRY_NAME" \
+  --resource-group "$RESOURCE_GROUP" \
+  --subscription "$SUBSCRIPTION" \
+  --query "id" \
+  --output tsv 2>/dev/null || echo "")
+run az role assignment list \
   --assignee "$UAMI_PRINCIPAL_ID" \
   --scope "$SOURCE_REGISTRY_SCOPE" \
   --subscription "$SUBSCRIPTION" \
