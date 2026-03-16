@@ -273,7 +273,7 @@ az acr cache show \
   --registry "$TARGET_REGISTRY" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
-  --output table 2>/dev/null || true
+  --output json 2>/dev/null || true
 
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
