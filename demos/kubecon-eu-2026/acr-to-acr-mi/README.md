@@ -299,6 +299,7 @@ export SOURCE_REPO="<source-registry-name>.azurecr.io/hello-world"
 export TARGET_REPO="hello-world"
 export UAMI_NAME="<managed-identity-name>"
 export CACHE_RULE_NAME="cacherule-acr-to-acr-mi"
+export IMAGE_TAG="latest"              # optional; prompted if not set
 
 bash test/test-cache-rule.sh
 ```

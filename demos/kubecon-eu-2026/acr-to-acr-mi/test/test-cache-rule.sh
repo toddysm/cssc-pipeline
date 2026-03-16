@@ -13,6 +13,7 @@
 #   export TARGET_REPO="hello-world"
 #   export UAMI_NAME="..."
 #   export CACHE_RULE_NAME="cacherule-acr-to-acr-mi"
+#   export IMAGE_TAG="latest"          # optional; prompted if not set
 #   bash test/test-cache-rule.sh
 
 set -euo pipefail
@@ -41,6 +42,12 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 
 SOURCE_REGISTRY_NAME="${SOURCE_REGISTRY%%.*}"
+
+# ── Optional: image tag (prompt if not provided) ──────────────────────────────
+if [[ -z "${IMAGE_TAG:-}" ]]; then
+  read -r -p "Enter the image tag to pull for testing [latest]: " IMAGE_TAG
+  IMAGE_TAG="${IMAGE_TAG:-latest}"
+fi
 
 echo ""
 info "=== ACR Cache Rule — Infrastructure Setup & Verification ==="
@@ -249,7 +256,7 @@ fi
 
 # ── Test 1: Pull image through cache ─────────────────────────────────────────
 info "Test 1: Pull image through the target registry cache"
-IMAGE="${TARGET_REGISTRY}.azurecr.io/${TARGET_REPO}:latest"
+IMAGE="${TARGET_REGISTRY}.azurecr.io/${TARGET_REPO}:${IMAGE_TAG}"
 
 info "  Pulling $IMAGE ..."
 if run docker pull "$IMAGE" > /dev/null 2>&1; then
