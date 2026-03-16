@@ -230,30 +230,8 @@ else
   pass "UAMI assigned to source registry"
 fi
 
-# ── Step 6: UAMI assigned to target registry (assign if missing) ─────────────
-info "Step 6: UAMI assigned to target registry '$TARGET_REGISTRY'"
-TARGET_IDENTITIES=$(query az acr identity show \
-  --name "$TARGET_REGISTRY" \
-  --resource-group "$RESOURCE_GROUP" \
-  --subscription "$SUBSCRIPTION" \
-  --query "userAssignedIdentities" \
-  --output json 2>/dev/null || echo "{}")
-
-if [[ -n "$UAMI_ID" ]] && echo "$TARGET_IDENTITIES" | grep -qi "$(basename "$UAMI_ID")"; then
-  pass "UAMI already assigned to target registry"
-else
-  info "  Assigning UAMI to target registry..."
-  run az acr identity assign \
-    --name "$TARGET_REGISTRY" \
-    --identities "$UAMI_ID" \
-    --resource-group "$RESOURCE_GROUP" \
-    --subscription "$SUBSCRIPTION" \
-    --output none
-  pass "UAMI assigned to target registry"
-fi
-
-# ── Step 7: Cache rule (deploy via Bicep if missing) ─────────────────────────
-info "Step 7: Cache rule '$CACHE_RULE_NAME' on target registry '$TARGET_REGISTRY'"
+# ── Step 6: Cache rule (deploy via Bicep if missing) ─────────────────────────
+info "Step 6: Cache rule '$CACHE_RULE_NAME' on target registry '$TARGET_REGISTRY'"
 CACHE_RULE_JSON=$(query az acr cache show \
   --name "$CACHE_RULE_NAME" \
   --registry "$TARGET_REGISTRY" \
