@@ -107,7 +107,36 @@ export UAMI_PRINCIPAL_ID=$(az identity show \
 
 ---
 
-## Step 5 — Grant the Identity Read Access on the Source Registry
+## Step 5 — Enable ABAC on the Source Registry
+
+The `Container Registry Repository Reader` and `Container Registry Repository Catalog Lister` roles are ABAC (Attribute-Based Access Control) roles. ABAC must be enabled on the source registry before these role assignments take effect.
+
+```bash
+az acr update \
+    --name ${SOURCE_REGISTRY%%.*} \
+    --resource-group $RESOURCE_GROUP \
+    --subscription $SUBSCRIPTION \
+    --role-assignment-mode AbacRepositoryPermissions
+```
+
+Verify that ABAC is enabled:
+
+```bash
+az acr show \
+    --name ${SOURCE_REGISTRY%%.*} \
+    --resource-group $RESOURCE_GROUP \
+    --subscription $SUBSCRIPTION \
+    --query "roleAssignmentMode" \
+    --output tsv
+```
+
+The output should be `AbacRepositoryPermissions`.
+
+> **Note:** Enabling ABAC is a non-destructive operation. Existing `AcrPull`/`AcrPush` role assignments continue to work alongside ABAC roles.
+
+---
+
+## Step 6 — Grant the Identity Read Access on the Source Registry
 
 The managed identity needs two roles on the source registry to read images and list the repository catalog:
 
@@ -136,7 +165,7 @@ az role assignment create \
 
 ---
 
-## Step 6 — Assign the Identity to the Source Registry
+## Step 7 — Assign the Identity to the Source Registry
 
 The managed identity must be associated with the upstream (source) registry so that the registry trusts and recognises it as a valid authentication principal.
 
@@ -152,7 +181,7 @@ az acr identity assign \
 
 ---
 
-## Step 7 — Assign the Identity to the Target Registry
+## Step 8 — Assign the Identity to the Target Registry
 
 The managed identity must also be associated with the target (downstream) registry so ACR can use it when executing cache pulls.
 
@@ -173,7 +202,7 @@ az acr identity assign \
 
 ---
 
-## Step 8 — Deploy the Bicep Module
+## Step 9 — Deploy the Bicep Module
 
 Deploy [cache-rule.bicep](cache-rule.bicep) to create the cache rule on the target registry.
 
@@ -202,7 +231,7 @@ az deployment group create \
 
 ---
 
-## Step 9 — Verify the Cache Rule
+## Step 10 — Verify the Cache Rule
 
 Confirm the cache rule was created successfully:
 
@@ -216,7 +245,7 @@ az acr cache show \
 
 ---
 
-## Step 10 — Test the Cache
+## Step 11 — Test the Cache
 
 Pull an image through the target registry. ACR will transparently fetch it from the source registry using the managed identity.
 
@@ -240,8 +269,8 @@ az acr repository show-tags \
 | Symptom | Likely Cause | Resolution |
 |---|---|---|
 | Deployment fails with `FeatureNotEnabled` | Feature flag not yet `Registered` | Re-check Step 3; wait for `Registered` state |
-| `AuthorizationFailed` on cache rule create | Identity not assigned to the target registry | Complete Step 7 before deploying |
-| Pull through cache returns `unauthorized` | Identity missing required roles on source registry | Verify the role assignments from Step 5 |
+| `AuthorizationFailed` on cache rule create | Identity not assigned to the target registry | Complete Step 8 before deploying |
+| Pull through cache returns `unauthorized` | Identity missing required roles on source registry | Verify role assignments from Step 6; confirm ABAC is enabled (Step 5) |
 | Feature registration stuck in `Registering` | Normal for preview features | Wait up to 15 minutes; re-run the `az feature show` check |
 
 ---
@@ -257,10 +286,11 @@ az acr repository show-tags \
 | Auth | — | `az login` (if not already authenticated), `az account set`, `az acr login` |
 | Provision | Step 1 | Verifies the feature flag is `Registered` |
 | Provision | Step 2 | Creates the UAMI if it does not exist |
-| Provision | Step 3 | Assigns `Container Registry Repository Reader` and `Container Registry Repository Catalog Lister` roles on the source registry if missing |
-| Provision | Step 4 | Assigns the UAMI to the source registry if missing |
-| Provision | Step 5 | Assigns the UAMI to the target registry if missing |
-| Provision | Step 6 | Deploys the Bicep module to create the cache rule if it does not exist |
+| Provision | Step 3 | Enables ABAC (`AbacRepositoryPermissions`) on the source registry if not already set |
+| Provision | Step 4 | Assigns `Container Registry Repository Reader` and `Container Registry Repository Catalog Lister` roles on the source registry if missing |
+| Provision | Step 5 | Assigns the UAMI to the source registry if missing |
+| Provision | Step 6 | Assigns the UAMI to the target registry if missing |
+| Provision | Step 7 | Deploys the Bicep module to create the cache rule if it does not exist |
 | Verify | Test 1 | Pulls an image through the target registry cache |
 | Verify | Test 2 | Confirms the pulled tag is visible in the target registry |
 
@@ -286,8 +316,8 @@ bash test/test-cache-rule.sh
 | Symptom | Likely Cause | Resolution |
 |---|---|---|
 | Deployment fails with `FeatureNotEnabled` | Feature flag not yet `Registered` | Re-check Step 3; wait for `Registered` state |
-| `AuthorizationFailed` on cache rule create | Identity not assigned to the target registry | Complete Step 7 before deploying |
-| Pull through cache returns `unauthorized` | Identity missing required roles on source registry | Verify the role assignments from Step 5 |
+| `AuthorizationFailed` on cache rule create | Identity not assigned to the target registry | Complete Step 8 before deploying |
+| Pull through cache returns `unauthorized` | Identity missing required roles on source registry | Verify role assignments from Step 6; confirm ABAC is enabled (Step 5) |
 | Feature registration stuck in `Registering` | Normal for preview features | Wait up to 15 minutes; re-run the `az feature show` check |
 
 ---

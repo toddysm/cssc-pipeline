@@ -108,8 +108,30 @@ UAMI_PRINCIPAL_ID=$(az identity show \
   --query "principalId" \
   --output tsv 2>/dev/null || echo "")
 
-# ── Step 3: Fine-grained read roles on source registry (assign if missing) ───
-info "Step 3: UAMI role assignments on source registry '$SOURCE_REGISTRY_NAME'"
+# ── Step 3: Enable ABAC on source registry (if not already set) ────────────────
+info "Step 3: ABAC enabled on source registry '$SOURCE_REGISTRY_NAME'"
+ABAC_MODE=$(az acr show \
+  --name "$SOURCE_REGISTRY_NAME" \
+  --resource-group "$RESOURCE_GROUP" \
+  --subscription "$SUBSCRIPTION" \
+  --query "roleAssignmentMode" \
+  --output tsv 2>/dev/null || echo "")
+
+if [[ "$ABAC_MODE" == "AbacRepositoryPermissions" ]]; then
+  pass "ABAC already enabled on source registry (roleAssignmentMode: $ABAC_MODE)"
+else
+  info "  Enabling ABAC (AbacRepositoryPermissions) on source registry..."
+  az acr update \
+    --name "$SOURCE_REGISTRY_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --subscription "$SUBSCRIPTION" \
+    --role-assignment-mode AbacRepositoryPermissions \
+    --output none
+  pass "ABAC enabled on source registry"
+fi
+
+# ── Step 4: Fine-grained read roles on source registry (assign if missing) ───
+info "Step 4: UAMI role assignments on source registry '$SOURCE_REGISTRY_NAME'"
 SOURCE_REGISTRY_SCOPE=$(az acr show \
   --name "$SOURCE_REGISTRY_NAME" \
   --resource-group "$RESOURCE_GROUP" \
@@ -161,8 +183,8 @@ else
   fi
 fi
 
-# ── Step 4: UAMI assigned to source registry (assign if missing) ─────────────
-info "Step 4: UAMI assigned to source registry '$SOURCE_REGISTRY_NAME'"
+# ── Step 5: UAMI assigned to source registry (assign if missing) ─────────────
+info "Step 5: UAMI assigned to source registry '$SOURCE_REGISTRY_NAME'"
 SOURCE_IDENTITIES=$(az acr identity show \
   --name "$SOURCE_REGISTRY_NAME" \
   --resource-group "$RESOURCE_GROUP" \
@@ -183,8 +205,8 @@ else
   pass "UAMI assigned to source registry"
 fi
 
-# ── Step 5: UAMI assigned to target registry (assign if missing) ─────────────
-info "Step 5: UAMI assigned to target registry '$TARGET_REGISTRY'"
+# ── Step 6: UAMI assigned to target registry (assign if missing) ─────────────
+info "Step 6: UAMI assigned to target registry '$TARGET_REGISTRY'"
 TARGET_IDENTITIES=$(az acr identity show \
   --name "$TARGET_REGISTRY" \
   --resource-group "$RESOURCE_GROUP" \
@@ -205,8 +227,8 @@ else
   pass "UAMI assigned to target registry"
 fi
 
-# ── Step 6: Cache rule (deploy via Bicep if missing) ─────────────────────────
-info "Step 6: Cache rule '$CACHE_RULE_NAME' on target registry '$TARGET_REGISTRY'"
+# ── Step 7: Cache rule (deploy via Bicep if missing) ─────────────────────────
+info "Step 7: Cache rule '$CACHE_RULE_NAME' on target registry '$TARGET_REGISTRY'"
 CACHE_RULE_JSON=$(az acr cache show \
   --name "$CACHE_RULE_NAME" \
   --registry "$TARGET_REGISTRY" \
