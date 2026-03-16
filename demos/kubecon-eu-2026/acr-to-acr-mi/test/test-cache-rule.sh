@@ -265,6 +265,16 @@ else
   fail "No tags found in '$TARGET_REPO' on target registry"
 fi
 
+# ── Show cache rule ───────────────────────────────────────────────────────────
+echo ""
+info "=== Cache Rule Details ==="
+az acr cache show \
+  --name "$CACHE_RULE_NAME" \
+  --registry "$TARGET_REGISTRY" \
+  --resource-group "$RESOURCE_GROUP" \
+  --subscription "$SUBSCRIPTION" \
+  --output table 2>/dev/null || true
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
 info "=== Summary ==="
