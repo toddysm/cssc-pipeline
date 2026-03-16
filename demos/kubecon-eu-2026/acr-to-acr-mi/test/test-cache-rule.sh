@@ -122,71 +122,71 @@ ABAC_MODE=$(query az acr show \
   --query "roleAssignmentMode" \
   --output tsv 2>/dev/null || echo "")
 
-# if [[ "$ABAC_MODE" == "rbac-abac" ]]; then
-#   pass "ABAC already enabled on source registry (roleAssignmentMode: $ABAC_MODE)"
-# else
-#   info "  Enabling ABAC (rbac-abac) on source registry..."
-#   az acr update \
-#     --name "$SOURCE_REGISTRY_NAME" \
-#     --resource-group "$RESOURCE_GROUP" \
-#     --subscription "$SUBSCRIPTION" \
-#     --role-assignment-mode rbac-abac \
-#     --output none
-#   pass "ABAC enabled on source registry"
-# fi
+if [[ "$ABAC_MODE" == "rbac-abac" ]]; then
+  pass "ABAC already enabled on source registry (roleAssignmentMode: $ABAC_MODE)"
+else
+  info "  Enabling ABAC (rbac-abac) on source registry..."
+  run az acr update \
+    --name "$SOURCE_REGISTRY_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --subscription "$SUBSCRIPTION" \
+    --role-assignment-mode rbac-abac \
+    --output none
+  pass "ABAC enabled on source registry"
+fi
 
 # ── Step 4: Fine-grained read roles on source registry (assign if missing) ───
 info "Step 4: UAMI role assignments on source registry '$SOURCE_REGISTRY_NAME'"
-SOURCE_REGISTRY_SCOPE=$(az acr show \
+SOURCE_REGISTRY_SCOPE=$(query az acr show \
   --name "$SOURCE_REGISTRY_NAME" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
   --query "id" \
   --output tsv 2>/dev/null || echo "")
 
-# if [[ -z "$SOURCE_REGISTRY_SCOPE" ]]; then
-#   fail "Source registry '$SOURCE_REGISTRY_NAME' not found — cannot assign roles"
-# else
-#   READER_COUNT=$(az role assignment list \
-#     --assignee "$UAMI_PRINCIPAL_ID" \
-#     --role "Container Registry Repository Reader" \
-#     --scope "$SOURCE_REGISTRY_SCOPE" \
-#     --subscription "$SUBSCRIPTION" \
-#     --query "length(@)" \
-#     --output tsv 2>/dev/null || echo "0")
-#   if [[ "$READER_COUNT" -ge 1 ]]; then
-#     pass "'Container Registry Repository Reader' already assigned on source registry"
-#   else
-#     info "  Assigning 'Container Registry Repository Reader' to UAMI on source registry..."
-#     az role assignment create \
-#       --assignee "$UAMI_PRINCIPAL_ID" \
-#       --role "Container Registry Repository Reader" \
-#       --scope "$SOURCE_REGISTRY_SCOPE" \
-#       --subscription "$SUBSCRIPTION" \
-#       --output none
-#     pass "'Container Registry Repository Reader' assigned on source registry"
-#   fi
+if [[ -z "$SOURCE_REGISTRY_SCOPE" ]]; then
+  fail "Source registry '$SOURCE_REGISTRY_NAME' not found — cannot assign roles"
+else
+  READER_COUNT=$(query az role assignment list \
+    --assignee "$UAMI_PRINCIPAL_ID" \
+    --role "Container Registry Repository Reader" \
+    --scope "$SOURCE_REGISTRY_SCOPE" \
+    --subscription "$SUBSCRIPTION" \
+    --query "length(@)" \
+    --output tsv 2>/dev/null || echo "0")
+  if [[ "$READER_COUNT" -ge 1 ]]; then
+    pass "'Container Registry Repository Reader' already assigned on source registry"
+  else
+    info "  Assigning 'Container Registry Repository Reader' to UAMI on source registry..."
+    run az role assignment create \
+      --assignee "$UAMI_PRINCIPAL_ID" \
+      --role "Container Registry Repository Reader" \
+      --scope "$SOURCE_REGISTRY_SCOPE" \
+      --subscription "$SUBSCRIPTION" \
+      --output none
+    pass "'Container Registry Repository Reader' assigned on source registry"
+  fi
 
-#   LISTER_COUNT=$(az role assignment list \
-#     --assignee "$UAMI_PRINCIPAL_ID" \
-#     --role "Container Registry Repository Catalog Lister" \
-#     --scope "$SOURCE_REGISTRY_SCOPE" \
-#     --subscription "$SUBSCRIPTION" \
-#     --query "length(@)" \
-#     --output tsv 2>/dev/null || echo "0")
-#   if [[ "$LISTER_COUNT" -ge 1 ]]; then
-#     pass "'Container Registry Repository Catalog Lister' already assigned on source registry"
-#   else
-#     info "  Assigning 'Container Registry Repository Catalog Lister' to UAMI on source registry..."
-#     az role assignment create \
-#       --assignee "$UAMI_PRINCIPAL_ID" \
-#       --role "Container Registry Repository Catalog Lister" \
-#       --scope "$SOURCE_REGISTRY_SCOPE" \
-#       --subscription "$SUBSCRIPTION" \
-#       --output none
-#     pass "'Container Registry Repository Catalog Lister' assigned on source registry"
-#   fi
-# fi
+  LISTER_COUNT=$(query az role assignment list \
+    --assignee "$UAMI_PRINCIPAL_ID" \
+    --role "Container Registry Repository Catalog Lister" \
+    --scope "$SOURCE_REGISTRY_SCOPE" \
+    --subscription "$SUBSCRIPTION" \
+    --query "length(@)" \
+    --output tsv 2>/dev/null || echo "0")
+  if [[ "$LISTER_COUNT" -ge 1 ]]; then
+    pass "'Container Registry Repository Catalog Lister' already assigned on source registry"
+  else
+    info "  Assigning 'Container Registry Repository Catalog Lister' to UAMI on source registry..."
+    run az role assignment create \
+      --assignee "$UAMI_PRINCIPAL_ID" \
+      --role "Container Registry Repository Catalog Lister" \
+      --scope "$SOURCE_REGISTRY_SCOPE" \
+      --subscription "$SUBSCRIPTION" \
+      --output none
+    pass "'Container Registry Repository Catalog Lister' assigned on source registry"
+  fi
+fi
 
 # ── Step 5: UAMI assigned to source registry (assign if missing) ─────────────
 info "Step 5: UAMI assigned to source registry '$SOURCE_REGISTRY_NAME'"
