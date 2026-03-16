@@ -297,6 +297,16 @@ az acr cache show \
   --subscription "$SUBSCRIPTION" \
   --output json 2>/dev/null || true
 
+# ── Show UAMI role assignments on source registry ─────────────────────────────
+echo ""
+info "=== UAMI Role Assignments on Source Registry '$SOURCE_REGISTRY_NAME' ==="
+az role assignment list \
+  --assignee "$UAMI_PRINCIPAL_ID" \
+  --scope "$SOURCE_REGISTRY_SCOPE" \
+  --subscription "$SUBSCRIPTION" \
+  --query "[].{Role:roleDefinitionName, PrincipalType:principalType, Scope:scope}" \
+  --output table 2>/dev/null || true
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
 info "=== Summary ==="
