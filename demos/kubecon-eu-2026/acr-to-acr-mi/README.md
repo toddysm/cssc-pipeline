@@ -116,7 +116,7 @@ az acr update \
     --name ${SOURCE_REGISTRY%%.*} \
     --resource-group $RESOURCE_GROUP \
     --subscription $SUBSCRIPTION \
-    --role-assignment-mode AbacRepositoryPermissions
+    --role-assignment-mode rbac-abac
 ```
 
 Verify that ABAC is enabled:
@@ -130,7 +130,7 @@ az acr show \
     --output tsv
 ```
 
-The output should be `AbacRepositoryPermissions`.
+The output should be `rbac-abac`.
 
 > **Note:** Enabling ABAC is a non-destructive operation. Existing `AcrPull`/`AcrPush` role assignments continue to work alongside ABAC roles.
 

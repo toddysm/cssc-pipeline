@@ -117,15 +117,15 @@ ABAC_MODE=$(az acr show \
   --query "roleAssignmentMode" \
   --output tsv 2>/dev/null || echo "")
 
-if [[ "$ABAC_MODE" == "AbacRepositoryPermissions" ]]; then
+if [[ "$ABAC_MODE" == "rbac-abac" ]]; then
   pass "ABAC already enabled on source registry (roleAssignmentMode: $ABAC_MODE)"
 else
-  info "  Enabling ABAC (AbacRepositoryPermissions) on source registry..."
+  info "  Enabling ABAC (rbac-abac) on source registry..."
   az acr update \
     --name "$SOURCE_REGISTRY_NAME" \
     --resource-group "$RESOURCE_GROUP" \
     --subscription "$SUBSCRIPTION" \
-    --role-assignment-mode AbacRepositoryPermissions \
+    --role-assignment-mode rbac-abac \
     --output none
   pass "ABAC enabled on source registry"
 fi
