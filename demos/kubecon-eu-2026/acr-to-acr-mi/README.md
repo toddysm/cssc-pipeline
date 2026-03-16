@@ -109,7 +109,7 @@ export UAMI_PRINCIPAL_ID=$(az identity show \
 
 ## Step 5 — Enable ABAC on the Source Registry
 
-The `Container Registry Repository Reader` and `Container Registry Repository Catalog Lister` roles are ABAC (Attribute-Based Access Control) roles. ABAC must be enabled on the source registry before these role assignments take effect.
+The `Container Registry Repository Reader` role is an ABAC (Attribute-Based Access Control) role. ABAC must be enabled on the source registry before this role assignment takes effect.
 
 ```bash
 az acr update \
@@ -138,7 +138,7 @@ The output should be `rbac-abac`.
 
 ## Step 6 — Grant the Identity Read Access on the Source Registry
 
-The managed identity needs two roles on the source registry to read images and list the repository catalog:
+The managed identity needs the following role on the source registry to read images:
 
 ```bash
 SOURCE_REGISTRY_ID=$(az acr show \
@@ -151,12 +151,6 @@ SOURCE_REGISTRY_ID=$(az acr show \
 az role assignment create \
     --assignee $UAMI_PRINCIPAL_ID \
     --role "Container Registry Repository Reader" \
-    --scope $SOURCE_REGISTRY_ID \
-    --subscription $SUBSCRIPTION
-
-az role assignment create \
-    --assignee $UAMI_PRINCIPAL_ID \
-    --role "Container Registry Repository Catalog Lister" \
     --scope $SOURCE_REGISTRY_ID \
     --subscription $SUBSCRIPTION
 ```
@@ -287,7 +281,7 @@ az acr repository show-tags \
 | Provision | Step 1 | Verifies the feature flag is `Registered` |
 | Provision | Step 2 | Creates the UAMI if it does not exist |
 | Provision | Step 3 | Enables ABAC (`AbacRepositoryPermissions`) on the source registry if not already set |
-| Provision | Step 4 | Assigns `Container Registry Repository Reader` and `Container Registry Repository Catalog Lister` roles on the source registry if missing |
+| Provision | Step 4 | Assigns `Container Registry Repository Reader` role on the source registry if missing |
 | Provision | Step 5 | Assigns the UAMI to the source registry if missing |
 | Provision | Step 6 | Assigns the UAMI to the target registry if missing |
 | Provision | Step 7 | Deploys the Bicep module to create the cache rule if it does not exist |

@@ -167,25 +167,6 @@ else
     pass "'Container Registry Repository Reader' assigned on source registry"
   fi
 
-  LISTER_COUNT=$(query az role assignment list \
-    --assignee "$UAMI_PRINCIPAL_ID" \
-    --role "Container Registry Repository Catalog Lister" \
-    --scope "$SOURCE_REGISTRY_SCOPE" \
-    --subscription "$SUBSCRIPTION" \
-    --query "length(@)" \
-    --output tsv 2>/dev/null || echo "0")
-  if [[ "$LISTER_COUNT" -ge 1 ]]; then
-    pass "'Container Registry Repository Catalog Lister' already assigned on source registry"
-  else
-    info "  Assigning 'Container Registry Repository Catalog Lister' to UAMI on source registry..."
-    run az role assignment create \
-      --assignee "$UAMI_PRINCIPAL_ID" \
-      --role "Container Registry Repository Catalog Lister" \
-      --scope "$SOURCE_REGISTRY_SCOPE" \
-      --subscription "$SUBSCRIPTION" \
-      --output none
-    pass "'Container Registry Repository Catalog Lister' assigned on source registry"
-  fi
 fi
 
 # ── Step 5: UAMI assigned to source registry (assign if missing) ─────────────
