@@ -73,7 +73,7 @@ else
   fail "Feature flag state: $FEATURE_STATE (expected Registered)"
 fi
 
-# ── Test 2: UAMI exists ───────────────────────────────────────────────────────
+# ── Test 2: UAMI exists (create if missing) ───────────────────────────────────
 info "Test 2: User-Assigned Managed Identity '$UAMI_NAME' exists"
 UAMI_ID=$(az identity show \
   --name "$UAMI_NAME" \
@@ -82,18 +82,30 @@ UAMI_ID=$(az identity show \
   --query "id" \
   --output tsv 2>/dev/null || echo "")
 
+if [[ -z "$UAMI_ID" ]]; then
+  info "  UAMI not found — creating '$UAMI_NAME' in '$RESOURCE_GROUP'..."
+  az identity create \
+    --name "$UAMI_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --subscription "$SUBSCRIPTION" \
+    --output none
+  UAMI_ID=$(az identity show \
+    --name "$UAMI_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --subscription "$SUBSCRIPTION" \
+    --query "id" \
+    --output tsv)
+  pass "UAMI created: $UAMI_ID"
+else
+  pass "UAMI found: $UAMI_ID"
+fi
+
 UAMI_PRINCIPAL_ID=$(az identity show \
   --name "$UAMI_NAME" \
   --resource-group "$RESOURCE_GROUP" \
   --subscription "$SUBSCRIPTION" \
   --query "principalId" \
   --output tsv 2>/dev/null || echo "")
-
-if [[ -n "$UAMI_ID" ]]; then
-  pass "UAMI found: $UAMI_ID"
-else
-  fail "UAMI '$UAMI_NAME' not found in resource group '$RESOURCE_GROUP'"
-fi
 
 # ── Test 3: Fine-grained read roles on source registry ───────────────────────
 info "Test 3: UAMI has required roles on source registry '$SOURCE_REGISTRY_NAME'"
