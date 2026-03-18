@@ -1,0 +1,16 @@
+{
+    "version": "1.0",
+    "trustPolicies": [
+        {
+            "name": "demoPolicy",
+            "registryScopes": [ "acrtsmpremiumsku.azurecr.io/python" ],
+            "signatureVerification": {
+                "level" : "strict"
+            },
+            "trustStores": [ "ca:kubeconDemoSigningRootCerts", "tsa:kubeconDemoTsaRootCerts" ],
+            "trustedIdentities": [
+                "x509.subject: CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=Cloud Native Security and Registries, L=Redmond, S=Washington, C=US"
+            ]
+        }
+    ]
+}

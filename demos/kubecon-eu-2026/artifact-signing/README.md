@@ -138,7 +138,7 @@ az codesigning account create \
 ```
 
 > **Note:** The `Basic` SKU is sufficient for Private Trust certificates used
-> in this demo. Use `Premium` for Public Trust certificates.
+> in this demo.
 
 ### 1.3 Create an identity validation
 
@@ -146,18 +146,21 @@ Identity validation must be completed in the **Azure portal**; it cannot be
 done via the CLI.
 
 1. Go to the Azure portal and open your new Artifact Signing account.
-2. Confirm you are assigned the **Artifact Signing Identity Verifier** role.
+2. Confirm you are assigned the following roles on the Artifact Signing account:
+   - **Artifact Signing Identity Verifier** — required to create identity validations.
+   - **Artifact Signing Certificate Profile Signer** — required to sign artifacts using a certificate profile.
 3. Select **Identity validations → New identity → Private**.
 4. Fill in the organization details (name, email, address, etc.).
 5. Select **Create** and wait for the status to change to **Completed**.
-   Processing takes 1–7 business days for Public Trust; Private Trust is
-   usually instant.
 
-> **Demo shortcut:** For a demo with a private trust certificate, use
-> **Private** validation. This skips the external identity verification step
-> and completes immediately within your Entra tenant.
+> **Important:** Use **Private** identity validation for this demo. Private
+> validation is scoped to your Entra tenant, completes immediately, and does
+> not require the external business verification process needed for Public Trust.
 
 ### 1.4 Create a certificate profile
+
+Use the **Private Trust** certificate profile type, which pairs with the
+Private identity validation created above and is scoped to your Entra tenant.
 
 ```bash
 az codesigning certificate-profile create \
@@ -176,6 +179,10 @@ az codesigning account show \
   --resource-group $TS_RG \
   --query "id" -o tsv
 ```
+
+> **Note:** The `PrivateTrust` profile type is the only type compatible with
+> Private identity validation. Do not use `PublicTrust` or other profile types
+> for this demo.
 
 ### 1.5 Assign the signer role
 
