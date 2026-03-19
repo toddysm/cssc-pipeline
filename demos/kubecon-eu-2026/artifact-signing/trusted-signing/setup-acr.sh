@@ -68,11 +68,15 @@ done
 ###############################################################################
 info "Step 1: Verifying Azure login..."
 if ! az account show --query id -o tsv &>/dev/null; then
-    warn "Not logged in. Running az login..."
-    run az login
+    error "No active Azure CLI session. Authenticate first with one of:"
+    error "  az login                                  (interactive)"
+    error "  az login --service-principal ...          (service principal)"
+    error "  az login --identity                       (managed identity)"
+    exit 1
 fi
+SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 SUBSCRIPTION=$(az account show --query name -o tsv)
-info "Using subscription: $SUBSCRIPTION"
+info "Using subscription: $SUBSCRIPTION ($SUBSCRIPTION_ID)"
 
 ###############################################################################
 # Step 2 — Create resource group
