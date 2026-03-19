@@ -14,12 +14,22 @@
 #   source "${SCRIPT_DIR}/defaults.sh"
 
 ###############################################################################
+# Shared resource group and location
+# All services (ACR, AKS, Trusted Signing) are deployed into the same resource
+# group and region. Change DEMO_RG / DEMO_LOCATION here to move everything.
+# Individual service variables (ACR_RG, AKS_RG, TS_RG, …) inherit these values
+# but can still be overridden independently if needed.
+###############################################################################
+export DEMO_RG="${DEMO_RG:-rg-tsm-signing}"
+export DEMO_LOCATION="${DEMO_LOCATION:-westus2}"
+
+###############################################################################
 # Azure Container Registry
 ###############################################################################
 export ACR_NAME="${ACR_NAME:-acrtsmpremiumsku}"
-export ACR_RG="${ACR_RG:-rg-tsm-signing}"
+export ACR_RG="${ACR_RG:-${DEMO_RG}}"
 export ACR_SKU="${ACR_SKU:-Premium}"
-export ACR_LOCATION="${ACR_LOCATION:-westus2}"
+export ACR_LOCATION="${ACR_LOCATION:-${DEMO_LOCATION}}"
 # Derived from ACR_NAME — override explicitly if using a custom login server
 export ACR_LOGIN_SERVER="${ACR_LOGIN_SERVER:-${ACR_NAME}.azurecr.io}"
 
@@ -27,15 +37,15 @@ export ACR_LOGIN_SERVER="${ACR_LOGIN_SERVER:-${ACR_NAME}.azurecr.io}"
 # Azure Kubernetes Service
 ###############################################################################
 export AKS_CLUSTER="${AKS_CLUSTER:-aks-tsm-signing-demo}"
-export AKS_RG="${AKS_RG:-rg-tsm-signing}"
-export AKS_LOCATION="${AKS_LOCATION:-westus2}"
+export AKS_RG="${AKS_RG:-${DEMO_RG}}"
+export AKS_LOCATION="${AKS_LOCATION:-${DEMO_LOCATION}}"
 
 ###############################################################################
 # Azure Trusted Signing
 ###############################################################################
 export TS_ACCOUNT_NAME="${TS_ACCOUNT_NAME:-sig-tsm-demo}"
-export TS_RG="${TS_RG:-rg-tsm-signing}"
-export TS_LOCATION="${TS_LOCATION:-westus2}"
+export TS_RG="${TS_RG:-${DEMO_RG}}"
+export TS_LOCATION="${TS_LOCATION:-${DEMO_LOCATION}}"
 export TS_SKU="${TS_SKU:-Basic}"
 export TS_CERT_PROFILE="${TS_CERT_PROFILE:-cert-tsm-demo}"
 
