@@ -210,6 +210,7 @@ else
         --namespace gatekeeper-system \
         --set featureFlags.RATIFY_CERT_ROTATION=true \
         --set akvCertConfig.enabled=false \
+        --set mutationProvider.enable=false \
         --wait
     info "Ratify installed."
 fi
