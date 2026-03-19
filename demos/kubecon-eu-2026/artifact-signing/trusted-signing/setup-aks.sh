@@ -57,15 +57,11 @@ run() {
 }
 
 ###############################################################################
-# Default values — override by exporting before running
+# Load shared defaults (override by exporting before running)
 ###############################################################################
-: "${AKS_CLUSTER:=aks-tsm-signing-demo}"
-: "${AKS_RG:=rg-tsm-signing}"
-: "${AKS_LOCATION:=westus2}"
-: "${ACR_LOGIN_SERVER:=acrtsmpremiumsku.azurecr.io}"
-: "${TS_CERT_SUBJECT:=CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=Cloud Native Security and Registries, L=Redmond, S=Washington, C=US}"
-: "${TS_SIGNING_ROOT_CERT:=https://www.microsoft.com/pkiops/certs/Microsoft%20Enterprise%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt}"
-: "${TS_TSA_ROOT_CERT:=http://www.microsoft.com/pkiops/certs/microsoft%20identity%20verification%20root%20certificate%20authority%202020.crt}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=defaults.sh
+source "${SCRIPT_DIR}/defaults.sh"
 
 ###############################################################################
 # Validate required variables
