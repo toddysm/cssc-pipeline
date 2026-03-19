@@ -64,9 +64,12 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 
 ###############################################################################
-# Step 1 — Verify Azure login
+# Step 1 — Log out and log back in to ensure the correct subscription
 ###############################################################################
-info "Step 1: Verifying Azure login..."
+info "Step 1: Logging out of Azure CLI to ensure a clean session..."
+az logout --verbose 2>/dev/null || true
+info "Logging in to Azure CLI..."
+az login
 if ! az account show --query id -o tsv &>/dev/null; then
     error "No active Azure CLI session. Authenticate first with one of:"
     error "  az login                                  (interactive)"
