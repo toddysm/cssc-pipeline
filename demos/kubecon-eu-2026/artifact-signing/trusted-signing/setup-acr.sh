@@ -64,40 +64,9 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 
 ###############################################################################
-# Step 1 — Log out and log back in to ensure the correct subscription
+# Step 1 — Create Azure Container Registry
 ###############################################################################
-info "Step 1: Logging out of Azure CLI to ensure a clean session..."
-az logout --verbose 2>/dev/null || true
-info "Logging in to Azure CLI..."
-az login
-if ! az account show --query id -o tsv &>/dev/null; then
-    error "No active Azure CLI session. Authenticate first with one of:"
-    error "  az login                                  (interactive)"
-    error "  az login --service-principal ...          (service principal)"
-    error "  az login --identity                       (managed identity)"
-    exit 1
-fi
-SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-SUBSCRIPTION=$(az account show --query name -o tsv)
-info "Using subscription: $SUBSCRIPTION ($SUBSCRIPTION_ID)"
-
-###############################################################################
-# Step 2 — Create resource group
-###############################################################################
-info "Step 2: Ensuring resource group '$ACR_RG' exists..."
-if az group show --name "$ACR_RG" &>/dev/null; then
-    info "Resource group '$ACR_RG' already exists — skipping."
-else
-    run az group create \
-        --name "$ACR_RG" \
-        --location "$ACR_LOCATION"
-    info "Resource group '$ACR_RG' created."
-fi
-
-###############################################################################
-# Step 3 — Create Azure Container Registry
-###############################################################################
-info "Step 3: Creating ACR '$ACR_NAME' (SKU: $ACR_SKU)..."
+info "Step 1: Creating ACR '$ACR_NAME' (SKU: $ACR_SKU)..."
 if az acr show --name "$ACR_NAME" --resource-group "$ACR_RG" &>/dev/null; then
     info "ACR '$ACR_NAME' already exists — skipping."
 else
@@ -110,15 +79,15 @@ else
 fi
 
 ###############################################################################
-# Step 4 — Log in to ACR
+# Step 2 — Log in to ACR
 ###############################################################################
-info "Step 4: Logging in to ACR '$ACR_LOGIN_SERVER'..."
+info "Step 2: Logging in to ACR '$ACR_LOGIN_SERVER'..."
 run az acr login --name "$ACR_NAME"
 
 ###############################################################################
-# Step 5 — Copy images using ORAS
+# Step 3 — Copy images using ORAS
 ###############################################################################
-info "Step 5: Copying images from Docker Hub into '$ACR_LOGIN_SERVER'..."
+info "Step 3: Copying images from Docker Hub into '$ACR_LOGIN_SERVER'..."
 
 # nginx:1.29-alpine → <acr>/nginx:1.29-alpine-signed (will be Notation-signed later)
 info "  Copying nginx:1.29-alpine → ${ACR_LOGIN_SERVER}/nginx:1.29-alpine-signed"

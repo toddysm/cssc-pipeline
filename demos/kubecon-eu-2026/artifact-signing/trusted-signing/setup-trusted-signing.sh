@@ -79,27 +79,9 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 
 ###############################################################################
-# Step 1 — Log out and log back in to ensure the correct subscription
+# Step 1 — Install trustedsigning CLI extension
 ###############################################################################
-info "Step 1: Logging out of Azure CLI to ensure a clean session..."
-az logout --verbose 2>/dev/null || true
-info "Logging in to Azure CLI..."
-az login
-if ! az account show --query id -o tsv &>/dev/null; then
-    error "No active Azure CLI session. Authenticate first with one of:"
-    error "  az login                                  (interactive)"
-    error "  az login --service-principal ...          (service principal)"
-    error "  az login --identity                       (managed identity)"
-    exit 1
-fi
-SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-SUBSCRIPTION=$(az account show --query name -o tsv)
-info "Using subscription: $SUBSCRIPTION ($SUBSCRIPTION_ID)"
-
-###############################################################################
-# Step 2 — Install trustedsigning CLI extension
-###############################################################################
-info "Step 2: Checking trustedsigning CLI extension..."
+info "Step 1: Checking trustedsigning CLI extension..."
 if az extension show --name trustedsigning &>/dev/null; then
     info "trustedsigning extension already installed."
 else
@@ -108,9 +90,9 @@ else
 fi
 
 ###############################################################################
-# Step 3 — Create resource group
+# Step 2 — Create resource group
 ###############################################################################
-info "Step 3: Ensuring resource group '$TS_RG' exists..."
+info "Step 2: Ensuring resource group '$TS_RG' exists..."
 if az group show --name "$TS_RG" &>/dev/null; then
     info "Resource group '$TS_RG' already exists — skipping."
 else
@@ -121,9 +103,9 @@ else
 fi
 
 ###############################################################################
-# Step 4 — Create Trusted Signing account
+# Step 3 — Create Trusted Signing account
 ###############################################################################
-info "Step 4: Creating Trusted Signing account '$TS_ACCOUNT_NAME'..."
+info "Step 3: Creating Trusted Signing account '$TS_ACCOUNT_NAME'..."
 if az trustedsigning show \
     --name "$TS_ACCOUNT_NAME" \
     --resource-group "$TS_RG" &>/dev/null; then
@@ -143,9 +125,9 @@ TS_ACCOUNT_ID=$(az trustedsigning show \
     --query id -o tsv)
 
 ###############################################################################
-# Step 5 — Create Private Trust certificate profile (signing identity)
+# Step 4 — Create Private Trust certificate profile (signing identity)
 ###############################################################################
-info "Step 5: Creating certificate profile '$TS_CERT_PROFILE' (PrivateTrust)..."
+info "Step 4: Creating certificate profile '$TS_CERT_PROFILE' (PrivateTrust)..."
 if az trustedsigning certificate-profile show \
     --account-name "$TS_ACCOUNT_NAME" \
     --resource-group "$TS_RG" \
@@ -168,9 +150,9 @@ else
 fi
 
 ###############################################################################
-# Step 6 — Assign RBAC roles to the current signed-in user
+# Step 5 — Assign RBAC roles to the current signed-in user
 ###############################################################################
-info "Step 6: Assigning RBAC roles to current user..."
+info "Step 5: Assigning RBAC roles to current user..."
 
 CURRENT_USER_ID=$(az ad signed-in-user show --query id -o tsv)
 info "Current user object ID: $CURRENT_USER_ID"

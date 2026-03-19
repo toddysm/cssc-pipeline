@@ -66,6 +66,21 @@ export TS_SIGNING_ROOT_CERT="${TS_SIGNING_ROOT_CERT:-https://www.microsoft.com/p
 export TS_TSA_ROOT_CERT="${TS_TSA_ROOT_CERT:-http://www.microsoft.com/pkiops/certs/microsoft%20identity%20verification%20root%20certificate%20authority%202020.crt}"
 
 ###############################################################################
+# Log out and log back in to ensure a clean session on the correct subscription
+###############################################################################
+echo "[INFO] Logging out of Azure CLI to ensure a clean session..."
+az logout --verbose 2>/dev/null || true
+echo "[INFO] Logging in to Azure CLI..."
+az login
+if ! az account show --query id -o tsv &>/dev/null; then
+    echo "[ERROR] No active Azure CLI session after login. Exiting." >&2
+    exit 1
+fi
+SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+SUBSCRIPTION=$(az account show --query name -o tsv)
+echo "[INFO] Using subscription: $SUBSCRIPTION ($SUBSCRIPTION_ID)"
+
+###############################################################################
 # Ensure the shared resource group exists
 # This runs automatically when defaults.sh is sourced, so each setup script
 # doesn't need its own resource group creation step.

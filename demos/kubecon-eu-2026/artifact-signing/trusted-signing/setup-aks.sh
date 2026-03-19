@@ -79,27 +79,9 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 
 ###############################################################################
-# Step 1 — Log out and log back in to ensure the correct subscription
+# Step 1 — Create the AKS cluster
 ###############################################################################
-info "Step 1: Logging out of Azure CLI to ensure a clean session..."
-az logout --verbose 2>/dev/null || true
-info "Logging in to Azure CLI..."
-az login
-if ! az account show --query id -o tsv &>/dev/null; then
-    error "No active Azure CLI session. Authenticate first with one of:"
-    error "  az login                                  (interactive)"
-    error "  az login --service-principal ...          (service principal)"
-    error "  az login --identity                       (managed identity)"
-    exit 1
-fi
-SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-SUBSCRIPTION=$(az account show --query name -o tsv)
-info "Using subscription: $SUBSCRIPTION ($SUBSCRIPTION_ID)"
-
-###############################################################################
-# Step 2 — Create the AKS cluster
-###############################################################################
-info "Step 2: Creating AKS cluster '$AKS_CLUSTER' in resource group '$AKS_RG'..."
+info "Step 1: Creating AKS cluster '$AKS_CLUSTER' in resource group '$AKS_RG'..."
 
 if az aks show --name "$AKS_CLUSTER" --resource-group "$AKS_RG" &>/dev/null; then
     info "Cluster '$AKS_CLUSTER' already exists — skipping creation."
@@ -137,9 +119,9 @@ if [[ "$_az_policy" == "true" ]]; then
 fi
 
 ###############################################################################
-# Step 3 — Grant kubelet identity AcrPull on the ACR
+# Step 2 — Grant kubelet identity AcrPull on the ACR
 ###############################################################################
-info "Step 3: Granting kubelet identity AcrPull on ACR '$ACR_LOGIN_SERVER'..."
+info "Step 2: Granting kubelet identity AcrPull on ACR '$ACR_LOGIN_SERVER'..."
 
 KUBELET_CLIENT_ID=$(az aks show \
     --name "$AKS_CLUSTER" \
@@ -167,9 +149,9 @@ else
 fi
 
 ###############################################################################
-# Step 4 — Get credentials
+# Step 3 — Get credentials
 ###############################################################################
-info "Step 4: Fetching kubeconfig for cluster '$AKS_CLUSTER'..."
+info "Step 3: Fetching kubeconfig for cluster '$AKS_CLUSTER'..."
 run az aks get-credentials \
     --name "$AKS_CLUSTER" \
     --resource-group "$AKS_RG" \
@@ -178,9 +160,9 @@ run az aks get-credentials \
 info "Current kubectl context: $(kubectl config current-context)"
 
 ###############################################################################
-# Step 5 — Install OPA Gatekeeper
+# Step 4 — Install OPA Gatekeeper
 ###############################################################################
-info "Step 5: Installing OPA Gatekeeper..."
+info "Step 4: Installing OPA Gatekeeper..."
 
 helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts --force-update
 helm repo update
@@ -199,9 +181,9 @@ else
 fi
 
 ###############################################################################
-# Step 6 — Install Ratify
+# Step 5 — Install Ratify
 ###############################################################################
-info "Step 6: Installing Ratify..."
+info "Step 5: Installing Ratify..."
 
 helm repo add ratify https://notaryproject.github.io/ratify --force-update
 helm repo update
@@ -219,9 +201,9 @@ else
 fi
 
 ###############################################################################
-# Step 7 — Download root certificates and configure Ratify
+# Step 6 — Download root certificates and configure Ratify
 ###############################################################################
-info "Step 7: Configuring Ratify with Artifact Signing trust store..."
+info "Step 6: Configuring Ratify with Artifact Signing trust store..."
 
 SIGNING_CERT_FILE="msft-root-certificate-authority-2020.crt"
 TSA_CERT_FILE="msft-tsa-root-certificate-authority-2020.crt"
@@ -294,9 +276,9 @@ EOF
 info "Ratify CertificateStore and Verifier configured."
 
 ###############################################################################
-# Step 8 — Apply Gatekeeper ConstraintTemplate and constraint
+# Step 7 — Apply Gatekeeper ConstraintTemplate and constraint
 ###############################################################################
-info "Step 8: Applying Gatekeeper ConstraintTemplate and RatifyVerification constraint..."
+info "Step 7: Applying Gatekeeper ConstraintTemplate and RatifyVerification constraint..."
 
 kubectl apply -f - <<'EOF'
 apiVersion: templates.gatekeeper.sh/v1
