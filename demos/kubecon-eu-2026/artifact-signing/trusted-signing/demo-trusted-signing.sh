@@ -57,9 +57,9 @@ cmd
 # Set up env variables
 
 pe "# Set up variables for Trusted Signing"
-pe "TS_ACCT_NAME=sig-tsm-demo"
+pe "TS_ACCT_NAME=sig-tsm-kubecon-eu-2026-demo"
 pe "TS_ACCT_URL=https://wus2.codesigning.azure.net/"
-pe "TS_CERT_PROFILE=cert-tsm-demo"
+pe "TS_CERT_PROFILE=cert-tsm-kubecon-eu-2026-demo"
 pe "TS_TSA_URL=http://timestamp.acs.microsoft.com/"
 pe "TS_SIGNING_ROOT_CERT=\"https://www.microsoft.com/pkiops/certs/Microsoft%20Enterprise%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt\""
 
@@ -67,9 +67,9 @@ echo
 wait
 
 pe "# Set up variables for ACR and image"
-pe "ACR_LOGIN_SERVER=acrtsmpremiumsku.azurecr.io"
+pe "ACR_LOGIN_SERVER=tsmkubeconeu2026demo.azurecr.io"
 pe "REPOSITORY=nginx"
-pe "SIGNED_IMAGE=acrtsmpremiumsku.azurecr.io/nginx:1.29-alpine-signed"
+pe "SIGNED_IMAGE=tsmkubeconeu2026demo.azurecr.io/nginx:1.29-alpine-signed"
 
 echo
 wait
