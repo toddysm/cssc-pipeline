@@ -1,0 +1,187 @@
+---
+# ConfigMap — custom HTML page served by NGINX
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-demo-html
+  namespace: default
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>KubeCon EU 2026 — Artifact Signing Demo</title>
+      <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background: #0a0e1a;
+          color: #e8eaf0;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+        }
+        .card {
+          background: #111827;
+          border: 1px solid #1e3a5f;
+          border-radius: 12px;
+          padding: 3rem 3.5rem;
+          max-width: 640px;
+          width: 100%;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        .badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          background: #0d2137;
+          border: 1px solid #1a4b7a;
+          border-radius: 999px;
+          padding: 0.3rem 0.85rem;
+          font-size: 0.75rem;
+          color: #60a5fa;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          margin-bottom: 1.5rem;
+        }
+        .badge::before { content: "●"; color: #22c55e; }
+        h1 {
+          font-size: 1.75rem;
+          font-weight: 700;
+          line-height: 1.2;
+          margin-bottom: 0.75rem;
+          color: #f1f5f9;
+        }
+        h1 span { color: #3b82f6; }
+        .subtitle {
+          color: #94a3b8;
+          font-size: 0.95rem;
+          margin-bottom: 2rem;
+          line-height: 1.6;
+        }
+        .info-grid {
+          display: grid;
+          gap: 0.75rem;
+          margin-bottom: 2rem;
+        }
+        .info-row {
+          display: grid;
+          grid-template-columns: 140px 1fr;
+          gap: 0.5rem;
+          align-items: start;
+          padding: 0.6rem 0.75rem;
+          background: #0d1626;
+          border-radius: 6px;
+          font-size: 0.85rem;
+        }
+        .info-label { color: #64748b; font-weight: 600; }
+        .info-value { color: #e2e8f0; word-break: break-all; font-family: monospace; font-size: 0.8rem; }
+        .status-ok { color: #22c55e; font-weight: 700; font-family: inherit; font-size: 0.85rem; }
+        .footer {
+          font-size: 0.75rem;
+          color: #475569;
+          border-top: 1px solid #1e293b;
+          padding-top: 1.25rem;
+          line-height: 1.6;
+        }
+        .footer a { color: #3b82f6; text-decoration: none; }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <div class="badge">Signature Verified</div>
+        <h1>Artifact Signing with <span>Azure Trusted Signing</span></h1>
+        <p class="subtitle">
+          This pod was admitted by Kubernetes only because its image carries a valid
+          Notation signature issued by Azure Trusted Signing and verified by Ratify
+          + OPA Gatekeeper.
+        </p>
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="info-label">Image</span>
+            <span class="info-value">acrtsmpremiumsku.azurecr.io/nginx:1.29-alpine-signed</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Signer</span>
+            <span class="info-value">Azure Trusted Signing — cert-tsm-demo</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Policy Engine</span>
+            <span class="info-value">OPA Gatekeeper + Ratify (Notation verifier)</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Admission</span>
+            <span class="status-ok">✔ ALLOWED — signature valid</span>
+          </div>
+        </div>
+        <div class="footer">
+          Demonstrated at <strong>KubeCon EU 2026</strong> ·
+          <a href="https://github.com/toddysm/cssc-pipeline">github.com/toddysm/cssc-pipeline</a>
+        </div>
+      </div>
+    </body>
+    </html>
+---
+# Deployment — signed NGINX image with custom HTML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-signed-demo
+  namespace: default
+  labels:
+    app: nginx-signed-demo
+    demo: kubecon-eu-2026
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-signed-demo
+  template:
+    metadata:
+      labels:
+        app: nginx-signed-demo
+        demo: kubecon-eu-2026
+    spec:
+      containers:
+        - name: nginx
+          image: acrtsmpremiumsku.azurecr.io/nginx:1.29-alpine-signed
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+      volumes:
+        - name: html
+          configMap:
+            name: nginx-demo-html
+---
+# Service — expose NGINX to the internet via Azure Load Balancer
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-signed-demo
+  namespace: default
+  labels:
+    app: nginx-signed-demo
+    demo: kubecon-eu-2026
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-signed-demo
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
