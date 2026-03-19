@@ -68,7 +68,7 @@ wait
 
 pe "# Set up variables for ACR and image"
 pe "ACR_LOGIN_SERVER=acrtsmpremiumsku.azurecr.io"
-pe "REPOSITORY=python"
+pe "REPOSITORY=nginx"
 pe "SIGNED_IMAGE=acrtsmpremiumsku.azurecr.io/nginx:1.29-alpine-signed"
 
 echo
