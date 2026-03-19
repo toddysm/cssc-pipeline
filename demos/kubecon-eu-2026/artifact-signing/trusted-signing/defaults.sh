@@ -26,7 +26,7 @@ export DEMO_LOCATION="${DEMO_LOCATION:-westus2}"
 ###############################################################################
 # Azure Container Registry
 ###############################################################################
-export ACR_NAME="${ACR_NAME:-tsmkubeconeu2026demo}"
+export ACR_NAME="${ACR_NAME:-acrtsmkubeconeu2026demo}"
 export ACR_RG="${ACR_RG:-${DEMO_RG}}"
 export ACR_SKU="${ACR_SKU:-Premium}"
 export ACR_LOCATION="${ACR_LOCATION:-${DEMO_LOCATION}}"

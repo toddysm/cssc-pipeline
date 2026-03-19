@@ -67,9 +67,9 @@ echo
 wait
 
 pe "# Set up variables for ACR and image"
-pe "ACR_LOGIN_SERVER=tsmkubeconeu2026demo.azurecr.io"
+pe "ACR_LOGIN_SERVER=acrtsmkubeconeu2026demo.azurecr.io"
 pe "REPOSITORY=nginx"
-pe "SIGNED_IMAGE=tsmkubeconeu2026demo.azurecr.io/nginx:1.29-alpine-signed"
+pe "SIGNED_IMAGE=acrtsmkubeconeu2026demo.azurecr.io/nginx:1.29-alpine-signed"
 
 echo
 wait
