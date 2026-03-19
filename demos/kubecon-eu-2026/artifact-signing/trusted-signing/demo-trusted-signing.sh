@@ -137,3 +137,4 @@ pe "notation verify $IMAGE"
 # show a prompt so as not to reveal our true nature after
 # the demo has concluded
 p ""
+wait
