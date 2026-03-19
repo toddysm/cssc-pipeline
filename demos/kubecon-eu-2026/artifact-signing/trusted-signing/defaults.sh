@@ -20,7 +20,7 @@
 # Individual service variables (ACR_RG, AKS_RG, TS_RG, …) inherit these values
 # but can still be overridden independently if needed.
 ###############################################################################
-export DEMO_RG="${DEMO_RG:-rg-tsm-signing}"
+export DEMO_RG="${DEMO_RG:-rg-tsm-kubeconeu2026-demo}"
 export DEMO_LOCATION="${DEMO_LOCATION:-westus2}"
 
 ###############################################################################
