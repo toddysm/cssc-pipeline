@@ -170,6 +170,7 @@ else
             --resource-group "$TS_RG" \
             --profile-name "$TS_CERT_PROFILE" \
             --query "properties.status" -o tsv 2>/dev/null || echo "Unknown")
+        _status="${_status//[$'\t\r\n ']/}"  # strip whitespace/newlines from tsv output
         if [[ "$_status" == "Active" ]]; then
             info "  Certificate profile is Active."
             break
