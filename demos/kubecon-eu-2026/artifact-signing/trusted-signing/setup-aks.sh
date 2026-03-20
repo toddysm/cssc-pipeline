@@ -22,7 +22,7 @@
 #   AKS_CLUSTER        - Name of the AKS cluster to create
 #   AKS_RG             - Resource group for the AKS cluster
 #   AKS_LOCATION       - Azure region for the AKS cluster (e.g. westus2)
-#   ACR_LOGIN_SERVER   - ACR login server (e.g. acrtsmpremiumsku.azurecr.io)
+#   ACR_LOGIN_SERVER   - ACR login server (e.g. acrtsmkubeconeu2026demo.azurecr.io)
 #   TS_CERT_SUBJECT    - Expected certificate subject for Notation trust policy
 #                        e.g. "CN=..., O=..., OU=..., L=..., S=..., C=US"
 #   TS_SIGNING_ROOT_CERT - URL of the Artifact Signing root CA certificate
