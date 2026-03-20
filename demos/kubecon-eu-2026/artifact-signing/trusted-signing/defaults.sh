@@ -56,17 +56,14 @@ export TS_LOCATION="${TS_LOCATION:-${DEMO_LOCATION}}"
 export TS_SKU="${TS_SKU:-Basic}"
 export TS_CERT_PROFILE="${TS_CERT_PROFILE:-cert-tsm-kueu26-demo}"
 
-# Certificate profile subject DN fields
-export TS_COMMON_NAME="${TS_COMMON_NAME:-toddysmlive.onmicrosoft.com}"
-export TS_ORGANIZATION="${TS_ORGANIZATION:-toddysmlive.onmicrosoft.com}"
-export TS_ORG_UNIT="${TS_ORG_UNIT:-Cloud Native Security and Registries}"
-export TS_CITY="${TS_CITY:-Redmond}"
-export TS_STATE="${TS_STATE:-Washington}"
-export TS_COUNTRY="${TS_COUNTRY:-US}"
+# Identity validation ID — required for certificate profile creation.
+# Find it in the Portal: Trusted Signing → <account> → Identity validation
+# The GUID is shown in the identity validation details.
+export TS_IDENTITY_VALIDATION_ID="${TS_IDENTITY_VALIDATION_ID:-}"
 
-# Assembled certificate subject DN — derived from DN fields above.
-# Override explicitly if you need a different format.
-export TS_CERT_SUBJECT="${TS_CERT_SUBJECT:-CN=${TS_COMMON_NAME}, O=${TS_ORGANIZATION}, OU=${TS_ORG_UNIT}, L=${TS_CITY}, S=${TS_STATE}, C=${TS_COUNTRY}}"
+# Certificate subject DN — used for display / Ratify policy only (not passed
+# to the CLI; the subject is derived from the identity validation at signing time).
+export TS_CERT_SUBJECT="${TS_CERT_SUBJECT:-}"
 
 # Microsoft PKI certificate URLs (used by Ratify CertificateStore)
 export TS_SIGNING_ROOT_CERT="${TS_SIGNING_ROOT_CERT:-https://www.microsoft.com/pkiops/certs/Microsoft%20Enterprise%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt}"

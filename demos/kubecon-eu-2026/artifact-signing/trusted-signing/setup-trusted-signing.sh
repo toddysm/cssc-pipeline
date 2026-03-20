@@ -19,18 +19,13 @@
 #   ./setup-trusted-signing.sh
 #
 # Required environment variables:
-#   TS_ACCOUNT_NAME  - Trusted Signing account name (e.g. sig-tsm-demo)
-#   TS_RG            - Resource group for the account
-#   TS_LOCATION      - Azure region (e.g. westus2)
-#   TS_CERT_PROFILE  - Certificate profile name (e.g. cert-tsm-demo)
-#
-# Optional environment variables (subject DN fields):
-#   TS_COMMON_NAME   - CN field (default: microsoft.onmicrosoft.com)
-#   TS_ORGANIZATION  - O field  (default: microsoft.onmicrosoft.com)
-#   TS_ORG_UNIT      - OU field (default: Cloud Native Security and Registries)
-#   TS_CITY          - L field  (default: Redmond)
-#   TS_STATE         - S field  (default: Washington)
-#   TS_COUNTRY       - C field  (default: US)
+#   TS_ACCOUNT_NAME          - Trusted Signing account name (e.g. sig-tsm-demo)
+#   TS_RG                    - Resource group for the account
+#   TS_LOCATION              - Azure region (e.g. westus2)
+#   TS_CERT_PROFILE          - Certificate profile name (e.g. cert-tsm-demo)
+#   TS_IDENTITY_VALIDATION_ID - GUID of the Completed identity validation on the
+#                              account. Find it in the Portal:
+#                              Trusted Signing → <account> → Identity validation
 
 set -euo pipefail
 
@@ -71,7 +66,7 @@ source "${SCRIPT_DIR}/defaults.sh"
 ###############################################################################
 # Validate required variables
 ###############################################################################
-REQUIRED_VARS=(TS_ACCOUNT_NAME TS_RG TS_LOCATION TS_CERT_PROFILE)
+REQUIRED_VARS=(TS_ACCOUNT_NAME TS_RG TS_LOCATION TS_CERT_PROFILE TS_IDENTITY_VALIDATION_ID)
 for var in "${REQUIRED_VARS[@]}"; do
     if [[ -z "${!var:-}" ]]; then
         error "Required environment variable \$$var is not set."
@@ -159,12 +154,10 @@ else
         --resource-group "$TS_RG" \
         --profile-name "$TS_CERT_PROFILE" \
         --profile-type PrivateTrust \
-        --common-name "$TS_COMMON_NAME" \
-        --organization "$TS_ORGANIZATION" \
-        --organization-unit "$TS_ORG_UNIT" \
-        --city "$TS_CITY" \
-        --state "$TS_STATE" \
-        --country "$TS_COUNTRY" \
+        --identity-validation-id "$TS_IDENTITY_VALIDATION_ID" \
+        --include-city true \
+        --include-state true \
+        --include-country true \
         --include-street-address false
 
     # Poll until Active — the create is async; a provisioning failure would
@@ -245,11 +238,7 @@ echo
 echo "  Account:         $TS_ACCOUNT_NAME ($TS_RG)"
 echo "  Endpoint:        https://${TS_LOCATION}.codesigning.azure.net/"
 echo "  Cert Profile:    $TS_CERT_PROFILE (PrivateTrust)"
-echo "  Subject DN:"
-echo "    CN=$TS_COMMON_NAME"
-echo "    O=$TS_ORGANIZATION"
-echo "    OU=$TS_ORG_UNIT"
-echo "    L=$TS_CITY, S=$TS_STATE, C=$TS_COUNTRY"
+echo "  Identity Val ID: $TS_IDENTITY_VALIDATION_ID"
 echo
 echo "Next steps:"
 echo "  1. Copy images to ACR:  ./setup-acr.sh"
