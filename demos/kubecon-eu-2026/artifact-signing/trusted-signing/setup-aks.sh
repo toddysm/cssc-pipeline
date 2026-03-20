@@ -244,7 +244,7 @@ spec:
   name: oras
   parameters:
     authProvider:
-      name: azureWorkloadIdentity
+      name: azureManagedIdentity
       clientID: "${KUBELET_CLIENT_ID}"
 EOF
 
