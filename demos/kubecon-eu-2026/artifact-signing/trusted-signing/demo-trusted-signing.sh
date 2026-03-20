@@ -69,6 +69,21 @@ rm -f msft-root-certificate-authority-2020.crt msft-tsa-root-certificate-authori
 kubectl delete -f nginx-signed-demo.yaml --ignore-not-found
 kubectl delete -f nginx-unsigned-demo.yaml --ignore-not-found
 
+# Delete all referrers (signatures) attached to the signed image
+echo "[INFO] Deleting referrers for acrtsmkubeconeu2026demo.azurecr.io/nginx:1.29-alpine-signed..."
+az acr manifest list-referrers \
+    --name "nginx:1.29-alpine-signed" \
+    --registry "acrtsmkubeconeu2026demo" \
+    --query "[].digest" -o tsv 2>/dev/null | \
+while read -r _digest; do
+    [[ -z "$_digest" ]] && continue
+    echo "[INFO]   Deleting referrer: $_digest"
+    az acr manifest delete \
+        --name "nginx@${_digest}" \
+        --registry "acrtsmkubeconeu2026demo" \
+        --yes 2>/dev/null || true
+done
+
 
 # hide the evidence
 clear
