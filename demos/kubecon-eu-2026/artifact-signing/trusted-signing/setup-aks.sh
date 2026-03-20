@@ -229,6 +229,11 @@ fi
 info "Step 7: Configuring Ratify with ORAS store, Artifact Signing trust store, and Notation Verifier..."
 
 info "Configuring Ratify ORAS store with workload identity auth..."
+# The Helm chart creates a default store-oras CR without the last-applied-configuration
+# annotation; delete it first so kubectl apply creates a clean resource.
+if kubectl get store store-oras -n gatekeeper-system &>/dev/null; then
+    kubectl delete store store-oras -n gatekeeper-system
+fi
 kubectl apply -f - <<EOF
 apiVersion: config.ratify.deislabs.io/v1beta1
 kind: Store
