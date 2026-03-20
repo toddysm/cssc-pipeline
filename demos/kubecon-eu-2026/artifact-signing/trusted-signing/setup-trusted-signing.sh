@@ -57,6 +57,7 @@ run() {
         rm -f "$_err"
         return $_rc
     fi
+    [[ -s "$_err" ]] && warn "$(cat "$_err")"
     rm -f "$_err"
 }
 
@@ -143,6 +144,27 @@ TS_ACCOUNT_ID=$(az trustedsigning show \
 # Step 5 — Create Private Trust certificate profile (signing identity)
 ###############################################################################
 info "Step 5: Creating certificate profile '$TS_CERT_PROFILE' (PrivateTrust)..."
+
+# Preflight: a Completed identity validation must exist on the account before
+# the profile can provision successfully. The ARM create call returns 200/202
+# even without one, but the profile silently ends up in a Failed state.
+info "  Checking for a Completed identity validation on '$TS_ACCOUNT_NAME'..."
+_sub_id=$(az account show --query id -o tsv)
+_iv_count=$(az rest \
+    --method GET \
+    --url "https://management.azure.com/subscriptions/${_sub_id}/resourceGroups/${TS_RG}/providers/Microsoft.CodeSigning/codeSigningAccounts/${TS_ACCOUNT_NAME}/identityValidations?api-version=2024-09-30-preview" \
+    --query "length(value[?properties.status=='Completed'])" \
+    -o tsv 2>/dev/null || echo "0")
+if [[ "${_iv_count:-0}" -lt 1 ]]; then
+    error "No Completed identity validation found on account '$TS_ACCOUNT_NAME'."
+    error "Certificate profile provisioning will fail silently without one."
+    error "Create an identity validation in the Azure Portal first:"
+    error "  Portal → Trusted Signing → $TS_ACCOUNT_NAME → Identity validation → + Add"
+    error "Wait until its status is 'Completed', then re-run this script."
+    exit 1
+fi
+info "  Identity validation verified."
+
 if az trustedsigning certificate-profile show \
     --account-name "$TS_ACCOUNT_NAME" \
     --resource-group "$TS_RG" \
@@ -161,6 +183,33 @@ else
         --state "$TS_STATE" \
         --country "$TS_COUNTRY" \
         --include-street-address false
+
+    # Poll until Active — the create is async; a provisioning failure would
+    # otherwise go unnoticed because the CLI exits 0 on HTTP 202 Accepted.
+    info "  Waiting for certificate profile to become Active (timeout: 5 min)..."
+    _deadline=$(( $(date +%s) + 300 ))
+    while true; do
+        _status=$(az trustedsigning certificate-profile show \
+            --account-name "$TS_ACCOUNT_NAME" \
+            --resource-group "$TS_RG" \
+            --profile-name "$TS_CERT_PROFILE" \
+            --query "properties.status" -o tsv 2>/dev/null || echo "Unknown")
+        if [[ "$_status" == "Active" ]]; then
+            info "  Certificate profile is Active."
+            break
+        elif [[ "$_status" == "Failed" || "$_status" == "Disabled" || "$_status" == "Canceled" ]]; then
+            error "Certificate profile entered '$_status' state."
+            error "Verify that the identity validation on the account is 'Completed',"
+            error "then delete the failed profile and re-run this script."
+            exit 1
+        elif [[ $(date +%s) -gt $_deadline ]]; then
+            warn "Timed out waiting for Active status (current: '$_status')."
+            warn "Check the Azure Portal for the profile status before signing."
+            break
+        fi
+        info "  Status: '$_status' — retrying in 15 s..."
+        sleep 15
+    done
     info "Certificate profile '$TS_CERT_PROFILE' created."
 fi
 

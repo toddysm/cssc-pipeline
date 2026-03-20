@@ -57,8 +57,8 @@ export TS_SKU="${TS_SKU:-Basic}"
 export TS_CERT_PROFILE="${TS_CERT_PROFILE:-cert-tsm-kueu26-demo}"
 
 # Certificate profile subject DN fields
-export TS_COMMON_NAME="${TS_COMMON_NAME:-microsoft.onmicrosoft.com}"
-export TS_ORGANIZATION="${TS_ORGANIZATION:-microsoft.onmicrosoft.com}"
+export TS_COMMON_NAME="${TS_COMMON_NAME:-toddysmlive.onmicrosoft.com}"
+export TS_ORGANIZATION="${TS_ORGANIZATION:-toddysmlive.onmicrosoft.com}"
 export TS_ORG_UNIT="${TS_ORG_UNIT:-Cloud Native Security and Registries}"
 export TS_CITY="${TS_CITY:-Redmond}"
 export TS_STATE="${TS_STATE:-Washington}"
