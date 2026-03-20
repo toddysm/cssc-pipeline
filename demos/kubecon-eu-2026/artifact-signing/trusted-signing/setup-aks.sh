@@ -223,6 +223,14 @@ if kubectl get verifier verifier-notation -n gatekeeper-system &>/dev/null; then
     kubectl delete verifier verifier-notation -n gatekeeper-system
 fi
 
+# The Helm chart registers a ratify-mutation-provider ExternalData Provider CR
+# even when mutationProvider.enable=false (server not running). Delete it to
+# prevent Gatekeeper's mutation webhook from trying to reach a dead endpoint.
+if kubectl get provider ratify-mutation-provider -n gatekeeper-system &>/dev/null; then
+    info "Removing ratify-mutation-provider ExternalData Provider CR (mutation not used)..."
+    kubectl delete provider ratify-mutation-provider -n gatekeeper-system
+fi
+
 ###############################################################################
 # Step 7 — Download root certificates and configure Ratify
 ###############################################################################
