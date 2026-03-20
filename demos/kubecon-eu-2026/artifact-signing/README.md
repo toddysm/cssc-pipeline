@@ -327,7 +327,7 @@ stores and restricts signatures to the expected certificate subject:
             "signatureVerification": { "level": "strict" },
             "trustStores": [ "ca:myRootCerts", "tsa:myTsaRootCerts" ],
             "trustedIdentities": [
-                "x509.subject: CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=tsdemo, S=Washington, C=US"
+                "x509.subject: CN=toddysmlive.onmicrosoft.com, O=toddysmlive.onmicrosoft.com, OU=Cloud Native Security and Registries, STREET=1 Microsoft Way, L=Redmond, S=Washington, C=US, PC=98052"
             ]
         }
     ]
