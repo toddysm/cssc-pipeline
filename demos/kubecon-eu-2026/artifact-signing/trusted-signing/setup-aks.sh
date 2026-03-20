@@ -247,7 +247,23 @@ kubectl delete assign \
 ###############################################################################
 info "Step 7: Configuring Ratify with ORAS store, Artifact Signing trust store, and Notation Verifier..."
 
-info "Configuring Ratify ORAS store with workload identity auth..."
+info "Configuring Ratify ORAS store with k8Secrets auth..."
+# Ratify v1.4.0 has a bug in the azureManagedIdentity auth provider: the
+# registryHostGetter field is never initialized in the factory, causing a nil
+# pointer panic on every verification call. Use k8Secrets instead.
+#
+# Obtain a short-lived ACR access token from the current Azure CLI session and
+# store it as a Kubernetes Docker registry secret in gatekeeper-system. Ratify
+# uses this secret to authenticate to ACR when pulling referrer artifacts.
+info "Creating ACR pull secret for Ratify..."
+ACR_TOKEN=$(az acr login --name "${ACR_NAME}" --expose-token --output tsv --query accessToken)
+kubectl create secret docker-registry ratify-acr-secret \
+    --namespace gatekeeper-system \
+    --docker-server="${ACR_REGISTRY}" \
+    --docker-username="00000000-0000-0000-0000-000000000000" \
+    --docker-password="${ACR_TOKEN}" \
+    --dry-run=client -o yaml | kubectl apply -f -
+
 # The Helm chart creates a default store-oras CR without the last-applied-configuration
 # annotation; delete it first so kubectl apply creates a clean resource.
 if kubectl get store store-oras -n gatekeeper-system &>/dev/null; then
@@ -263,8 +279,10 @@ spec:
   name: oras
   parameters:
     authProvider:
-      name: azureManagedIdentity
-      clientID: "${KUBELET_CLIENT_ID}"
+      name: k8Secrets
+      secrets:
+        - registryUri: "${ACR_REGISTRY}"
+          secretName: ratify-acr-secret
 EOF
 
 SIGNING_CERT_FILE="msft-root-certificate-authority-2020.crt"
@@ -358,7 +376,7 @@ spec:
         package ratifyverification
         violation[{"msg": msg}] {
           subject := input.review.object.spec.containers[_].image
-          response := external_data({"provider": "ratify", "keys": [subject]})
+          response := external_data({"provider": "ratify-provider", "keys": [subject]})
           result := response.responses[_]
           result[0] == subject
           result[1].isSuccess == false
