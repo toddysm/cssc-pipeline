@@ -59,7 +59,7 @@ export TS_CERT_PROFILE="${TS_CERT_PROFILE:-cert-tsm-kueu26-demo}"
 # Identity validation ID — required for certificate profile creation.
 # Find it in the Portal: Trusted Signing → <account> → Identity validation
 # The GUID is shown in the identity validation details.
-export TS_IDENTITY_VALIDATION_ID="${TS_IDENTITY_VALIDATION_ID:-}"
+export TS_IDENTITY_VALIDATION_ID="${TS_IDENTITY_VALIDATION_ID:-a768ae25-6256-4366-b38d-67daf7b1dee4}"
 
 # Certificate subject DN — used for display / Ratify policy only (not passed
 # to the CLI; the subject is derived from the identity validation at signing time).
