@@ -33,6 +33,30 @@ DEMO_PROMPT="${GREEN}$ ${COLOR_RESET}"
 # text color
 # DEMO_CMD_COLOR=$BLACK
 
+# Log in to Azure
+echo "[INFO] Logging out of Azure CLI to ensure a clean session..."
+az logout --verbose 2>/dev/null || true
+
+if [[ -z "$DEMO_TENANT_ID" ]]; then
+    read -rp "Enter Azure Tenant ID: " DEMO_TENANT_ID
+fi
+if [[ -z "$DEMO_SUBSCRIPTION_ID" ]]; then
+    read -rp "Enter Azure Subscription ID: " DEMO_SUBSCRIPTION_ID
+fi
+
+echo "[INFO] Logging in to Azure CLI (tenant: $DEMO_TENANT_ID)..."
+az login --tenant "$DEMO_TENANT_ID"
+if ! az account show --query id -o tsv &>/dev/null; then
+    echo "[ERROR] No active Azure CLI session after login. Exiting." >&2
+    exit 1
+fi
+
+echo "[INFO] Setting active subscription to '$DEMO_SUBSCRIPTION_ID'..."
+az account set --subscription "$DEMO_SUBSCRIPTION_ID"
+SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+SUBSCRIPTION=$(az account show --query name -o tsv)
+echo "[INFO] Using subscription: $SUBSCRIPTION ($SUBSCRIPTION_ID)"
+
 # clean up any previous runs
 SIGNING_TRUST_STORE=kubeconDemoSigningRootCerts
 TSA_TRUST_STORE=kubeconDemoTsaRootCerts
