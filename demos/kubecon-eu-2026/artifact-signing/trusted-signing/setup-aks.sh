@@ -278,7 +278,7 @@ spec:
       trustPolicies:
         - name: default
           registryScopes:
-            - "*"
+            - "${ACR_LOGIN_SERVER}/nginx"
           signatureVerification:
             level: strict
           trustStores:
