@@ -79,9 +79,24 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 
 ###############################################################################
-# Step 1 — Create the AKS cluster
+# Step 1 — Register required resource providers
 ###############################################################################
-info "Step 1: Creating AKS cluster '$AKS_CLUSTER' in resource group '$AKS_RG'..."
+info "Step 1: Registering required Azure resource providers..."
+for _rp in Microsoft.ContainerService Microsoft.ContainerRegistry; do
+    _state=$(az provider show --namespace "$_rp" --query "registrationState" -o tsv 2>/dev/null || echo "NotRegistered")
+    if [[ "$_state" == "Registered" ]]; then
+        info "  $_rp is already registered."
+    else
+        info "  Registering $_rp..."
+        run az provider register --namespace "$_rp" --wait
+        info "  $_rp registered."
+    fi
+done
+
+###############################################################################
+# Step 2 — Create the AKS cluster
+###############################################################################
+info "Step 2: Creating AKS cluster '$AKS_CLUSTER' in resource group '$AKS_RG'..."
 
 if az aks show --name "$AKS_CLUSTER" --resource-group "$AKS_RG" &>/dev/null; then
     info "Cluster '$AKS_CLUSTER' already exists — skipping creation."
@@ -119,9 +134,9 @@ if [[ "$_az_policy" == "true" ]]; then
 fi
 
 ###############################################################################
-# Step 2 — Grant kubelet identity AcrPull on the ACR
+# Step 3 — Grant kubelet identity AcrPull on the ACR
 ###############################################################################
-info "Step 2: Granting kubelet identity AcrPull on ACR '$ACR_LOGIN_SERVER'..."
+info "Step 3: Granting kubelet identity AcrPull on ACR '$ACR_LOGIN_SERVER'..."
 
 KUBELET_CLIENT_ID=$(az aks show \
     --name "$AKS_CLUSTER" \
@@ -149,9 +164,9 @@ else
 fi
 
 ###############################################################################
-# Step 3 — Get credentials
+# Step 4 — Get credentials
 ###############################################################################
-info "Step 3: Fetching kubeconfig for cluster '$AKS_CLUSTER'..."
+info "Step 4: Fetching kubeconfig for cluster '$AKS_CLUSTER'..."
 run az aks get-credentials \
     --name "$AKS_CLUSTER" \
     --resource-group "$AKS_RG" \
@@ -160,9 +175,9 @@ run az aks get-credentials \
 info "Current kubectl context: $(kubectl config current-context)"
 
 ###############################################################################
-# Step 4 — Install OPA Gatekeeper
+# Step 5 — Install OPA Gatekeeper
 ###############################################################################
-info "Step 4: Installing OPA Gatekeeper..."
+info "Step 5: Installing OPA Gatekeeper..."
 
 helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts --force-update
 helm repo update
@@ -181,9 +196,9 @@ else
 fi
 
 ###############################################################################
-# Step 5 — Install Ratify
+# Step 6 — Install Ratify
 ###############################################################################
-info "Step 5: Installing Ratify..."
+info "Step 6: Installing Ratify..."
 
 helm repo add ratify https://notaryproject.github.io/ratify --force-update
 helm repo update
@@ -201,9 +216,9 @@ else
 fi
 
 ###############################################################################
-# Step 6 — Download root certificates and configure Ratify
+# Step 7 — Download root certificates and configure Ratify
 ###############################################################################
-info "Step 6: Configuring Ratify with Artifact Signing trust store..."
+info "Step 7: Configuring Ratify with Artifact Signing trust store..."
 
 SIGNING_CERT_FILE="msft-root-certificate-authority-2020.crt"
 TSA_CERT_FILE="msft-tsa-root-certificate-authority-2020.crt"
@@ -276,9 +291,9 @@ EOF
 info "Ratify CertificateStore and Verifier configured."
 
 ###############################################################################
-# Step 7 — Apply Gatekeeper ConstraintTemplate and constraint
+# Step 8 — Apply Gatekeeper ConstraintTemplate and constraint
 ###############################################################################
-info "Step 7: Applying Gatekeeper ConstraintTemplate and RatifyVerification constraint..."
+info "Step 8: Applying Gatekeeper ConstraintTemplate and RatifyVerification constraint..."
 
 kubectl apply -f - <<'EOF'
 apiVersion: templates.gatekeeper.sh/v1
