@@ -10,7 +10,7 @@
 # Expected output (admission webhook denial):
 #   Error from server (Forbidden): admission webhook "validation.gatekeeper.sh"
 #   denied the request: [require-notation-signature] Signature verification
-#   failed for image acrtsmpremiumsku.azurecr.io/nginx:1.28-alpine-unsigned: ...
+#   failed for image acrtsmkubeconeu2026demo.azurecr.io/nginx:1.28-alpine-unsigned: ...
 apiVersion: apps/v1
 kind: Deployment
 metadata:

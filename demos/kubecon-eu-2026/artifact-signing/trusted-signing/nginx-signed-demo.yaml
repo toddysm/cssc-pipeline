@@ -103,11 +103,11 @@ data:
         <div class="info-grid">
           <div class="info-row">
             <span class="info-label">Image</span>
-            <span class="info-value">acrtsmpremiumsku.azurecr.io/nginx:1.29-alpine-signed</span>
+            <span class="info-value">acrtsmkubeconeu2026demo.azurecr.io/nginx:1.29-alpine-signed</span>
           </div>
           <div class="info-row">
             <span class="info-label">Signer</span>
-            <span class="info-value">Azure Trusted Signing — cert-tsm-demo</span>
+            <span class="info-value">Azure Trusted Signing — cert-tsm-kueu26-demo</span>
           </div>
           <div class="info-row">
             <span class="info-label">Policy Engine</span>
