@@ -70,19 +70,24 @@ kubectl delete -f nginx-signed-demo.yaml --ignore-not-found
 kubectl delete -f nginx-unsigned-demo.yaml --ignore-not-found
 
 # Delete all referrers (signatures) attached to the signed image
-echo "[INFO] Deleting referrers for acrtsmkubeconeu2026demo.azurecr.io/nginx:1.29-alpine-signed..."
-az acr manifest list-referrers \
-    --name "nginx:1.29-alpine-signed" \
-    --registry "acrtsmkubeconeu2026demo" \
-    --query "[].digest" -o tsv 2>/dev/null | \
-while read -r _digest; do
-    [[ -z "$_digest" ]] && continue
-    echo "[INFO]   Deleting referrer: $_digest"
-    az acr manifest delete \
-        --name "nginx@${_digest}" \
-        --registry "acrtsmkubeconeu2026demo" \
-        --yes 2>/dev/null || true
-done
+_signed_image="acrtsmkubeconeu2026demo.azurecr.io/nginx:1.29-alpine-signed"
+echo "[INFO] Deleting referrers for $_signed_image..."
+az acr login --name acrtsmkubeconeu2026demo 2>/dev/null || true
+_digests=$(oras discover --format json "$_signed_image" 2>/dev/null \
+    | python3 -c "import json,sys; [print(m['digest']) for m in json.load(sys.stdin).get('manifests',[])]" 2>/dev/null)
+if [[ -z "$_digests" ]]; then
+    echo "[INFO] No referrers found for $_signed_image."
+else
+    while IFS= read -r _digest; do
+        [[ -z "$_digest" ]] && continue
+        echo "[INFO]   Deleting referrer: $_digest"
+        az acr manifest delete \
+            --name "nginx@${_digest}" \
+            --registry "acrtsmkubeconeu2026demo" \
+            --yes || true
+    done <<< "$_digests"
+    echo "[INFO] Referrer cleanup complete."
+fi
 
 
 # hide the evidence
