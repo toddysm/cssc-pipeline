@@ -79,9 +79,24 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 
 ###############################################################################
-# Step 1 — Install trustedsigning CLI extension
+# Step 1 — Register required resource providers
 ###############################################################################
-info "Step 1: Checking trustedsigning CLI extension..."
+info "Step 1: Registering required Azure resource providers..."
+for _rp in Microsoft.CodeSigning; do
+    _state=$(az provider show --namespace "$_rp" --query "registrationState" -o tsv 2>/dev/null || echo "NotRegistered")
+    if [[ "$_state" == "Registered" ]]; then
+        info "  $_rp is already registered."
+    else
+        info "  Registering $_rp..."
+        run az provider register --namespace "$_rp" --wait
+        info "  $_rp registered."
+    fi
+done
+
+###############################################################################
+# Step 2 — Install trustedsigning CLI extension
+###############################################################################
+info "Step 2: Checking trustedsigning CLI extension..."
 if az extension show --name trustedsigning &>/dev/null; then
     info "trustedsigning extension already installed."
 else
@@ -90,9 +105,9 @@ else
 fi
 
 ###############################################################################
-# Step 2 — Create resource group
+# Step 3 — Create resource group
 ###############################################################################
-info "Step 2: Ensuring resource group '$TS_RG' exists..."
+info "Step 3: Ensuring resource group '$TS_RG' exists..."
 if az group show --name "$TS_RG" &>/dev/null; then
     info "Resource group '$TS_RG' already exists — skipping."
 else
@@ -103,9 +118,9 @@ else
 fi
 
 ###############################################################################
-# Step 3 — Create Trusted Signing account
+# Step 4 — Create Trusted Signing account
 ###############################################################################
-info "Step 3: Creating Trusted Signing account '$TS_ACCOUNT_NAME'..."
+info "Step 4: Creating Trusted Signing account '$TS_ACCOUNT_NAME'..."
 if az trustedsigning show \
     --name "$TS_ACCOUNT_NAME" \
     --resource-group "$TS_RG" &>/dev/null; then
@@ -125,9 +140,9 @@ TS_ACCOUNT_ID=$(az trustedsigning show \
     --query id -o tsv)
 
 ###############################################################################
-# Step 4 — Create Private Trust certificate profile (signing identity)
+# Step 5 — Create Private Trust certificate profile (signing identity)
 ###############################################################################
-info "Step 4: Creating certificate profile '$TS_CERT_PROFILE' (PrivateTrust)..."
+info "Step 5: Creating certificate profile '$TS_CERT_PROFILE' (PrivateTrust)..."
 if az trustedsigning certificate-profile show \
     --account-name "$TS_ACCOUNT_NAME" \
     --resource-group "$TS_RG" \
@@ -150,9 +165,9 @@ else
 fi
 
 ###############################################################################
-# Step 5 — Assign RBAC roles to the current signed-in user
+# Step 6 — Assign RBAC roles to the current signed-in user
 ###############################################################################
-info "Step 5: Assigning RBAC roles to current user..."
+info "Step 6: Assigning RBAC roles to current user..."
 
 CURRENT_USER_ID=$(az ad signed-in-user show --query id -o tsv)
 info "Current user object ID: $CURRENT_USER_ID"
