@@ -50,11 +50,11 @@ export AKS_LOCATION="${AKS_LOCATION:-${DEMO_LOCATION}}"
 ###############################################################################
 # Azure Trusted Signing
 ###############################################################################
-export TS_ACCOUNT_NAME="${TS_ACCOUNT_NAME:-sig-tsm-kubecon-eu-2026-demo}"
+export TS_ACCOUNT_NAME="${TS_ACCOUNT_NAME:-sig-tsm-kueu26-demo}"
 export TS_RG="${TS_RG:-${DEMO_RG}}"
 export TS_LOCATION="${TS_LOCATION:-${DEMO_LOCATION}}"
 export TS_SKU="${TS_SKU:-Basic}"
-export TS_CERT_PROFILE="${TS_CERT_PROFILE:-cert-tsm-kubecon-eu-2026-demo}"
+export TS_CERT_PROFILE="${TS_CERT_PROFILE:-cert-tsm-kueu26-demo}"
 
 # Certificate profile subject DN fields
 export TS_COMMON_NAME="${TS_COMMON_NAME:-microsoft.onmicrosoft.com}"

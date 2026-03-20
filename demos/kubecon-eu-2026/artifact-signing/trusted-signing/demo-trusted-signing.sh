@@ -57,9 +57,9 @@ cmd
 # Set up env variables
 
 pe "# Set up variables for Trusted Signing"
-pe "TS_ACCT_NAME=sig-tsm-kubecon-eu-2026-demo"
+pe "TS_ACCT_NAME=sig-tsm-kueu26-demo"
 pe "TS_ACCT_URL=https://wus2.codesigning.azure.net/"
-pe "TS_CERT_PROFILE=cert-tsm-kubecon-eu-2026-demo"
+pe "TS_CERT_PROFILE=cert-tsm-kueu26-demo"
 pe "TS_TSA_URL=http://timestamp.acs.microsoft.com/"
 pe "TS_SIGNING_ROOT_CERT=\"https://www.microsoft.com/pkiops/certs/Microsoft%20Enterprise%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt\""
 
