@@ -148,7 +148,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: acrtsmpremiumsku.azurecr.io/nginx:1.29-alpine-signed
+          image: acrtsmkubeconeu2026demo.azurecr.io/nginx:1.29-alpine-signed
           ports:
             - containerPort: 80
               protocol: TCP

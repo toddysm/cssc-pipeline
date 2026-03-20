@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: acrtsmpremiumsku.azurecr.io/nginx:1.28-alpine-unsigned
+          image: acrtsmkubeconeu2026demo.azurecr.io/nginx:1.28-alpine-unsigned
           ports:
             - containerPort: 80
               protocol: TCP
