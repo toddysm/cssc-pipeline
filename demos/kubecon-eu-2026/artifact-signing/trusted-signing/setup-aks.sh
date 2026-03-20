@@ -6,11 +6,12 @@
 # What this script does:
 #   1. Verify Azure login
 #   2. Create AKS cluster (OIDC + workload identity enabled)
-#   3. Grant kubelet identity AcrPull on the ACR
+#   3. Grant kubelet identity AcrPull on the ACR (for node image pulls)
+#   3b. Create Ratify User-Assigned Managed Identity with workload identity federation
 #   4. Get credentials (kubectl)
 #   5. Install OPA Gatekeeper via Helm
-#   6. Install Ratify via Helm
-#   7. Configure Ratify: CertificateStore (CA + TSA) and Notation Verifier
+#   6. Install Ratify via Helm (with workload identity client ID)
+#   7. Configure Ratify: store-oras (azureWorkloadIdentity), CertificateStore (CA + TSA), Notation Verifier
 #   8. Apply Gatekeeper ConstraintTemplate + RatifyVerification constraint
 #
 # Usage:
@@ -164,6 +165,76 @@ else
 fi
 
 ###############################################################################
+# Step 3b — Create Ratify Managed Identity and configure Workload Identity
+###############################################################################
+info "Step 3b: Setting up Ratify workload identity..."
+
+if az identity show --name "$RATIFY_MI_NAME" --resource-group "$AKS_RG" &>/dev/null; then
+    info "Managed identity '$RATIFY_MI_NAME' already exists — skipping creation."
+else
+    run az identity create \
+        --name "$RATIFY_MI_NAME" \
+        --resource-group "$AKS_RG" \
+        --location "$AKS_LOCATION"
+    info "Managed identity '$RATIFY_MI_NAME' created."
+fi
+
+RATIFY_MI_CLIENT_ID=$(az identity show \
+    --name "$RATIFY_MI_NAME" \
+    --resource-group "$AKS_RG" \
+    --query clientId -o tsv)
+
+RATIFY_MI_PRINCIPAL_ID=$(az identity show \
+    --name "$RATIFY_MI_NAME" \
+    --resource-group "$AKS_RG" \
+    --query principalId -o tsv)
+
+info "Granting AcrPull to Ratify managed identity on '$ACR_LOGIN_SERVER'..."
+EXISTING_RATIFY_ASSIGNMENT=$(az role assignment list \
+    --assignee "$RATIFY_MI_PRINCIPAL_ID" \
+    --role AcrPull \
+    --scope "$ACR_ID" \
+    --query "[0].id" -o tsv 2>/dev/null || true)
+
+if [[ -n "$EXISTING_RATIFY_ASSIGNMENT" ]]; then
+    info "AcrPull role already assigned to Ratify MI — skipping."
+else
+    run az role assignment create \
+        --role AcrPull \
+        --assignee-object-id "$RATIFY_MI_PRINCIPAL_ID" \
+        --assignee-principal-type ServicePrincipal \
+        --scope "$ACR_ID"
+    info "AcrPull role assigned to Ratify managed identity."
+fi
+
+info "Getting AKS OIDC issuer URL..."
+OIDC_ISSUER=$(az aks show \
+    --name "$AKS_CLUSTER" \
+    --resource-group "$AKS_RG" \
+    --query "oidcIssuerProfile.issuerUrl" -o tsv)
+info "OIDC issuer: $OIDC_ISSUER"
+
+# The Ratify Helm chart creates the service account "ratify" in gatekeeper-system.
+# The federated credential links the AKS OIDC issuer + that service account to
+# the managed identity, so Ratify pods can obtain Azure tokens automatically.
+FEDERATED_CRED_NAME="ratify-federated-cred"
+if az identity federated-credential show \
+    --name "$FEDERATED_CRED_NAME" \
+    --identity-name "$RATIFY_MI_NAME" \
+    --resource-group "$AKS_RG" &>/dev/null; then
+    info "Federated credential '$FEDERATED_CRED_NAME' already exists — skipping."
+else
+    run az identity federated-credential create \
+        --name "$FEDERATED_CRED_NAME" \
+        --identity-name "$RATIFY_MI_NAME" \
+        --resource-group "$AKS_RG" \
+        --issuer "$OIDC_ISSUER" \
+        --subject "system:serviceaccount:gatekeeper-system:ratify" \
+        --audience "api://AzureADTokenExchange"
+    info "Federated credential created for Ratify service account."
+fi
+
+###############################################################################
 # Step 4 — Get credentials
 ###############################################################################
 info "Step 4: Fetching kubeconfig for cluster '$AKS_CLUSTER'..."
@@ -211,6 +282,7 @@ else
         --set featureFlags.RATIFY_CERT_ROTATION=true \
         --set akvCertConfig.enabled=false \
         --set mutationProvider.enable=false \
+        --set azureWorkloadIdentity.clientId="$RATIFY_MI_CLIENT_ID" \
         --wait
     info "Ratify installed."
 fi
@@ -247,22 +319,11 @@ kubectl delete assign \
 ###############################################################################
 info "Step 7: Configuring Ratify with ORAS store, Artifact Signing trust store, and Notation Verifier..."
 
-info "Configuring Ratify ORAS store with k8Secrets auth..."
-# Ratify v1.4.0 has a bug in the azureManagedIdentity auth provider: the
-# registryHostGetter field is never initialized in the factory, causing a nil
-# pointer panic on every verification call. Use k8Secrets instead.
-#
-# Obtain a short-lived ACR access token from the current Azure CLI session and
-# store it as a Kubernetes Docker registry secret in gatekeeper-system. Ratify
-# uses this secret to authenticate to ACR when pulling referrer artifacts.
-info "Creating ACR pull secret for Ratify..."
-ACR_TOKEN=$(az acr login --name "${ACR_NAME}" --expose-token --output tsv --query accessToken)
-kubectl create secret docker-registry ratify-acr-secret \
-    --namespace gatekeeper-system \
-    --docker-server="${ACR_REGISTRY}" \
-    --docker-username="00000000-0000-0000-0000-000000000000" \
-    --docker-password="${ACR_TOKEN}" \
-    --dry-run=client -o yaml | kubectl apply -f -
+info "Configuring Ratify ORAS store with workload identity auth..."
+# The azureWorkloadIdentity auth provider uses the federated credential created
+# in Step 3b to exchange the Ratify pod's service account token for an Azure
+# access token, which is then used to authenticate to ACR. No secrets or
+# short-lived ACR tokens need to be managed manually.
 
 # The Helm chart creates a default store-oras CR without the last-applied-configuration
 # annotation; delete it first so kubectl apply creates a clean resource.
@@ -279,10 +340,7 @@ spec:
   name: oras
   parameters:
     authProvider:
-      name: k8Secrets
-      secrets:
-        - registryUri: "${ACR_REGISTRY}"
-          secretName: ratify-acr-secret
+      name: azureWorkloadIdentity
 EOF
 
 SIGNING_CERT_FILE="msft-root-certificate-authority-2020.crt"

@@ -46,6 +46,9 @@ export ACR_LOGIN_SERVER="${ACR_LOGIN_SERVER:-${ACR_NAME}.azurecr.io}"
 export AKS_CLUSTER="${AKS_CLUSTER:-aks-tsm-kubecon-eu-2026-demo}"
 export AKS_RG="${AKS_RG:-${DEMO_RG}}"
 export AKS_LOCATION="${AKS_LOCATION:-${DEMO_LOCATION}}"
+# User-assigned managed identity used by Ratify to pull reference artifacts
+# (signatures, SBOMs) from ACR via workload identity federation.
+export RATIFY_MI_NAME="${RATIFY_MI_NAME:-ratify-mi}"
 
 ###############################################################################
 # Azure Trusted Signing
