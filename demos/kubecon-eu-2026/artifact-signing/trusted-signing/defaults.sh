@@ -63,7 +63,7 @@ export TS_IDENTITY_VALIDATION_ID="${TS_IDENTITY_VALIDATION_ID:-a768ae25-6256-436
 
 # Certificate subject DN — used for display / Ratify policy only (not passed
 # to the CLI; the subject is derived from the identity validation at signing time).
-export TS_CERT_SUBJECT="${TS_CERT_SUBJECT:-CN=toddysmlive.onmicrosoft.com, O=toddysmlive.onmicrosoft.com, OU=Cloud Native Security and Registries, STREET=1 Microsoft Way, L=Redmond, S=Washington, C=US, PC=98052}"
+export TS_CERT_SUBJECT="${TS_CERT_SUBJECT:-CN=toddysmlive.onmicrosoft.com,OU=Cloud Native Security and Registries,O=toddysmlive.onmicrosoft.com,L=Redmond,ST=Washington,C=US}"
 
 # Microsoft PKI certificate URLs (used by Ratify CertificateStore)
 export TS_SIGNING_ROOT_CERT="${TS_SIGNING_ROOT_CERT:-https://www.microsoft.com/pkiops/certs/Microsoft%20Enterprise%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt}"

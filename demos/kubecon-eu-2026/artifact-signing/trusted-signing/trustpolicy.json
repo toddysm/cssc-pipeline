@@ -9,7 +9,7 @@
             },
             "trustStores": [ "ca:kubeconDemoSigningRootCerts", "tsa:kubeconDemoTsaRootCerts" ],
             "trustedIdentities": [
-                "x509.subject: CN=toddysmlive.onmicrosoft.com, O=toddysmlive.onmicrosoft.com, OU=Cloud Native Security and Registries, STREET=1 Microsoft Way, L=Redmond, S=Washington, C=US, PC=98052"
+                "x509.subject: CN=toddysmlive.onmicrosoft.com,OU=Cloud Native Security and Registries,O=toddysmlive.onmicrosoft.com,L=Redmond,ST=Washington,C=US"
             ]
         }
     ]
