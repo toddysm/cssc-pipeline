@@ -215,6 +215,14 @@ else
     info "Ratify installed."
 fi
 
+# The Helm chart creates a default verifier-notation CR with the legacy
+# verificationCerts path set. Remove it so our Step 7 CR (which uses only
+# the new verificationCertStores format) does not conflict with it.
+if kubectl get verifier verifier-notation -n gatekeeper-system &>/dev/null; then
+    info "Removing default Ratify verifier-notation CR (will be replaced in Step 7)..."
+    kubectl delete verifier verifier-notation -n gatekeeper-system
+fi
+
 ###############################################################################
 # Step 7 — Download root certificates and configure Ratify
 ###############################################################################
