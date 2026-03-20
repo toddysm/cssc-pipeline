@@ -224,11 +224,16 @@ if kubectl get verifier verifier-notation -n gatekeeper-system &>/dev/null; then
 fi
 
 # The Helm chart registers a ratify-mutation-provider ExternalData Provider CR
-# even when mutationProvider.enable=false (server not running). Delete it to
-# prevent Gatekeeper's mutation webhook from trying to reach a dead endpoint.
+# and an AssignMetadata CR even when mutationProvider.enable=false (server not
+# running). Delete both to prevent Gatekeeper's mutation webhook from trying to
+# reach a dead endpoint or resolve missing provider references.
 if kubectl get provider ratify-mutation-provider -n gatekeeper-system &>/dev/null; then
     info "Removing ratify-mutation-provider ExternalData Provider CR (mutation not used)..."
     kubectl delete provider ratify-mutation-provider -n gatekeeper-system
+fi
+if kubectl get assignmetadata -n gatekeeper-system 2>/dev/null | grep -q ratify; then
+    info "Removing Ratify AssignMetadata CR (mutation not used)..."
+    kubectl delete assignmetadata -n gatekeeper-system -l app.kubernetes.io/name=ratify --ignore-not-found
 fi
 
 ###############################################################################
