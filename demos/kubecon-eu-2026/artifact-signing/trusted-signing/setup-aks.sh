@@ -223,18 +223,24 @@ if kubectl get verifier verifier-notation -n gatekeeper-system &>/dev/null; then
     kubectl delete verifier verifier-notation -n gatekeeper-system
 fi
 
-# The Helm chart registers a ratify-mutation-provider ExternalData Provider CR
-# and an AssignMetadata CR even when mutationProvider.enable=false (server not
-# running). Delete both to prevent Gatekeeper's mutation webhook from trying to
-# reach a dead endpoint or resolve missing provider references.
+# The Helm chart registers mutation CRs even when mutationProvider.enable=false
+# (server not running). Delete them all to prevent Gatekeeper's mutation webhook
+# from trying to reach a dead endpoint or resolve missing provider references.
+# This includes: ExternalData Provider, AssignMetadata, and Assign CRs.
 if kubectl get provider ratify-mutation-provider -n gatekeeper-system &>/dev/null; then
     info "Removing ratify-mutation-provider ExternalData Provider CR (mutation not used)..."
     kubectl delete provider ratify-mutation-provider -n gatekeeper-system
 fi
 if kubectl get assignmetadata -n gatekeeper-system 2>/dev/null | grep -q ratify; then
-    info "Removing Ratify AssignMetadata CR (mutation not used)..."
+    info "Removing Ratify AssignMetadata CRs (mutation not used)..."
     kubectl delete assignmetadata -n gatekeeper-system -l app.kubernetes.io/name=ratify --ignore-not-found
 fi
+info "Removing Ratify Assign mutation CRs (mutation not used)..."
+kubectl delete assign \
+    mutate-cronjob-image mutate-cronjob-image-ephemeral mutate-cronjob-image-init \
+    mutate-pod-image mutate-pod-image-ephemeral mutate-pod-image-init \
+    mutate-workload-image mutate-workload-image-ephemeral mutate-workload-image-init \
+    --ignore-not-found
 
 ###############################################################################
 # Step 7 — Download root certificates and configure Ratify
