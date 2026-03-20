@@ -226,7 +226,22 @@ fi
 ###############################################################################
 # Step 7 — Download root certificates and configure Ratify
 ###############################################################################
-info "Step 7: Configuring Ratify with Artifact Signing trust store..."
+info "Step 7: Configuring Ratify with ORAS store, Artifact Signing trust store, and Notation Verifier..."
+
+info "Configuring Ratify ORAS store with workload identity auth..."
+kubectl apply -f - <<EOF
+apiVersion: config.ratify.deislabs.io/v1beta1
+kind: Store
+metadata:
+  name: store-oras
+  namespace: gatekeeper-system
+spec:
+  name: oras
+  parameters:
+    authProvider:
+      name: azureWorkloadIdentity
+      clientID: "${KUBELET_CLIENT_ID}"
+EOF
 
 SIGNING_CERT_FILE="msft-root-certificate-authority-2020.crt"
 TSA_CERT_FILE="msft-tsa-root-certificate-authority-2020.crt"
