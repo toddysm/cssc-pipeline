@@ -83,7 +83,7 @@ export IMAGE=wabbitregistry.azurecr.io/net-monitor:v1
 # Notation trust stores
 export SIGNING_TRUST_STORE=myRootCerts
 export TSA_TRUST_STORE=myTsaRootCerts
-export TS_CERT_SUBJECT="CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=tsdemo, S=Washington, C=US"
+export TS_CERT_SUBJECT="CN=toddysmlive.onmicrosoft.com, O=toddysmlive.onmicrosoft.com, OU=Cloud Native Security and Registries, STREET=1 Microsoft Way, L=Redmond, S=Washington, C=US, PC=98052"
 
 # AKS
 export AKS_CLUSTER=<your-aks-cluster-name>

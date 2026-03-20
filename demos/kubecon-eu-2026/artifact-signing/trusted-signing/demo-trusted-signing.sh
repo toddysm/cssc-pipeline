@@ -102,7 +102,7 @@ pe "# Set up variables for signature verification"
 pe "TS_TSA_ROOT_CERT=\"http://www.microsoft.com/pkiops/certs/microsoft%20identity%20verification%20root%20certificate%20authority%202020.crt\""
 pe "SIGNING_TRUST_STORE=kubeconDemoSigningRootCerts"
 pe "TSA_TRUST_STORE=kubeconDemoTsaRootCerts"
-pe "TS_CERT_SUBJECT=\"CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=Cloud Native Security and Registries, L=Redmond, S=Washington, C=US\""
+pe "TS_CERT_SUBJECT=\"CN=toddysmlive.onmicrosoft.com, O=toddysmlive.onmicrosoft.com, OU=Cloud Native Security and Registries, STREET=1 Microsoft Way, L=Redmond, S=Washington, C=US, PC=98052\""
 
 echo
 wait
