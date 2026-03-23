@@ -432,13 +432,45 @@ spec:
     - target: admission.k8s.gatekeeper.sh
       rego: |
         package ratifyverification
+
+        # Collect images from all container types (fail-closed: any unverified image blocks)
+        _images[img] {
+          img := input.review.object.spec.containers[_].image
+        }
+        _images[img] {
+          img := input.review.object.spec.initContainers[_].image
+        }
+        _images[img] {
+          img := input.review.object.spec.ephemeralContainers[_].image
+        }
+
+        # Case 1: Ratify explicitly reports verification failure
         violation[{"msg": msg}] {
-          subject := input.review.object.spec.containers[_].image
-          response := external_data({"provider": "ratify-provider", "keys": [subject]})
+          img := _images[_]
+          response := external_data({"provider": "ratify-provider", "keys": [img]})
           result := response.responses[_]
-          result[0] == subject
+          result[0] == img
           result[1].isSuccess == false
-          msg := sprintf("Signature verification failed for image %v: %v", [subject, result[1].verifierReports])
+          msg := sprintf("Signature verification failed for image %v: %v", [img, result[1].verifierReports])
+        }
+
+        # Case 2: Ratify returned an error for the image (e.g., can't pull referrers,
+        # registry auth failure). Treat as a denial to keep the policy fail-closed.
+        violation[{"msg": msg}] {
+          img := _images[_]
+          response := external_data({"provider": "ratify-provider", "keys": [img]})
+          err := response.errors[_]
+          err[0] == img
+          msg := sprintf("Ratify error verifying image %v: %v", [img, err[1]])
+        }
+
+        # Case 3: The ExternalData call itself failed (Gatekeeper can't reach Ratify).
+        # Deny to keep the policy fail-closed.
+        violation[{"msg": msg}] {
+          img := _images[_]
+          response := external_data({"provider": "ratify-provider", "keys": [img]})
+          response.system_error != ""
+          msg := sprintf("Ratify system error for image %v: %v", [img, response.system_error])
         }
 EOF
 
