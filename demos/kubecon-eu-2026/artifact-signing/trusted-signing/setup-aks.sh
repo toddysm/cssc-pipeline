@@ -275,7 +275,12 @@ helm repo add ratify https://notaryproject.github.io/ratify --force-update
 helm repo update
 
 if helm status ratify --namespace gatekeeper-system &>/dev/null; then
-    info "Ratify already installed — skipping."
+    info "Ratify already installed — skipping Helm install."
+    info "Ensuring workload identity client ID is set on the Ratify service account..."
+    kubectl annotate serviceaccount ratify \
+        -n gatekeeper-system \
+        azure.workload.identity/client-id="$RATIFY_MI_CLIENT_ID" \
+        --overwrite
 else
     run helm install ratify ratify/ratify \
         --namespace gatekeeper-system \
@@ -287,32 +292,27 @@ else
     info "Ratify installed."
 fi
 
-# The Helm chart creates a default verifier-notation CR with the legacy
-# verificationCerts path set. Remove it so our Step 7 CR (which uses only
-# the new verificationCertStores format) does not conflict with it.
-if kubectl get verifier verifier-notation -n gatekeeper-system &>/dev/null; then
-    info "Removing default Ratify verifier-notation CR (will be replaced in Step 7)..."
-    kubectl delete verifier verifier-notation -n gatekeeper-system
-fi
-
-# The Helm chart registers mutation CRs even when mutationProvider.enable=false
-# (server not running). Delete them all to prevent Gatekeeper's mutation webhook
-# from trying to reach a dead endpoint or resolve missing provider references.
-# This includes: ExternalData Provider, AssignMetadata, and Assign CRs.
-if kubectl get provider ratify-mutation-provider -n gatekeeper-system &>/dev/null; then
-    info "Removing ratify-mutation-provider ExternalData Provider CR (mutation not used)..."
-    kubectl delete provider ratify-mutation-provider -n gatekeeper-system
-fi
-if kubectl get assignmetadata -n gatekeeper-system 2>/dev/null | grep -q ratify; then
-    info "Removing Ratify AssignMetadata CRs (mutation not used)..."
-    kubectl delete assignmetadata -n gatekeeper-system -l app.kubernetes.io/name=ratify --ignore-not-found
-fi
-info "Removing Ratify Assign mutation CRs (mutation not used)..."
+# Always clean up mutation CRs — the Helm chart creates them regardless of the
+# mutationProvider.enable flag, and helm upgrade recreates them. Purge them
+# every run so the Gatekeeper mutation webhook never references a Ratify
+# provider that isn't running.
+info "Removing Ratify mutation CRs (mutation not used in this demo)..."
+kubectl delete provider ratify-mutation-provider \
+    -n gatekeeper-system --ignore-not-found
+kubectl delete assignmetadata \
+    -n gatekeeper-system -l app.kubernetes.io/name=ratify --ignore-not-found
 kubectl delete assign \
     mutate-cronjob-image mutate-cronjob-image-ephemeral mutate-cronjob-image-init \
     mutate-pod-image mutate-pod-image-ephemeral mutate-pod-image-init \
     mutate-workload-image mutate-workload-image-ephemeral mutate-workload-image-init \
     --ignore-not-found
+
+# Remove the default verifier-notation CR created by the Helm chart — it uses
+# the legacy verificationCerts path; our Step 7 CR uses verificationCertStores.
+if kubectl get verifier verifier-notation -n gatekeeper-system &>/dev/null; then
+    info "Removing default Ratify verifier-notation CR (will be replaced in Step 7)..."
+    kubectl delete verifier verifier-notation -n gatekeeper-system
+fi
 
 ###############################################################################
 # Step 7 — Download root certificates and configure Ratify
