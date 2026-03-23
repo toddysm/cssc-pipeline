@@ -215,23 +215,32 @@ OIDC_ISSUER=$(az aks show \
 info "OIDC issuer: $OIDC_ISSUER"
 
 # The Ratify Helm chart creates the service account "ratify" in gatekeeper-system.
-# The federated credential links the AKS OIDC issuer + that service account to
-# the managed identity, so Ratify pods can obtain Azure tokens automatically.
+# The federated credential links the AKS OIDC issuer + the Ratify service
+# account to the managed identity, so Ratify pods can obtain Azure tokens.
+# Note: the Ratify Helm chart creates the SA as "ratify-admin", not "ratify".
 FEDERATED_CRED_NAME="ratify-federated-cred"
+RATIFY_SA_NAME="ratify-admin"
 if az identity federated-credential show \
     --name "$FEDERATED_CRED_NAME" \
     --identity-name "$RATIFY_MI_NAME" \
     --resource-group "$AKS_RG" &>/dev/null; then
-    info "Federated credential '$FEDERATED_CRED_NAME' already exists — skipping."
+    info "Federated credential '$FEDERATED_CRED_NAME' already exists — updating subject to ensure correct SA name..."
+    run az identity federated-credential update \
+        --name "$FEDERATED_CRED_NAME" \
+        --identity-name "$RATIFY_MI_NAME" \
+        --resource-group "$AKS_RG" \
+        --issuer "$OIDC_ISSUER" \
+        --subject "system:serviceaccount:gatekeeper-system:${RATIFY_SA_NAME}" \
+        --audience "api://AzureADTokenExchange"
 else
     run az identity federated-credential create \
         --name "$FEDERATED_CRED_NAME" \
         --identity-name "$RATIFY_MI_NAME" \
         --resource-group "$AKS_RG" \
         --issuer "$OIDC_ISSUER" \
-        --subject "system:serviceaccount:gatekeeper-system:ratify" \
+        --subject "system:serviceaccount:gatekeeper-system:${RATIFY_SA_NAME}" \
         --audience "api://AzureADTokenExchange"
-    info "Federated credential created for Ratify service account."
+    info "Federated credential created for Ratify service account '$RATIFY_SA_NAME'."
 fi
 
 ###############################################################################
