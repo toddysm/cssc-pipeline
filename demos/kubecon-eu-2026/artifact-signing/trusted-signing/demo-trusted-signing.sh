@@ -189,8 +189,14 @@ pe "kubectl get svc nginx-signed-demo -w"
 echo
 wait
 
+pe "kubectl get events -n default --sort-by='.lastTimestamp' | grep nginx-signed"
+
+echo
+wait
+
 pe "# Now let's try to deploy an unsigned image and see it get blocked by the policy"
 pe "kubectl apply -f nginx-unsigned-demo.yaml"
+pe "kubectl get events -n default --sort-by='.lastTimestamp' | grep nginx-unsigned"
 
 # show a prompt so as not to reveal our true nature after
 # the demo has concluded
