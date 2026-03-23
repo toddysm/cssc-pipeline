@@ -371,17 +371,22 @@ EOF
 
 SIGNING_CERT_FILE="msft-root-certificate-authority-2020.crt"
 TSA_CERT_FILE="msft-tsa-root-certificate-authority-2020.crt"
+SIGNING_CERT_PEM_FILE="msft-root-certificate-authority-2020.pem"
+TSA_CERT_PEM_FILE="msft-tsa-root-certificate-authority-2020.pem"
 
 info "Downloading Artifact Signing root CA..."
 run curl -sLo "$SIGNING_CERT_FILE" "$TS_SIGNING_ROOT_CERT"
-run openssl x509 -inform DER -in "$SIGNING_CERT_FILE" -out "$SIGNING_CERT_FILE"
+# Use a separate output file to avoid macOS/LibreSSL in-place truncation bug
+# where the -out file is truncated before -in is read when both paths are equal.
+run openssl x509 -inform DER -in "$SIGNING_CERT_FILE" -out "$SIGNING_CERT_PEM_FILE"
+SIGNING_CERT_PEM=$(cat "$SIGNING_CERT_PEM_FILE")
+[[ -z "$SIGNING_CERT_PEM" ]] && { error "Signing root CA PEM is empty — cert download/conversion failed."; exit 1; }
 
 info "Downloading Artifact Signing TSA root CA..."
 run curl -sLo "$TSA_CERT_FILE" "$TS_TSA_ROOT_CERT"
-run openssl x509 -inform DER -in "$TSA_CERT_FILE" -out "$TSA_CERT_FILE"
-
-SIGNING_CERT_PEM=$(cat "$SIGNING_CERT_FILE")
-TSA_CERT_PEM=$(cat "$TSA_CERT_FILE")
+run openssl x509 -inform DER -in "$TSA_CERT_FILE" -out "$TSA_CERT_PEM_FILE"
+TSA_CERT_PEM=$(cat "$TSA_CERT_PEM_FILE")
+[[ -z "$TSA_CERT_PEM" ]] && { error "TSA root CA PEM is empty — cert download/conversion failed."; exit 1; }
 
 kubectl apply -f - <<EOF
 apiVersion: config.ratify.deislabs.io/v1beta1
@@ -563,7 +568,26 @@ echo "  Gatekeeper:    $(helm status gatekeeper -n gatekeeper-system --short 2>/
 echo "  Ratify:        $(helm status ratify -n gatekeeper-system --short 2>/dev/null || echo 'installed')"
 echo
 echo "Next steps:"
-echo "  1. Sign your image:   notation sign ... <image>"
-echo "  2. Test admission:    kubectl run signed --image=<signed-image>"
-echo "  3. Test rejection:    kubectl run unsigned --image=nginx:latest"
+echo "  1. Log in to Azure and ACR:"
+echo "       az login --tenant <tenant-id>"
+echo "       az acr login --name $ACR_NAME"
+echo ""
+echo "  2. Sign the image (TSA cert downloaded by this script):"
+echo "       notation sign --signature-format cose \\"
+echo "           --timestamp-url '$TS_TSA_URL' \\"
+echo "           --timestamp-root-cert '$TSA_CERT_PEM_FILE' \\"
+echo "           --id '$TS_CERT_PROFILE' \\"
+echo "           --plugin azure-artifactsigning \\"
+echo "           --plugin-config accountName='$TS_ACCOUNT_NAME' \\"
+echo "           --plugin-config baseUrl='$TS_ACCT_URL' \\"
+echo "           --plugin-config certProfile='$TS_CERT_PROFILE' \\"
+echo "           ${ACR_LOGIN_SERVER}/nginx:1.29-alpine-signed"
+echo ""
+echo "  3. Verify the signature is present:"
+echo "       notation ls ${ACR_LOGIN_SERVER}/nginx:1.29-alpine-signed"
+echo ""
+echo "  4. Test admission (signed image should run):"
+echo "       kubectl apply -f nginx-signed-demo.yaml"
+echo "  5. Test rejection (unsigned image should be blocked):"
+echo "       kubectl apply -f nginx-unsigned-demo.yaml"
 echo

@@ -72,6 +72,15 @@ export TS_CERT_SUBJECT="${TS_CERT_SUBJECT:-CN=toddysmlive.onmicrosoft.com,OU=Clo
 export TS_SIGNING_ROOT_CERT="${TS_SIGNING_ROOT_CERT:-https://www.microsoft.com/pkiops/certs/Microsoft%20Enterprise%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt}"
 export TS_TSA_ROOT_CERT="${TS_TSA_ROOT_CERT:-http://www.microsoft.com/pkiops/certs/microsoft%20identity%20verification%20root%20certificate%20authority%202020.crt}"
 
+# Trusted Signing service endpoint URL for the account region.
+# The subdomain abbreviation differs from the Azure region name; update this
+# if the account is created in a different region.
+# Region map: eastus→eus  westus2→wus2  westeurope→weu  northeurope→neu
+export TS_ACCT_URL="${TS_ACCT_URL:-https://wus2.codesigning.azure.net/}"
+
+# RFC 3161 timestamp authority URL (used by notation sign --timestamp-url)
+export TS_TSA_URL="${TS_TSA_URL:-http://timestamp.acs.microsoft.com/}"
+
 ###############################################################################
 # Log out and log back in to ensure a clean session on the correct subscription
 ###############################################################################
