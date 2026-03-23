@@ -261,7 +261,7 @@ else
         --create-namespace \
         --set enableExternalData=true \
         --set validatingWebhookTimeoutSeconds=5 \
-        --set mutatingWebhookTimeoutSeconds=2 \
+        --set enableMutation=false \
         --wait
     info "Gatekeeper installed."
 fi
@@ -277,7 +277,9 @@ helm repo update
 if helm status ratify --namespace gatekeeper-system &>/dev/null; then
     info "Ratify already installed — skipping Helm install."
     info "Ensuring workload identity client ID is set on the Ratify service account..."
-    kubectl annotate serviceaccount ratify \
+    RATIFY_SA=$(kubectl get pod -n gatekeeper-system -l app.kubernetes.io/name=ratify \
+        -o jsonpath='{.items[0].spec.serviceAccountName}' 2>/dev/null || echo "ratify")
+    kubectl annotate serviceaccount "$RATIFY_SA" \
         -n gatekeeper-system \
         azure.workload.identity/client-id="$RATIFY_MI_CLIENT_ID" \
         --overwrite
@@ -305,6 +307,10 @@ kubectl delete assign \
     mutate-cronjob-image mutate-cronjob-image-ephemeral mutate-cronjob-image-init \
     mutate-pod-image mutate-pod-image-ephemeral mutate-pod-image-init \
     mutate-workload-image mutate-workload-image-ephemeral mutate-workload-image-init \
+    --ignore-not-found
+# Also remove the Gatekeeper mutation webhook itself so no mutation provider is
+# ever called, regardless of what Helm or other tooling reconstitutes.
+kubectl delete mutatingwebhookconfiguration gatekeeper-mutating-webhook-configuration \
     --ignore-not-found
 
 # Remove the default verifier-notation CR created by the Helm chart — it uses
