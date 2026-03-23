@@ -3,13 +3,13 @@
     "trustPolicies": [
         {
             "name": "demoPolicy",
-            "registryScopes": [ "acrtsmpremiumsku.azurecr.io/python" ],
+            "registryScopes": [ "acrtsmkubeconeu2026demo.azurecr.io/nginx" ],
             "signatureVerification": {
                 "level" : "strict"
             },
             "trustStores": [ "ca:kubeconDemoSigningRootCerts", "tsa:kubeconDemoTsaRootCerts" ],
             "trustedIdentities": [
-                "x509.subject: CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=Cloud Native Security and Registries, L=Redmond, S=Washington, C=US"
+                "x509.subject: CN=toddysmlive.onmicrosoft.com,OU=Cloud Native Security and Registries,O=toddysmlive.onmicrosoft.com,L=Redmond,ST=Washington,C=US"
             ]
         }
     ]

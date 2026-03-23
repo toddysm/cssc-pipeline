@@ -6,11 +6,12 @@
 # What this script does:
 #   1. Verify Azure login
 #   2. Create AKS cluster (OIDC + workload identity enabled)
-#   3. Grant kubelet identity AcrPull on the ACR
+#   3. Grant kubelet identity AcrPull on the ACR (for node image pulls)
+#   3b. Create Ratify User-Assigned Managed Identity with workload identity federation
 #   4. Get credentials (kubectl)
 #   5. Install OPA Gatekeeper via Helm
-#   6. Install Ratify via Helm
-#   7. Configure Ratify: CertificateStore (CA + TSA) and Notation Verifier
+#   6. Install Ratify via Helm (with workload identity client ID)
+#   7. Configure Ratify: store-oras (azureWorkloadIdentity), CertificateStore (CA + TSA), Notation Verifier
 #   8. Apply Gatekeeper ConstraintTemplate + RatifyVerification constraint
 #
 # Usage:
@@ -22,7 +23,7 @@
 #   AKS_CLUSTER        - Name of the AKS cluster to create
 #   AKS_RG             - Resource group for the AKS cluster
 #   AKS_LOCATION       - Azure region for the AKS cluster (e.g. westus2)
-#   ACR_LOGIN_SERVER   - ACR login server (e.g. acrtsmpremiumsku.azurecr.io)
+#   ACR_LOGIN_SERVER   - ACR login server (e.g. acrtsmkubeconeu2026demo.azurecr.io)
 #   TS_CERT_SUBJECT    - Expected certificate subject for Notation trust policy
 #                        e.g. "CN=..., O=..., OU=..., L=..., S=..., C=US"
 #   TS_SIGNING_ROOT_CERT - URL of the Artifact Signing root CA certificate
@@ -57,15 +58,11 @@ run() {
 }
 
 ###############################################################################
-# Default values — override by exporting before running
+# Load shared defaults (override by exporting before running)
 ###############################################################################
-: "${AKS_CLUSTER:=aks-tsm-signing-demo}"
-: "${AKS_RG:=rg-tsm-signing}"
-: "${AKS_LOCATION:=westus2}"
-: "${ACR_LOGIN_SERVER:=acrtsmpremiumsku.azurecr.io}"
-: "${TS_CERT_SUBJECT:=CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=Cloud Native Security and Registries, L=Redmond, S=Washington, C=US}"
-: "${TS_SIGNING_ROOT_CERT:=https://www.microsoft.com/pkiops/certs/Microsoft%20Enterprise%20Identity%20Verification%20Root%20Certificate%20Authority%202020.crt}"
-: "${TS_TSA_ROOT_CERT:=http://www.microsoft.com/pkiops/certs/microsoft%20identity%20verification%20root%20certificate%20authority%202020.crt}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=defaults.sh
+source "${SCRIPT_DIR}/defaults.sh"
 
 ###############################################################################
 # Validate required variables
@@ -83,15 +80,19 @@ for var in "${REQUIRED_VARS[@]}"; do
 done
 
 ###############################################################################
-# Step 1 — Verify Azure login
+# Step 1 — Register required resource providers
 ###############################################################################
-info "Step 1: Verifying Azure login..."
-if ! az account show --query id -o tsv &>/dev/null; then
-    warn "Not logged in. Running az login..."
-    run az login
-fi
-SUBSCRIPTION=$(az account show --query name -o tsv)
-info "Using subscription: $SUBSCRIPTION"
+info "Step 1: Registering required Azure resource providers..."
+for _rp in Microsoft.ContainerService Microsoft.ContainerRegistry; do
+    _state=$(az provider show --namespace "$_rp" --query "registrationState" -o tsv 2>/dev/null || echo "NotRegistered")
+    if [[ "$_state" == "Registered" ]]; then
+        info "  $_rp is already registered."
+    else
+        info "  Registering $_rp..."
+        run az provider register --namespace "$_rp" --wait
+        info "  $_rp registered."
+    fi
+done
 
 ###############################################################################
 # Step 2 — Create the AKS cluster
@@ -164,6 +165,85 @@ else
 fi
 
 ###############################################################################
+# Step 3b — Create Ratify Managed Identity and configure Workload Identity
+###############################################################################
+info "Step 3b: Setting up Ratify workload identity..."
+
+if az identity show --name "$RATIFY_MI_NAME" --resource-group "$AKS_RG" &>/dev/null; then
+    info "Managed identity '$RATIFY_MI_NAME' already exists — skipping creation."
+else
+    run az identity create \
+        --name "$RATIFY_MI_NAME" \
+        --resource-group "$AKS_RG" \
+        --location "$AKS_LOCATION"
+    info "Managed identity '$RATIFY_MI_NAME' created."
+fi
+
+RATIFY_MI_CLIENT_ID=$(az identity show \
+    --name "$RATIFY_MI_NAME" \
+    --resource-group "$AKS_RG" \
+    --query clientId -o tsv)
+
+RATIFY_MI_PRINCIPAL_ID=$(az identity show \
+    --name "$RATIFY_MI_NAME" \
+    --resource-group "$AKS_RG" \
+    --query principalId -o tsv)
+
+info "Granting AcrPull to Ratify managed identity on '$ACR_LOGIN_SERVER'..."
+EXISTING_RATIFY_ASSIGNMENT=$(az role assignment list \
+    --assignee "$RATIFY_MI_PRINCIPAL_ID" \
+    --role AcrPull \
+    --scope "$ACR_ID" \
+    --query "[0].id" -o tsv 2>/dev/null || true)
+
+if [[ -n "$EXISTING_RATIFY_ASSIGNMENT" ]]; then
+    info "AcrPull role already assigned to Ratify MI — skipping."
+else
+    run az role assignment create \
+        --role AcrPull \
+        --assignee-object-id "$RATIFY_MI_PRINCIPAL_ID" \
+        --assignee-principal-type ServicePrincipal \
+        --scope "$ACR_ID"
+    info "AcrPull role assigned to Ratify managed identity."
+fi
+
+info "Getting AKS OIDC issuer URL..."
+OIDC_ISSUER=$(az aks show \
+    --name "$AKS_CLUSTER" \
+    --resource-group "$AKS_RG" \
+    --query "oidcIssuerProfile.issuerUrl" -o tsv)
+info "OIDC issuer: $OIDC_ISSUER"
+
+# The Ratify Helm chart creates the service account "ratify" in gatekeeper-system.
+# The federated credential links the AKS OIDC issuer + the Ratify service
+# account to the managed identity, so Ratify pods can obtain Azure tokens.
+# Note: the Ratify Helm chart creates the SA as "ratify-admin", not "ratify".
+FEDERATED_CRED_NAME="ratify-federated-cred"
+RATIFY_SA_NAME="ratify-admin"
+if az identity federated-credential show \
+    --name "$FEDERATED_CRED_NAME" \
+    --identity-name "$RATIFY_MI_NAME" \
+    --resource-group "$AKS_RG" &>/dev/null; then
+    info "Federated credential '$FEDERATED_CRED_NAME' already exists — updating subject to ensure correct SA name..."
+    run az identity federated-credential update \
+        --name "$FEDERATED_CRED_NAME" \
+        --identity-name "$RATIFY_MI_NAME" \
+        --resource-group "$AKS_RG" \
+        --issuer "$OIDC_ISSUER" \
+        --subject "system:serviceaccount:gatekeeper-system:${RATIFY_SA_NAME}" \
+        --audience "api://AzureADTokenExchange"
+else
+    run az identity federated-credential create \
+        --name "$FEDERATED_CRED_NAME" \
+        --identity-name "$RATIFY_MI_NAME" \
+        --resource-group "$AKS_RG" \
+        --issuer "$OIDC_ISSUER" \
+        --subject "system:serviceaccount:gatekeeper-system:${RATIFY_SA_NAME}" \
+        --audience "api://AzureADTokenExchange"
+    info "Federated credential created for Ratify service account '$RATIFY_SA_NAME'."
+fi
+
+###############################################################################
 # Step 4 — Get credentials
 ###############################################################################
 info "Step 4: Fetching kubeconfig for cluster '$AKS_CLUSTER'..."
@@ -190,7 +270,7 @@ else
         --create-namespace \
         --set enableExternalData=true \
         --set validatingWebhookTimeoutSeconds=5 \
-        --set mutatingWebhookTimeoutSeconds=2 \
+        --set enableMutation=false \
         --wait
     info "Gatekeeper installed."
 fi
@@ -204,34 +284,109 @@ helm repo add ratify https://notaryproject.github.io/ratify --force-update
 helm repo update
 
 if helm status ratify --namespace gatekeeper-system &>/dev/null; then
-    info "Ratify already installed — skipping."
+    info "Ratify already installed — upgrading to apply workload identity client ID..."
+    run helm upgrade ratify ratify/ratify \
+        --namespace gatekeeper-system \
+        --reuse-values \
+        --set azureWorkloadIdentity.clientId="$RATIFY_MI_CLIENT_ID" \
+        --wait
+    info "Ratify upgraded."
 else
     run helm install ratify ratify/ratify \
         --namespace gatekeeper-system \
         --set featureFlags.RATIFY_CERT_ROTATION=true \
         --set akvCertConfig.enabled=false \
+        --set mutationProvider.enable=false \
+        --set azureWorkloadIdentity.clientId="$RATIFY_MI_CLIENT_ID" \
         --wait
     info "Ratify installed."
+fi
+
+# Annotate the Ratify SA so the Azure Workload Identity webhook injects
+# AZURE_CLIENT_ID into the pod env. The helm chart may not do this reliably
+# on upgrades; do it explicitly using the actual SA name from the running pod.
+RATIFY_SA=$(kubectl get serviceaccount -n gatekeeper-system \
+    -l app.kubernetes.io/name=ratify \
+    -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || echo "ratify-admin")
+info "Annotating Ratify service account '$RATIFY_SA' with workload identity client ID..."
+kubectl annotate serviceaccount "$RATIFY_SA" \
+    -n gatekeeper-system \
+    azure.workload.identity/client-id="$RATIFY_MI_CLIENT_ID" \
+    --overwrite
+
+# Always clean up mutation CRs — the Helm chart creates them regardless of the
+# mutationProvider.enable flag, and helm upgrade recreates them. Purge them
+# every run so the Gatekeeper mutation webhook never references a Ratify
+# provider that isn't running.
+info "Removing Ratify mutation CRs (mutation not used in this demo)..."
+kubectl delete provider ratify-mutation-provider \
+    -n gatekeeper-system --ignore-not-found
+kubectl delete assignmetadata \
+    -n gatekeeper-system -l app.kubernetes.io/name=ratify --ignore-not-found
+kubectl delete assign \
+    mutate-cronjob-image mutate-cronjob-image-ephemeral mutate-cronjob-image-init \
+    mutate-pod-image mutate-pod-image-ephemeral mutate-pod-image-init \
+    mutate-workload-image mutate-workload-image-ephemeral mutate-workload-image-init \
+    --ignore-not-found
+# Also remove the Gatekeeper mutation webhook itself so no mutation provider is
+# ever called, regardless of what Helm or other tooling reconstitutes.
+kubectl delete mutatingwebhookconfiguration gatekeeper-mutating-webhook-configuration \
+    --ignore-not-found
+
+# Remove the default verifier-notation CR created by the Helm chart — it uses
+# the legacy verificationCerts path; our Step 7 CR uses verificationCertStores.
+if kubectl get verifier verifier-notation -n gatekeeper-system &>/dev/null; then
+    info "Removing default Ratify verifier-notation CR (will be replaced in Step 7)..."
+    kubectl delete verifier verifier-notation -n gatekeeper-system
 fi
 
 ###############################################################################
 # Step 7 — Download root certificates and configure Ratify
 ###############################################################################
-info "Step 7: Configuring Ratify with Artifact Signing trust store..."
+info "Step 7: Configuring Ratify with ORAS store, Artifact Signing trust store, and Notation Verifier..."
+
+info "Configuring Ratify ORAS store with workload identity auth..."
+# The azureWorkloadIdentity auth provider uses the federated credential created
+# in Step 3b to exchange the Ratify pod's service account token for an Azure
+# access token, which is then used to authenticate to ACR. No secrets or
+# short-lived ACR tokens need to be managed manually.
+
+# The Helm chart creates a default store-oras CR without the last-applied-configuration
+# annotation; delete it first so kubectl apply creates a clean resource.
+if kubectl get store store-oras -n gatekeeper-system &>/dev/null; then
+    kubectl delete store store-oras -n gatekeeper-system
+fi
+kubectl apply -f - <<EOF
+apiVersion: config.ratify.deislabs.io/v1beta1
+kind: Store
+metadata:
+  name: store-oras
+  namespace: gatekeeper-system
+spec:
+  name: oras
+  parameters:
+    authProvider:
+      name: azureWorkloadIdentity
+EOF
 
 SIGNING_CERT_FILE="msft-root-certificate-authority-2020.crt"
 TSA_CERT_FILE="msft-tsa-root-certificate-authority-2020.crt"
+SIGNING_CERT_PEM_FILE="msft-root-certificate-authority-2020.pem"
+TSA_CERT_PEM_FILE="msft-tsa-root-certificate-authority-2020.pem"
 
 info "Downloading Artifact Signing root CA..."
 run curl -sLo "$SIGNING_CERT_FILE" "$TS_SIGNING_ROOT_CERT"
-run openssl x509 -inform DER -in "$SIGNING_CERT_FILE" -out "$SIGNING_CERT_FILE"
+# Use a separate output file to avoid macOS/LibreSSL in-place truncation bug
+# where the -out file is truncated before -in is read when both paths are equal.
+run openssl x509 -inform DER -in "$SIGNING_CERT_FILE" -out "$SIGNING_CERT_PEM_FILE"
+SIGNING_CERT_PEM=$(cat "$SIGNING_CERT_PEM_FILE")
+[[ -z "$SIGNING_CERT_PEM" ]] && { error "Signing root CA PEM is empty — cert download/conversion failed."; exit 1; }
 
 info "Downloading Artifact Signing TSA root CA..."
 run curl -sLo "$TSA_CERT_FILE" "$TS_TSA_ROOT_CERT"
-run openssl x509 -inform DER -in "$TSA_CERT_FILE" -out "$TSA_CERT_FILE"
-
-SIGNING_CERT_PEM=$(cat "$SIGNING_CERT_FILE")
-TSA_CERT_PEM=$(cat "$TSA_CERT_FILE")
+run openssl x509 -inform DER -in "$TSA_CERT_FILE" -out "$TSA_CERT_PEM_FILE"
+TSA_CERT_PEM=$(cat "$TSA_CERT_PEM_FILE")
+[[ -z "$TSA_CERT_PEM" ]] && { error "TSA root CA PEM is empty — cert download/conversion failed."; exit 1; }
 
 kubectl apply -f - <<EOF
 apiVersion: config.ratify.deislabs.io/v1beta1
@@ -255,7 +410,27 @@ spec:
   parameters:
     value: |
 $(echo "$TSA_CERT_PEM" | sed 's/^/      /')
----
+EOF
+
+info "Waiting for CertificateStore CRs to be reconciled..."
+# CertificateStore CRs have no standard readiness condition; poll the
+# isSuccess field in the status block that Ratify sets after reconciliation.
+for _cr in artifact-signing-root artifact-signing-tsa-root; do
+    for _i in $(seq 1 30); do
+        _ok=$(kubectl get certificatestore "$_cr" \
+            -n gatekeeper-system \
+            -o jsonpath='{.status.error}' 2>/dev/null || echo "not-found")
+        # An empty status.error means the controller reconciled successfully
+        if [[ "$_ok" == "" ]]; then
+            info "  CertificateStore '$_cr' reconciled successfully."
+            break
+        fi
+        [[ $_i -eq 30 ]] && { error "Timed out waiting for CertificateStore '$_cr'"; exit 1; }
+        sleep 4
+    done
+done
+
+kubectl apply -f - <<EOF
 apiVersion: config.ratify.deislabs.io/v1beta1
 kind: Verifier
 metadata:
@@ -277,7 +452,7 @@ spec:
       trustPolicies:
         - name: default
           registryScopes:
-            - "*"
+            - "${ACR_LOGIN_SERVER}/nginx"
           signatureVerification:
             level: strict
           trustStores:
@@ -308,13 +483,45 @@ spec:
     - target: admission.k8s.gatekeeper.sh
       rego: |
         package ratifyverification
+
+        # Collect images from all container types (fail-closed: any unverified image blocks)
+        _images[img] {
+          img := input.review.object.spec.containers[_].image
+        }
+        _images[img] {
+          img := input.review.object.spec.initContainers[_].image
+        }
+        _images[img] {
+          img := input.review.object.spec.ephemeralContainers[_].image
+        }
+
+        # Case 1: Ratify explicitly reports verification failure
         violation[{"msg": msg}] {
-          subject := input.review.object.spec.containers[_].image
-          response := external_data({"provider": "ratify", "keys": [subject]})
+          img := _images[_]
+          response := external_data({"provider": "ratify-provider", "keys": [img]})
           result := response.responses[_]
-          result[0] == subject
+          result[0] == img
           result[1].isSuccess == false
-          msg := sprintf("Signature verification failed for image %v: %v", [subject, result[1].verifierReports])
+          msg := sprintf("Signature verification failed for image %v: %v", [img, result[1].verifierReports])
+        }
+
+        # Case 2: Ratify returned an error for the image (e.g., can't pull referrers,
+        # registry auth failure). Treat as a denial to keep the policy fail-closed.
+        violation[{"msg": msg}] {
+          img := _images[_]
+          response := external_data({"provider": "ratify-provider", "keys": [img]})
+          err := response.errors[_]
+          err[0] == img
+          msg := sprintf("Ratify error verifying image %v: %v", [img, err[1]])
+        }
+
+        # Case 3: The ExternalData call itself failed (Gatekeeper can't reach Ratify).
+        # Deny to keep the policy fail-closed.
+        violation[{"msg": msg}] {
+          img := _images[_]
+          response := external_data({"provider": "ratify-provider", "keys": [img]})
+          response.system_error != ""
+          msg := sprintf("Ratify system error for image %v: %v", [img, response.system_error])
         }
 EOF
 
@@ -361,7 +568,26 @@ echo "  Gatekeeper:    $(helm status gatekeeper -n gatekeeper-system --short 2>/
 echo "  Ratify:        $(helm status ratify -n gatekeeper-system --short 2>/dev/null || echo 'installed')"
 echo
 echo "Next steps:"
-echo "  1. Sign your image:   notation sign ... <image>"
-echo "  2. Test admission:    kubectl run signed --image=<signed-image>"
-echo "  3. Test rejection:    kubectl run unsigned --image=nginx:latest"
+echo "  1. Log in to Azure and ACR:"
+echo "       az login --tenant <tenant-id>"
+echo "       az acr login --name $ACR_NAME"
+echo ""
+echo "  2. Sign the image (TSA cert downloaded by this script):"
+echo "       notation sign --signature-format cose \\"
+echo "           --timestamp-url '$TS_TSA_URL' \\"
+echo "           --timestamp-root-cert '$TSA_CERT_PEM_FILE' \\"
+echo "           --id '$TS_CERT_PROFILE' \\"
+echo "           --plugin azure-artifactsigning \\"
+echo "           --plugin-config accountName='$TS_ACCOUNT_NAME' \\"
+echo "           --plugin-config baseUrl='$TS_ACCT_URL' \\"
+echo "           --plugin-config certProfile='$TS_CERT_PROFILE' \\"
+echo "           ${ACR_LOGIN_SERVER}/nginx:1.29-alpine-signed"
+echo ""
+echo "  3. Verify the signature is present:"
+echo "       notation ls ${ACR_LOGIN_SERVER}/nginx:1.29-alpine-signed"
+echo ""
+echo "  4. Test admission (signed image should run):"
+echo "       kubectl apply -f nginx-signed-demo.yaml"
+echo "  5. Test rejection (unsigned image should be blocked):"
+echo "       kubectl apply -f nginx-unsigned-demo.yaml"
 echo

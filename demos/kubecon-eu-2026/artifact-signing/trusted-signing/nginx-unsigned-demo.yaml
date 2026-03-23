@@ -1,0 +1,45 @@
+---
+# Deployment — UNSIGNED NGINX image
+#
+# This deployment is intentionally rejected by Gatekeeper + Ratify because the
+# image has no Notation signature.  Apply it to demonstrate that the admission
+# policy blocks unsigned workloads:
+#
+#   kubectl apply -f nginx-unsigned-demo.yaml
+#
+# Expected output (admission webhook denial):
+#   Error from server (Forbidden): admission webhook "validation.gatekeeper.sh"
+#   denied the request: [require-notation-signature] Signature verification
+#   failed for image acrtsmkubeconeu2026demo.azurecr.io/nginx:1.28-alpine-unsigned: ...
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-unsigned-demo
+  namespace: default
+  labels:
+    app: nginx-unsigned-demo
+    demo: kubecon-eu-2026
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-unsigned-demo
+  template:
+    metadata:
+      labels:
+        app: nginx-unsigned-demo
+        demo: kubecon-eu-2026
+    spec:
+      containers:
+        - name: nginx
+          image: acrtsmkubeconeu2026demo.azurecr.io/nginx:1.28-alpine-unsigned
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"

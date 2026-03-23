@@ -83,7 +83,7 @@ export IMAGE=wabbitregistry.azurecr.io/net-monitor:v1
 # Notation trust stores
 export SIGNING_TRUST_STORE=myRootCerts
 export TSA_TRUST_STORE=myTsaRootCerts
-export TS_CERT_SUBJECT="CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=tsdemo, S=Washington, C=US"
+export TS_CERT_SUBJECT="CN=toddysmlive.onmicrosoft.com,OU=Cloud Native Security and Registries,O=toddysmlive.onmicrosoft.com,L=Redmond,ST=Washington,C=US"
 
 # AKS
 export AKS_CLUSTER=<your-aks-cluster-name>
@@ -327,7 +327,7 @@ stores and restricts signatures to the expected certificate subject:
             "signatureVerification": { "level": "strict" },
             "trustStores": [ "ca:myRootCerts", "tsa:myTsaRootCerts" ],
             "trustedIdentities": [
-                "x509.subject: CN=microsoft.onmicrosoft.com, O=microsoft.onmicrosoft.com, OU=tsdemo, S=Washington, C=US"
+                "x509.subject: CN=toddysmlive.onmicrosoft.com,OU=Cloud Native Security and Registries,O=toddysmlive.onmicrosoft.com,L=Redmond,ST=Washington,C=US"
             ]
         }
     ]
