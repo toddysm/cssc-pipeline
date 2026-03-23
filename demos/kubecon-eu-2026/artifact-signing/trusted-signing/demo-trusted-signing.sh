@@ -198,7 +198,12 @@ pe "# Now let's try to deploy an unsigned image and see it get blocked by the po
 pe "kubectl apply -f nginx-unsigned-demo.yaml"
 pe "kubectl get events -n default --sort-by='.lastTimestamp' | grep nginx-unsigned"
 
+echo
+wait
+pe "kubectl get pods -n default"
+
 # show a prompt so as not to reveal our true nature after
 # the demo has concluded
+p "echo 'Demo complete. You have successfully signed and verified a container image using Azure Trusted Signing and Notation!'"
 p ""
 wait
