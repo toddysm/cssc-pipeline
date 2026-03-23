@@ -379,7 +379,27 @@ spec:
   parameters:
     value: |
 $(echo "$TSA_CERT_PEM" | sed 's/^/      /')
----
+EOF
+
+info "Waiting for CertificateStore CRs to be reconciled..."
+# CertificateStore CRs have no standard readiness condition; poll the
+# isSuccess field in the status block that Ratify sets after reconciliation.
+for _cr in artifact-signing-root artifact-signing-tsa-root; do
+    for _i in $(seq 1 30); do
+        _ok=$(kubectl get certificatestore "$_cr" \
+            -n gatekeeper-system \
+            -o jsonpath='{.status.error}' 2>/dev/null || echo "not-found")
+        # An empty status.error means the controller reconciled successfully
+        if [[ "$_ok" == "" ]]; then
+            info "  CertificateStore '$_cr' reconciled successfully."
+            break
+        fi
+        [[ $_i -eq 30 ]] && { error "Timed out waiting for CertificateStore '$_cr'"; exit 1; }
+        sleep 4
+    done
+done
+
+kubectl apply -f - <<EOF
 apiVersion: config.ratify.deislabs.io/v1beta1
 kind: Verifier
 metadata:
