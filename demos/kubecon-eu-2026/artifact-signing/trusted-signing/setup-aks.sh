@@ -275,14 +275,13 @@ helm repo add ratify https://notaryproject.github.io/ratify --force-update
 helm repo update
 
 if helm status ratify --namespace gatekeeper-system &>/dev/null; then
-    info "Ratify already installed — skipping Helm install."
-    info "Ensuring workload identity client ID is set on the Ratify service account..."
-    RATIFY_SA=$(kubectl get pod -n gatekeeper-system -l app.kubernetes.io/name=ratify \
-        -o jsonpath='{.items[0].spec.serviceAccountName}' 2>/dev/null || echo "ratify")
-    kubectl annotate serviceaccount "$RATIFY_SA" \
-        -n gatekeeper-system \
-        azure.workload.identity/client-id="$RATIFY_MI_CLIENT_ID" \
-        --overwrite
+    info "Ratify already installed — upgrading to apply workload identity client ID..."
+    run helm upgrade ratify ratify/ratify \
+        --namespace gatekeeper-system \
+        --reuse-values \
+        --set azureWorkloadIdentity.clientId="$RATIFY_MI_CLIENT_ID" \
+        --wait
+    info "Ratify upgraded."
 else
     run helm install ratify ratify/ratify \
         --namespace gatekeeper-system \
@@ -293,6 +292,18 @@ else
         --wait
     info "Ratify installed."
 fi
+
+# Annotate the Ratify SA so the Azure Workload Identity webhook injects
+# AZURE_CLIENT_ID into the pod env. The helm chart may not do this reliably
+# on upgrades; do it explicitly using the actual SA name from the running pod.
+RATIFY_SA=$(kubectl get serviceaccount -n gatekeeper-system \
+    -l app.kubernetes.io/name=ratify \
+    -o jsonpath='{.items[0].metadata.name}' 2>/dev/null || echo "ratify-admin")
+info "Annotating Ratify service account '$RATIFY_SA' with workload identity client ID..."
+kubectl annotate serviceaccount "$RATIFY_SA" \
+    -n gatekeeper-system \
+    azure.workload.identity/client-id="$RATIFY_MI_CLIENT_ID" \
+    --overwrite
 
 # Always clean up mutation CRs — the Helm chart creates them regardless of the
 # mutationProvider.enable flag, and helm upgrade recreates them. Purge them
